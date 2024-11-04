@@ -1,10 +1,12 @@
-package com.example.myfirstjava;
+package com.example.myfirstjava.main;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+
+import com.example.myfirstjava.R;
 
 public class Splash extends Activity {
 
