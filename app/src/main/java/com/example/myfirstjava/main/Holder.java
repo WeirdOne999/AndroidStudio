@@ -7,7 +7,9 @@ import android.graphics.Canvas;
 import com.example.myfirstjava.R;
 import com.example.myfirstjava.mgp2d.core.GameActivity;
 import com.example.myfirstjava.mgp2d.core.GameEntity;
+import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
+import com.google.android.material.transition.Hold;
 
 public class Holder extends GameEntity {
 
@@ -16,13 +18,12 @@ public class Holder extends GameEntity {
 
     public Holder(Vector2 pos, int size){
         setPosition(pos);
-        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.holder);
         image = Bitmap.createScaledBitmap(bmp,size,size,true);
     }
 
     @Override
-    public void onUpdate(float dt) {
-        super.onUpdate(dt);
+    public void onUpdate(float dt, GameScene gameScene) {
     }
 
     @Override

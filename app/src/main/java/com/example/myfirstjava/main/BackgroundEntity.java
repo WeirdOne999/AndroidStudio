@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import com.example.myfirstjava.R;
 import com.example.myfirstjava.mgp2d.core.GameActivity;
 import com.example.myfirstjava.mgp2d.core.GameEntity;
+import com.example.myfirstjava.mgp2d.core.GameScene;
 
 public class BackgroundEntity extends GameEntity {
     private float _backgroundPosition;
@@ -24,8 +25,8 @@ public class BackgroundEntity extends GameEntity {
     }
 
     @Override
-    public void onUpdate(float dt) {
-        super.onUpdate(dt);
+    public void onUpdate(float dt, GameScene gamescene) {
+        super.onUpdate(dt, gamescene);
 
         _backgroundPosition = (_backgroundPosition - dt * 500) % (float)screenWidth;
     }

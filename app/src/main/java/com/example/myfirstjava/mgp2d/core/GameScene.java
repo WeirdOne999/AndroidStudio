@@ -3,6 +3,7 @@ package com.example.myfirstjava.mgp2d.core;
 import android.graphics.Canvas;
 
 import java.util.HashMap;
+import java.util.Vector;
 
 public abstract class GameScene {
 
@@ -49,9 +50,16 @@ public abstract class GameScene {
     private boolean _isCreated = false;
     public void onCreate() { _isCreated = true; }
     public void onEnter() { if (!_isCreated) onCreate(); }
-    public abstract void onUpdate(float dt);
+    public void onUpdate(float dt)
+    {
+        for (GameEntity i : _gameEntities){
+            i.onUpdate(dt,this);
+        }
+    }
     public abstract void onRender(Canvas canvas);
     public void onExit() {}
+
+    public Vector<GameEntity> _gameEntities = new Vector<>();
 
     //endregion
 }
