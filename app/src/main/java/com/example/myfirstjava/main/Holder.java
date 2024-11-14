@@ -14,21 +14,14 @@ import com.google.android.material.transition.Hold;
 public class Holder extends GameEntity {
 
     GameEntity _mob;
-    Bitmap image;
 
     public Holder(Vector2 pos, int size){
         setPosition(pos);
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.holder);
-        image = Bitmap.createScaledBitmap(bmp,size,size,true);
+        _sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
     }
 
     @Override
     public void onUpdate(float dt, GameScene gameScene) {
-    }
-
-    @Override
-    public void onRender(Canvas canvas) {
-
-        canvas.drawBitmap(image,getPosition().x,getPosition().y,null);
     }
 }

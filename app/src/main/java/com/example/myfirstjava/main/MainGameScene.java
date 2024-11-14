@@ -21,7 +21,7 @@ public class MainGameScene extends GameScene {
 
 
 
-    private final Vector2 gridOffset = new Vector2(350,100);
+    private final Vector2 gridOffset = new Vector2(300,100);
 
     @Override
     public void onCreate() {
@@ -36,6 +36,8 @@ public class MainGameScene extends GameScene {
                 _gameEntities.add(new Holder(new Vector2(i * spacing + gridOffset.x,j * spacing + gridOffset.y),size));
             }
         }
+
+        _gameEntities.add(new PlayerEntity());
     }
 
     @Override
@@ -43,11 +45,14 @@ public class MainGameScene extends GameScene {
         super.onUpdate(dt);
 
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
+        /*
         if (motionEvent == null) return;
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !BackDialog.isShowing()){
             BackDialog backDialog = new BackDialog();
             backDialog.show(GameActivity.instance.getSupportFragmentManager(),"Back dialog");
         }
+         */
+
     }
 
 
