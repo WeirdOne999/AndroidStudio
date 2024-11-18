@@ -4,8 +4,10 @@ import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
 public class CollisionEntity extends GameEntity {
-    public int _layer = 0;
+    private int _layer = 0;
     public void setLayer(int layer) {_layer = layer;}
+
+    public int getLayer(){return _layer;}
 
     protected Vector2 _size = new Vector2(0, 0);
     public Vector2 getSize() { return _size.copy(); }
@@ -23,6 +25,6 @@ public class CollisionEntity extends GameEntity {
         float cTop = collider.getPosition().y - collider.getSize().y / 2;
         float cBtm = collider.getPosition().y + collider.getSize().y / 2;
 
-        return Left < cRight && cLeft < Right && Top < cBtm && cTop < cBtm;
+        return Left < cRight && cLeft < Right && Top < cBtm && cTop < cBtm && getLayer() == collider.getLayer();
     }
 }
