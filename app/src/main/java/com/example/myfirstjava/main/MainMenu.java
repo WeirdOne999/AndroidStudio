@@ -16,7 +16,6 @@ public class MainMenu extends Activity implements View.OnClickListener{
 
     private Button _helpButton;
     private Button _startButton;
-
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
