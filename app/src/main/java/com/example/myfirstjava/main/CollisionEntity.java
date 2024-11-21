@@ -27,4 +27,5 @@ public class CollisionEntity extends GameEntity {
 
         return Left < cRight && cLeft < Right && Top < cBtm && cTop < cBtm && getLayer() == collider.getLayer();
     }
+
 }

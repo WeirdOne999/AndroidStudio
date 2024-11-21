@@ -38,6 +38,7 @@ public class MainGameScene extends GameScene {
         }
 
         _gameEntities.add(new PlayerEntity());
+        _gameEntities.add(new PhysicsEntity());
     }
 
     @Override

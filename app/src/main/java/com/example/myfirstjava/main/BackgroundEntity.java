@@ -36,4 +36,6 @@ public class BackgroundEntity extends GameEntity {
         canvas.drawBitmap(_backgroundBitmap0,_backgroundPosition,0,null);
         canvas.drawBitmap(_backgroundBitmap1,_backgroundPosition + screenWidth,0,null);
     }
+
+
 }

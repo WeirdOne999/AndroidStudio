@@ -19,8 +19,11 @@ public abstract class GameEntity {
     public void setSprite(Bitmap bmp) {_sprite = bmp;}
 
     public void onUpdate(float dt, GameScene gamescene) {}
+
+
     public void onRender(Canvas canvas) {
         canvas.drawBitmap(_sprite, _position.x - (float) _sprite.getWidth() / 2, _position.y - (float)
                 _sprite.getHeight() / 2 , null);
     };
+
 }

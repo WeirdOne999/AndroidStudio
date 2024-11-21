@@ -15,10 +15,14 @@ public class PlayerEntity extends GameEntity {
 
     //private boolean _isHolding = false;
     private int currentID = -1;
+
+
     public PlayerEntity(){
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
         _sprite = Bitmap.createScaledBitmap(bmp,200,200,true);
     }
+
+
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
