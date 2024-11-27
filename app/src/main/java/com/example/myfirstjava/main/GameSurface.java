@@ -17,6 +17,11 @@ public class GameSurface extends SurfaceView implements Runnable {
     private Bitmap backgroundBitmap1;
     private int screenWidth, screenHeight;
 
+    public void setSize(int width,int height){
+        screenWidth = width;
+        screenHeight = height;
+    }
+
     public GameSurface(Context context, int backgroundId) {
         super(context);
 
@@ -46,7 +51,7 @@ public class GameSurface extends SurfaceView implements Runnable {
     }
 
     private void update(float dt) {
-        backgroundPosition = (backgroundPosition - dt * 100) % (float) screenWidth;
+        backgroundPosition = (backgroundPosition - dt * 200) % (float) screenWidth;
     }
 
     private void render(Canvas canvas) {

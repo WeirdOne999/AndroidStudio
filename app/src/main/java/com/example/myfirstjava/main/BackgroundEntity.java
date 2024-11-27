@@ -15,20 +15,22 @@ public class BackgroundEntity extends GameEntity {
     private Bitmap _backgroundBitmap1;
     int screenWidth;
 
+    int speed = 1;
 
-    public BackgroundEntity(int id) {
+    public BackgroundEntity(int id,int speed) {
         int screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), id);
         _backgroundBitmap0 = Bitmap.createScaledBitmap(bmp,screenWidth,screenHeight,true);
         _backgroundBitmap1 = Bitmap.createScaledBitmap(bmp,screenWidth,screenHeight,true);
+        this.speed = speed;
     }
 
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
 
-        _backgroundPosition = (_backgroundPosition - dt * 500) % (float)screenWidth;
+        _backgroundPosition = (_backgroundPosition - dt * 500 * speed) % (float)screenWidth;
     }
 
     @Override

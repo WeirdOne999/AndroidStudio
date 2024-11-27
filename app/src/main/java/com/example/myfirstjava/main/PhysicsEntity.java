@@ -11,7 +11,7 @@ import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
-public class PhysicsEntity extends CollisionEntity {
+public class PhysicsEntity extends GameEntity {
 
 
 
@@ -32,6 +32,13 @@ public class PhysicsEntity extends CollisionEntity {
         setPosition(new Vector2(10,500));
 
 
+    }
+
+    public PhysicsEntity(int layer){
+        setLayer(layer);
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
+        _sprite = Bitmap.createScaledBitmap(bmp,200,200,true);
+        setPosition(new Vector2(10,500));
     }
 
     public void SetGravity(float dt){

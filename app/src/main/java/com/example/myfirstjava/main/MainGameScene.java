@@ -19,26 +19,30 @@ public class MainGameScene extends GameScene {
 
     public static MainGameScene instance = null;
 
+    public GameEntity player;
 
-
-    private final Vector2 gridOffset = new Vector2(300,100);
+    private final Vector2 gridOffset = new Vector2(750,350);
 
     @Override
-    public void onCreate() {
+    public void onCreate() {    
         super.onCreate();
-        _gameEntities.add(new BackgroundEntity(R.drawable.gamescene));
+        _gameEntities.add(new BackgroundEntity(R.drawable.netherback,0));
 
         //Create Grid Holders
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 5; j++){
-                float spacing = 165;
+                float spacing = 100;
                 int size = (int) spacing + 5;
-                _gameEntities.add(new Holder(new Vector2(i * spacing + gridOffset.x,j * spacing + gridOffset.y),size));
+                _gameEntities.add(new Holder(new Vector2(i * (spacing + 11) + gridOffset.x,j * spacing + gridOffset.y),size,i));
             }
         }
 
-        _gameEntities.add(new PlayerEntity());
-        _gameEntities.add(new PhysicsEntity());
+        player =new PlayerEntity();
+
+        player.setLayer(1);
+        player.setSize(new Vector2(170,170));
+        _gameEntities.add(player);
+        //_gameEntities.add(new PhysicsEntity(1));
     }
 
     @Override
@@ -53,6 +57,19 @@ public class MainGameScene extends GameScene {
             backDialog.show(GameActivity.instance.getSupportFragmentManager(),"Back dialog");
         }
          */
+
+        for (GameEntity i: _gameEntities){
+            if (i == player) continue;
+            if (player.isColliding(i)){
+                i.destroy();
+            }
+        }
+
+        for (int i = _gameEntities.size() - 1;i >= 0; i--){
+            if (_gameEntities.get(i).canDestroy()){
+                _gameEntities.remove(i);
+            }
+        }
 
     }
 

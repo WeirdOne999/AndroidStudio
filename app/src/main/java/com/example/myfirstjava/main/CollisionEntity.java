@@ -14,7 +14,7 @@ public class CollisionEntity extends GameEntity {
     public void setSize(Vector2 size) { _size = size; }
 
 
-    private boolean isColliding(CollisionEntity collider) {
+    public boolean isColliding(CollisionEntity collider) {
         float Left = getPosition().x - getSize().x / 2;
         float Right = getPosition().x + getSize().x / 2;
         float Top = getPosition().y - (getSize().y / 2);

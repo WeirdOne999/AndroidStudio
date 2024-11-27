@@ -15,14 +15,25 @@ public class Holder extends GameEntity {
 
     GameEntity _mob;
 
-    public Holder(Vector2 pos, int size){
+    public Holder(Vector2 pos, int size, int layer){
         setPosition(pos);
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.holder);
         _sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
+        setLayer(layer);
+        setSize(new Vector2(size,size));
     }
 
     @Override
     public void onUpdate(float dt, GameScene gameScene) {
     }
+    /*
+    @Override
+    public boolean isColliding(CollisionEntity collider) {
+        if(super.isColliding(collider)){
+            destroy();
+        }
+         return super.isColliding(collider);
+    }
 
+     */
 }

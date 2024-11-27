@@ -11,6 +11,10 @@ public class UIEntity {
         container.addView(gameSurface); // Add the GameSurface to the provided container
     }
 
+    public void setSize(int width, int height){
+        gameSurface.setSize(width,height);
+    }
+
     public void resume() {
         if (gameSurface != null) {
             gameSurface.resume();

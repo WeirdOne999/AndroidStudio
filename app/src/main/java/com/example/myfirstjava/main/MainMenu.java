@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
         if (getSupportActionBar() != null) {
@@ -45,6 +49,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
 
         // Instantiate UIEntity with the background image
         uiEntity = new UIEntity(this, container, R.drawable.village);
+        uiEntity.setSize(4350,375);
     }
 
     @Override

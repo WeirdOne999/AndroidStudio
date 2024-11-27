@@ -55,6 +55,13 @@ public abstract class GameScene {
         for (GameEntity i : _gameEntities){
             i.onUpdate(dt,this);
         }
+        /*
+        for (int i = _gameEntities.size() - 1; i >= 0 ; i--){
+            if (_gameEntities.get(i).canDestroy())
+                _gameEntities.remove(i);
+        }
+
+         */
     }
     public abstract void onRender(Canvas canvas);
     public void onExit() {}
