@@ -21,11 +21,19 @@ public class MainGameScene extends GameScene {
 
     public GameEntity player;
 
-    private final Vector2 gridOffset = new Vector2(750,350);
+    public int screenWidth;
+    public int screenHeight;
+
+    private Vector2 gridOffset = new Vector2(750,350);
     Holder[][] HolderArr = new Holder[9][5];
     @Override
     public void onCreate() {    
         super.onCreate();
+        screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
+        screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
+
+        gridOffset = new Vector2(screenWidth / 2.9f,screenHeight / 3.2f);
+
         _gameEntities.add(new BackgroundEntity(R.drawable.netherback,0));
 
         //Create Grid Holders
