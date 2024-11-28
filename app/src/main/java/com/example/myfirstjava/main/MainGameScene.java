@@ -42,7 +42,7 @@ public class MainGameScene extends GameScene {
 
                 float spacing = 100;
                 int size = (int) spacing + 5;
-                HolderArr[i][j] = new Holder(new Vector2(i * (spacing + 11) + gridOffset.x,j * spacing + gridOffset.y),size,j);
+                HolderArr[i][j] = new Holder(new Vector2(i * (screenWidth / 19) + gridOffset.x,j * (screenHeight / 11) + gridOffset.y),size,j);
                 _gameEntities.add(HolderArr[i][j]);
             }
         }
