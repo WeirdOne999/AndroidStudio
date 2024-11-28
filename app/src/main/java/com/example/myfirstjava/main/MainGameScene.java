@@ -22,7 +22,7 @@ public class MainGameScene extends GameScene {
     public GameEntity player;
 
     private final Vector2 gridOffset = new Vector2(750,350);
-
+    Holder[][] HolderArr = new Holder[9][5];
     @Override
     public void onCreate() {    
         super.onCreate();
@@ -31,9 +31,11 @@ public class MainGameScene extends GameScene {
         //Create Grid Holders
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 5; j++){
+
                 float spacing = 100;
                 int size = (int) spacing + 5;
-                _gameEntities.add(new Holder(new Vector2(i * (spacing + 11) + gridOffset.x,j * spacing + gridOffset.y),size,i));
+                HolderArr[i][j] = new Holder(new Vector2(i * (spacing + 11) + gridOffset.x,j * spacing + gridOffset.y),size,j);
+                _gameEntities.add(HolderArr[i][j]);
             }
         }
 
@@ -42,6 +44,12 @@ public class MainGameScene extends GameScene {
         player.setLayer(1);
         player.setSize(new Vector2(170,170));
         _gameEntities.add(player);
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j < 5; j++){
+                _gameEntities.add(new Chicken(HolderArr[i][j].getPosition()));
+            }
+        }
+
         //_gameEntities.add(new PhysicsEntity(1));
     }
 
@@ -57,14 +65,14 @@ public class MainGameScene extends GameScene {
             backDialog.show(GameActivity.instance.getSupportFragmentManager(),"Back dialog");
         }
          */
-
+        /*
         for (GameEntity i: _gameEntities){
             if (i == player) continue;
             if (player.isColliding(i)){
                 i.destroy();
             }
         }
-
+        */
         for (int i = _gameEntities.size() - 1;i >= 0; i--){
             if (_gameEntities.get(i).canDestroy()){
                 _gameEntities.remove(i);

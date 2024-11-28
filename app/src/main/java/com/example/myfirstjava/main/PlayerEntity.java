@@ -18,14 +18,34 @@ public class PlayerEntity extends GameEntity {
 
 
     public PlayerEntity(){
+        /*
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
         _sprite = Bitmap.createScaledBitmap(bmp,200,200,true);
+        */
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.minibunny);
+        //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
+        setSize(new Vector2(100,100));
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),4,4,12);
+
     }
 
 
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
+
+        for (int i = 0; i < gamescene._gameEntities.size();i++){
+            if (gamescene._gameEntities.get(i) != this){
+                if (gamescene._gameEntities.get(i) instanceof Holder)  {
+                    if (this.isColliding(gamescene._gameEntities.get(i))){
+                        Holder temp = (Holder)gamescene._gameEntities.get(i);
+                        temp.destroy();
+                    }
+
+                }
+            }
+        }
+
         //sprite.update(dt);
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
         if (motionEvent == null) return;

@@ -18,7 +18,8 @@ public class Holder extends GameEntity {
     public Holder(Vector2 pos, int size, int layer){
         setPosition(pos);
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.holder);
-        _sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
+        //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
+        //afterSetSprite();
         setLayer(layer);
         setSize(new Vector2(size,size));
     }
