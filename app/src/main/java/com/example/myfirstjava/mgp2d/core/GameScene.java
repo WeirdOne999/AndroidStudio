@@ -1,6 +1,8 @@
 package com.example.myfirstjava.mgp2d.core;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.view.MotionEvent;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -52,8 +54,20 @@ public abstract class GameScene {
     public void onEnter() { if (!_isCreated) onCreate(); }
     public void onUpdate(float dt)
     {
+        for (int i = _gameEntities.size() - 1;i >= 0; i--){
+            if (_gameEntities.get(i).canDestroy()){
+                _gameEntities.remove(i);
+            }
+        }
+
         for (GameEntity i : _gameEntities){
+            if (i == null ) continue;
             i.onUpdate(dt,this);
+        }
+
+        for (int i = _gameEntityCache.size() - 1;i >= 0; i--){
+            _gameEntities.add(_gameEntityCache.get(i));
+            _gameEntityCache.remove(i);
         }
         /*
         for (int i = _gameEntities.size() - 1; i >= 0 ; i--){
@@ -63,10 +77,16 @@ public abstract class GameScene {
 
          */
     }
-    public abstract void onRender(Canvas canvas);
+    public void onRender(Canvas canvas){
+        canvas.drawColor(Color.parseColor("#b2d4ff"));
+        for (GameEntity i : _gameEntities){
+            i.onRender(canvas);
+        }
+    }
     public void onExit() {}
 
     public Vector<GameEntity> _gameEntities = new Vector<>();
+    public Vector<GameEntity> _gameEntityCache = new Vector<>();
 
     //endregion
 }

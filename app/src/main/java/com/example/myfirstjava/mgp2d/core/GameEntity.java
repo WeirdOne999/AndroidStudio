@@ -6,8 +6,13 @@ import android.graphics.Rect;
 
 import com.example.myfirstjava.main.CollisionEntity;
 
+import android.util.Log;
+import android.view.MotionEvent;
+
 public abstract class GameEntity {
-    protected Bitmap _sprite;
+
+    public Bitmap overSprite;
+    public Bitmap _sprite;
     protected AnimatedSprite  _animatedSprite;
     protected Vector2 _position = new Vector2(0, 0);
     public Vector2 getPosition() { return _position.copy(); }
@@ -26,15 +31,59 @@ public abstract class GameEntity {
     private Rect _dstRect;
     public void setAnimatedSprite(Bitmap bmp,int row,int col, int fps) {
         _animatedSprite = new AnimatedSprite(bmp,row,col,fps);
+        _sprite = bmp;
     }
 
     public void onUpdate(float dt, GameScene gamescene) {
         if (_animatedSprite != null) _animatedSprite.update(dt);
+
+        if (_sprite != null) {
+            MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
+            if (motionEvent == null) return;
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                float tapPositionX = motionEvent.getX();
+                float tapPositionY = motionEvent.getY();
+
+                float spriteX = getPosition().x; // X position of the sprite
+                float spriteY = getPosition().y; // Y position of the sprite
+                float spriteWidth = _sprite.getWidth(); // Width of the sprite
+                float spriteHeight = _sprite.getHeight(); // Height of the sprite
+
+// Check if the tap is within the sprite's bounds
+
+                if (tapPositionX >= spriteX- spriteWidth / 2 && tapPositionX <= (spriteX + spriteWidth / 2) &&
+                        tapPositionY >= spriteY- spriteHeight/ 2 && tapPositionY <= (spriteY + spriteHeight/ 2)) {
+                    onTap();
+                    //Log.d("TAPPOS", "Tap Position: " + tapPositionX + " " + tapPositionY + " " + spriteX + " " + spriteY + " " + spriteWidth +  " " + spriteHeight);
+
+                        /*
+                        BackDialog backDialog = new BackDialog();
+                        backDialog.show(GameActivity.instance.getSupportFragmentManager(),"Back dialog");
+
+                         */
+                    //Log.d("TouchEvent", "Sprite touched!");
+                }
+            }
+        }
+
+
+
+
+
+// Check if the tap is within the sprite's bounds
+
+    }
+
+    public float getScreenWidth() {return GameActivity.instance.getResources().getDisplayMetrics().widthPixels;}
+    public float getScreenHeight() {return GameActivity.instance.getResources().getDisplayMetrics().heightPixels;}
+
+    public void onTap(){
+
     }
 
 
     public void onRender(Canvas canvas) {
-        if (_sprite != null){
+        if (_sprite != null && _animatedSprite == null){
             /*
             _dstRect.left = (int)_position.x - _sprite.getWidth() / 7 / 2;
             _dstRect.top = (int)_position.y - _sprite.getHeight() / 2;
@@ -53,7 +102,7 @@ public abstract class GameEntity {
 
 
     //Collision Stuff
-    private int _layer = 0;
+    private int _layer;
     public void setLayer(int layer) {_layer = layer;}
 
     public int getLayer(){return _layer;}

@@ -78,6 +78,7 @@ public class PhysicsEntity extends GameEntity {
     }
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
+        /*
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
         if (motionEvent == null) return;
         SetGravity(dt);
@@ -89,6 +90,8 @@ public class PhysicsEntity extends GameEntity {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
             addImpulse(new Vector2(500f, -500));
         }
+
+         */
     }
 
 

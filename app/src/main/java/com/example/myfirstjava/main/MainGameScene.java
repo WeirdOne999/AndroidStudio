@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.myfirstjava.R;
@@ -54,18 +55,23 @@ public class MainGameScene extends GameScene {
         _gameEntities.add(player);
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 5; j++){
-                _gameEntities.add(new Chicken(HolderArr[i][j].getPosition()));
+                _gameEntities.add(new Chicken(HolderArr[i][j].getPosition(),j));
             }
         }
-
+        _gameEntities.add(new Pause());
         //_gameEntities.add(new PhysicsEntity(1));
     }
 
     @Override
     public void onUpdate(float dt) {
+        //Log.d("SCENESIZE", "SIZE OF ARRAY: " + _gameEntities.size());
         super.onUpdate(dt);
 
-        MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
+
+
+
+
+
         /*
         if (motionEvent == null) return;
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !BackDialog.isShowing()){
@@ -81,11 +87,7 @@ public class MainGameScene extends GameScene {
             }
         }
         */
-        for (int i = _gameEntities.size() - 1;i >= 0; i--){
-            if (_gameEntities.get(i).canDestroy()){
-                _gameEntities.remove(i);
-            }
-        }
+
 
     }
 
@@ -93,9 +95,8 @@ public class MainGameScene extends GameScene {
 
     @Override
     public void onRender(Canvas canvas) {
-        canvas.drawColor(Color.parseColor("#b2d4ff"));
-        for (GameEntity i : _gameEntities){
-            i.onRender(canvas);
-        }
+        super.onRender(canvas);
+
+
     }
 }
