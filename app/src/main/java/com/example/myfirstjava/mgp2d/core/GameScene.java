@@ -83,6 +83,10 @@ public abstract class GameScene {
             i.onRender(canvas);
         }
     }
+
+    public void addVariable(String addVaraible, int i){
+
+    }
     public void onExit() {}
 
     public Vector<GameEntity> _gameEntities = new Vector<>();

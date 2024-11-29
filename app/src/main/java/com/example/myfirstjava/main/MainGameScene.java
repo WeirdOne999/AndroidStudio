@@ -27,6 +27,9 @@ public class MainGameScene extends GameScene {
 
     private Vector2 gridOffset = new Vector2(750,350);
     Holder[][] HolderArr = new Holder[9][5];
+
+    public int Egg;
+
     @Override
     public void onCreate() {    
         super.onCreate();
@@ -91,7 +94,13 @@ public class MainGameScene extends GameScene {
 
     }
 
-
+    @Override
+    public void addVariable(String addVaraible, int i) {
+        super.addVariable(addVaraible, i);
+        if (addVaraible == "Egg"){
+            Egg += i;
+        }
+    }
 
     @Override
     public void onRender(Canvas canvas) {

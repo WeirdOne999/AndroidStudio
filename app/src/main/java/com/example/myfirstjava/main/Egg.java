@@ -14,6 +14,7 @@ public class Egg extends PhysicsEntity{
 
     float timer = 0;
     boolean isTouchingGround = false;
+    private GameScene gamescene;
     public Egg(int layer, Vector2 position){
 
         addImpulse(new Vector2(0,-200));
@@ -26,6 +27,7 @@ public class Egg extends PhysicsEntity{
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
+        this.gamescene = gamescene;
         timer += dt;
         if (!isTouchingGround){
             for (int i = 0; i < gamescene._gameEntities.size();i++){
@@ -46,6 +48,13 @@ public class Egg extends PhysicsEntity{
 
 
 
+    }
+
+    @Override
+    public void onTap() {
+        super.onTap();
+        gamescene.addVariable("Egg",1);
+        canDestroy();
     }
 
     @Override

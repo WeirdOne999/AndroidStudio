@@ -26,7 +26,7 @@ public class PlayerEntity extends GameEntity {
         //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
         setSize(new Vector2(100,100));
         setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),4,4,12);
-
+        setLayer(-1);
     }
 
 
