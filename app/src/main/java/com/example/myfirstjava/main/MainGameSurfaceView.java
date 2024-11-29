@@ -11,19 +11,15 @@ import android.view.SurfaceView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
-import androidx.core.content.ContextCompat;
-
 import com.example.myfirstjava.R;
 
 //SURFACE VIEW CLASS
-public class GameSurface extends SurfaceView implements Runnable {
+public class MainGameSurfaceView extends SurfaceView implements Runnable {
     private Thread gameThread;
     private boolean isRunning;
     private SurfaceHolder surfaceHolder;
 
-    private float backgroundPosition;
-    private Bitmap backgroundBitmap0;
-    private Bitmap backgroundBitmap1;
+
 
     public Button[] characterButtons = new Button[5];
 
@@ -33,22 +29,20 @@ public class GameSurface extends SurfaceView implements Runnable {
 
     public int buttonposX, buttonpoxY;
     public int buttonStartX, buttonStartY;
-    private boolean draw = false;
+
     public void setSize(int width,int height){
         screenWidth = width;
         screenHeight = height;
     }
 
-    public GameSurface(Context context, FrameLayout frameLayout, int backgroundId) {
+    public MainGameSurfaceView(Context context, FrameLayout frameLayout) {
         super(context);
 
         surfaceHolder = getHolder();
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
 
-        Bitmap bmp = BitmapFactory.decodeResource(getResources(), backgroundId);
-        backgroundBitmap0 = Bitmap.createScaledBitmap(bmp, screenWidth * 2, screenHeight, true);
-        backgroundBitmap1 = Bitmap.createScaledBitmap(bmp, screenWidth * 2, screenHeight, true);
+
 
         buttonWidth = 50; // Width in dp
         buttonHeight = 50; // Height in dp
@@ -105,7 +99,7 @@ public class GameSurface extends SurfaceView implements Runnable {
     }
 
     private void update(float dt) {
-        backgroundPosition = (backgroundPosition - dt * 200) % (float) screenWidth;
+
 
 
 
@@ -120,8 +114,7 @@ public class GameSurface extends SurfaceView implements Runnable {
     }
 
     private void render(Canvas canvas) {
-        canvas.drawBitmap(backgroundBitmap0, backgroundPosition, 0, null);
-        canvas.drawBitmap(backgroundBitmap1, backgroundPosition + screenWidth, 0, null);
+
 
 
 
