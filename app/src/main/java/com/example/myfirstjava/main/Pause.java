@@ -37,8 +37,12 @@ public class Pause extends GameEntity {
     @Override
     public void onTap() {
         super.onTap();
-        BackDialog backDialog = new BackDialog();
-        backDialog.show(GameActivity.instance.getSupportFragmentManager(),"Back dialog");
+        //Log.d("TOUEVENT", "PAUSE touched!");
+        if (!BackDialog.isShowing()){
 
+            BackDialog backDialog = new BackDialog();
+            backDialog.show(GameActivity.instance.getSupportFragmentManager(),"Back dialog");
+
+        }
     }
 }

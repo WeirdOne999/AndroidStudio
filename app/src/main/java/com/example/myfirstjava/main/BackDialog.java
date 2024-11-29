@@ -21,7 +21,7 @@ public class BackDialog extends DialogFragment {
         _isShowing = true;
         GameActivity.instance.setTimeScale(0);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Return to main menu?");
+        builder.setMessage("Return?");
         builder.setPositiveButton("Yes", (dialog, which) -> GameActivity.instance.finish());
         builder.setNegativeButton("No", null);
         return builder.create();

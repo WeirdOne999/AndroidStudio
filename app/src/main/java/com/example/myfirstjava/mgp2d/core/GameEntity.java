@@ -48,12 +48,14 @@ public abstract class GameEntity {
                 float spriteY = getPosition().y; // Y position of the sprite
                 float spriteWidth = _sprite.getWidth(); // Width of the sprite
                 float spriteHeight = _sprite.getHeight(); // Height of the sprite
+                Log.d("TAPPOS", "Tap Position: " + tapPositionX + " " + tapPositionY + " SPR: " + spriteX + " " + spriteY + " SPRI_SIZE:" + spriteWidth +  " " + spriteHeight);
 
 // Check if the tap is within the sprite's bounds
 
                 if (tapPositionX >= spriteX- spriteWidth / 2 && tapPositionX <= (spriteX + spriteWidth / 2) &&
                         tapPositionY >= spriteY- spriteHeight/ 2 && tapPositionY <= (spriteY + spriteHeight/ 2)) {
                     onTap();
+
                     //Log.d("TAPPOS", "Tap Position: " + tapPositionX + " " + tapPositionY + " " + spriteX + " " + spriteY + " " + spriteWidth +  " " + spriteHeight);
 
                         /*
@@ -78,7 +80,6 @@ public abstract class GameEntity {
     public float getScreenHeight() {return GameActivity.instance.getResources().getDisplayMetrics().heightPixels;}
 
     public void onTap(){
-
     }
 
 

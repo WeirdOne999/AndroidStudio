@@ -36,9 +36,9 @@ public class PhysicsEntity extends GameEntity {
 
     public PhysicsEntity(int layer){
         setLayer(layer);
-        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
-        _sprite = Bitmap.createScaledBitmap(bmp,200,200,true);
-        setPosition(new Vector2(10,500));
+        //Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
+        //_sprite = Bitmap.createScaledBitmap(bmp,200,200,true);
+        //setPosition(new Vector2(10,500));
     }
 
     public void SetGravity(float dt){
@@ -71,27 +71,14 @@ public class PhysicsEntity extends GameEntity {
         // Update position based on velocity
         _position.x += velocity.x * dt;
         _position.y += velocity.y * dt;
-
+        setPosition(_position);
         // Reset acceleration after each frame
         acceleration.x = 0;
         acceleration.y = 0;
     }
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
-        /*
-        MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
-        if (motionEvent == null) return;
-        SetGravity(dt);
-
-        SetPositions(dt);
-
-        setPosition(_position);
-
-        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-            addImpulse(new Vector2(500f, -500));
-        }
-
-         */
+        super.onUpdate(dt,gamescene);
     }
 
 

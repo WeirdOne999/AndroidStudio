@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -29,7 +30,8 @@ public class MainGameScene extends GameScene {
     Holder[][] HolderArr = new Holder[9][5];
 
     public int Egg;
-
+    Text text_FPS;
+    Text text_eggCount;
     @Override
     public void onCreate() {    
         super.onCreate();
@@ -40,11 +42,16 @@ public class MainGameScene extends GameScene {
 
         _gameEntities.add(new BackgroundEntity(R.drawable.netherback,0));
 
+        for (int j = 0; j < 5; j++){
+
+            _gameEntities.add(new Floor(new Vector2(screenWidth/2,j * (screenHeight / 11) + gridOffset.y + 50),j));
+        }
+
         //Create Grid Holders
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 5; j++){
 
-                float spacing = 100;
+                float spacing = screenHeight / 12;
                 int size = (int) spacing + 5;
                 HolderArr[i][j] = new Holder(new Vector2(i * (screenWidth / 19) + gridOffset.x,j * (screenHeight / 11) + gridOffset.y),size,j);
                 _gameEntities.add(HolderArr[i][j]);
@@ -56,21 +63,29 @@ public class MainGameScene extends GameScene {
         player.setLayer(1);
         player.setSize(new Vector2(170,170));
         _gameEntities.add(player);
-        for (int i = 0; i < 9; i++){
-            for (int j = 0; j < 5; j++){
+        for (int i = 0; i < 1; i++){
+            for (int j = 0; j < 1; j++){
                 _gameEntities.add(new Chicken(HolderArr[i][j].getPosition(),j));
             }
         }
+        _gameEntities.add(new Llama(HolderArr[1][1].getPosition(),1));
+
         _gameEntities.add(new Pause());
+        text_FPS = new Text(R.color.teal_200,75, Paint.Align.RIGHT);
+        _gameEntities.add(text_FPS);
+        text_eggCount = new Text(R.color.teal_200,75,Paint.Align.LEFT);
+        _gameEntities.add(text_eggCount);
         //_gameEntities.add(new PhysicsEntity(1));
     }
+
+
 
     @Override
     public void onUpdate(float dt) {
         //Log.d("SCENESIZE", "SIZE OF ARRAY: " + _gameEntities.size());
         super.onUpdate(dt);
-
-
+        text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,screenHeight - 100));
+        text_eggCount.setText("EGG: " + Egg,new Vector2(100,100));
 
 
 
@@ -97,15 +112,14 @@ public class MainGameScene extends GameScene {
     @Override
     public void addVariable(String addVaraible, int i) {
         super.addVariable(addVaraible, i);
-        if (addVaraible == "Egg"){
-            Egg += i;
+        if (addVaraible.equals("Egg")){
+            this.Egg += i;
         }
     }
 
     @Override
     public void onRender(Canvas canvas) {
         super.onRender(canvas);
-
 
     }
 }

@@ -2,6 +2,7 @@ package com.example.myfirstjava.mgp2d.core;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.HashMap;
@@ -20,6 +21,10 @@ public abstract class GameScene {
     public static GameScene getNext() { return _next; }
 
     private static final HashMap<Class<?>, GameScene> map = new HashMap<>();
+
+    private int _frameCount;
+    private long _lastTime;
+    public float _fps;
 
     public static void enter(Class<?> gameSceneClass) {
         if (!map.containsKey(gameSceneClass)) {
@@ -54,6 +59,14 @@ public abstract class GameScene {
     public void onEnter() { if (!_isCreated) onCreate(); }
     public void onUpdate(float dt)
     {
+        _frameCount++;
+        long currentTime = System.currentTimeMillis();
+        if(currentTime - _lastTime > 1000) {
+            _fps = (_frameCount * 1000.f) / (currentTime - _lastTime);
+            _lastTime = currentTime;
+            _frameCount = 0;
+        }
+        //Log.d("TAPPOS","START");
         for (int i = _gameEntities.size() - 1;i >= 0; i--){
             if (_gameEntities.get(i).canDestroy()){
                 _gameEntities.remove(i);
@@ -64,11 +77,12 @@ public abstract class GameScene {
             if (i == null ) continue;
             i.onUpdate(dt,this);
         }
-
+        //Log.d("TAPPOS","END");
         for (int i = _gameEntityCache.size() - 1;i >= 0; i--){
             _gameEntities.add(_gameEntityCache.get(i));
             _gameEntityCache.remove(i);
         }
+        //Log.d("ENTITYCACHE","GE: " + _gameEntities.size() + " GEC: " + _gameEntityCache.size());
         /*
         for (int i = _gameEntities.size() - 1; i >= 0 ; i--){
             if (_gameEntities.get(i).canDestroy())

@@ -6,9 +6,10 @@ import com.example.myfirstjava.mgp2d.core.GameScene;
 public class LivingEntity extends GameEntity {
     private float Health = 0;
 
-    public void SetHealth(int health){
+    public void SetHealth(float health){
         Health = health;
     }
+    public float getHealth(){return Health;}
 
     @Override
     public void onUpdate(float dt, GameScene gamescene) {

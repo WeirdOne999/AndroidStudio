@@ -13,8 +13,8 @@ import com.example.myfirstjava.mgp2d.core.Vector2;
 
 public class Chicken extends LivingEntity{
 
-    float timer = 3;
-    float recharge = 3;
+    float timer = 10;
+    float recharge = 10;
     public Chicken(Vector2 position, int layer) {
         setLayer(layer);
         int size = 100;
@@ -23,7 +23,7 @@ public class Chicken extends LivingEntity{
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.minibunny);
         //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
         setSize(new Vector2(size,size));
-        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,size * 10,size* 10,true),4,4,12);
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight() / 1,(int)getScreenHeight() / 1,true),4,4,12);
     }
 
     @Override
