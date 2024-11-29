@@ -65,9 +65,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+
+import com.example.myfirstjava.main.GameSurfaceView;
+import com.example.myfirstjava.main.MainGameScene;
+import com.example.myfirstjava.main.MainGameSurfaceView;
 
 public class GameActivity extends FragmentActivity {
 
@@ -135,12 +140,22 @@ public class GameActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         instance = this;
-        SurfaceView surfaceView = new SurfaceView(this);
-        setContentView(surfaceView);
+
+        // Create the FrameLayout container
+        FrameLayout frameLayout = new FrameLayout(this);
+        setContentView(frameLayout);
+
+        // Create and add MainGameSurfaceView
+        MainGameSurfaceView surfaceView = new MainGameSurfaceView(this, frameLayout);
+        frameLayout.addView(surfaceView);
+
+        // Create and add MainGameScene as a custom view (You could subclass View or SurfaceView)
+        GameSurfaceView gameSurfaceView = new GameSurfaceView(this);
+        frameLayout.addView(gameSurfaceView);
+
         _updateThread = new UpdateThread(surfaceView);
     }
 

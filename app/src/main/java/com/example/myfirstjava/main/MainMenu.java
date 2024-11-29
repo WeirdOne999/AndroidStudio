@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +21,7 @@ import com.example.myfirstjava.mgp2d.core.GameScene;
 import android.widget.FrameLayout;
 
 
+//RETRIEVES XML ELEMENTS AND SURFACE VIEW ELEMENTS TO MERGE TOGETHER
 public class MainMenu extends AppCompatActivity implements View.OnClickListener{
 
     private Button _helpButton;
@@ -45,10 +47,13 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
 
 
         FrameLayout container = findViewById(R.id.ui_entity_container);
+        uiEntity = new UIEntity(this, container, R.drawable.village);
+
+
 
 
         // Instantiate UIEntity with the background image
-        uiEntity = new UIEntity(this, container, R.drawable.village);
+
         uiEntity.setSize(4350,375);
     }
 
