@@ -5,11 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.example.myfirstjava.R;
 
@@ -21,14 +23,17 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
 
 
-    public Button[] characterButtons = new Button[5];
 
+    public Button[] characterButtons = new Button[5];
+    public Button toHouseButton;
     private int screenWidth, screenHeight;
 
     private int buttonWidth, buttonHeight;
 
     public int buttonposX, buttonpoxY;
     public int buttonStartX, buttonStartY;
+
+
 
     public void setSize(int width,int height){
         screenWidth = width;
@@ -39,15 +44,27 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         super(context);
 
         surfaceHolder = getHolder();
+        setZOrderOnTop(false); // Keep SurfaceView below other views
         screenWidth = getResources().getDisplayMetrics().widthPixels;
         screenHeight = getResources().getDisplayMetrics().heightPixels;
-
-
-
         buttonWidth = 50; // Width in dp
         buttonHeight = 50; // Height in dp
         buttonStartX = screenWidth - 2500; // Starting X position
         buttonStartY = screenHeight - 900; // Fixed Y position near the bottom of the screen
+
+        toHouseButton = new Button(context);
+        toHouseButton.setText("HOUSE");
+
+        FrameLayout.LayoutParams tohouseparams = new FrameLayout.LayoutParams(
+                (int) (150 * getResources().getDisplayMetrics().density),
+                (int) (50 * getResources().getDisplayMetrics().density)
+        );
+        tohouseparams.leftMargin = screenWidth - 500; // X position
+        tohouseparams.topMargin = screenHeight - 200; // Fixed Y position
+
+        toHouseButton.setLayoutParams(tohouseparams);
+        frameLayout.addView(toHouseButton);
+
 
         // Create a row of buttons
         for (int i = 0; i < characterButtons.length; i++) {
@@ -63,18 +80,20 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             // Calculate position for each button in the row
             int buttonPosY = buttonStartY + (i * (buttonHeight + 100)); // 20 is spacing between buttons
 
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams characterbuttonparams = new FrameLayout.LayoutParams(
                     (int) (buttonWidth * getResources().getDisplayMetrics().density),
                     (int) (buttonHeight * getResources().getDisplayMetrics().density)
             );
-            params.leftMargin = buttonStartX; // X position
-            params.topMargin = buttonPosY; // Fixed Y position
+            characterbuttonparams.leftMargin = buttonStartX; // X position
+            characterbuttonparams.topMargin = buttonPosY; // Fixed Y position
 
-            characterButtons[i].setLayoutParams(params);
+            characterButtons[i].setLayoutParams(characterbuttonparams);
 
             // Add the button to the FrameLayout
             frameLayout.addView(characterButtons[i]);
         }
+
+
 
     }
 
@@ -114,7 +133,6 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     }
 
     private void render(Canvas canvas) {
-
 
 
 

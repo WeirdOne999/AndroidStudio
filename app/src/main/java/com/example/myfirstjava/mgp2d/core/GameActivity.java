@@ -152,9 +152,9 @@ public class GameActivity extends FragmentActivity {
         MainGameSurfaceView surfaceView = new MainGameSurfaceView(this, frameLayout);
         frameLayout.addView(surfaceView);
 
-        // Create and add MainGameScene as a custom view (You could subclass View or SurfaceView)
-        GameSurfaceView gameSurfaceView = new GameSurfaceView(this);
-        frameLayout.addView(gameSurfaceView);
+//        // Create and add MainGameScene as a custom view (You could subclass View or SurfaceView)
+//        GameSurfaceView gameSurfaceView = new GameSurfaceView(this);
+//        frameLayout.addView(gameSurfaceView);
 
         _updateThread = new UpdateThread(surfaceView);
     }
