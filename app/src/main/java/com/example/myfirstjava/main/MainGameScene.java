@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.service.notification.ZenPolicy;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -15,6 +16,7 @@ import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
+import java.util.Random;
 import java.util.Vector;
 
 public class MainGameScene extends GameScene {
@@ -28,6 +30,9 @@ public class MainGameScene extends GameScene {
 
     private Vector2 gridOffset = new Vector2(750,350);
     Holder[][] HolderArr = new Holder[9][5];
+
+    private float _enemySpawnTimer = 5;
+    private float _totalEnemyTimer = 0;
 
     public int Egg;
     Text text_FPS;
@@ -47,6 +52,9 @@ public class MainGameScene extends GameScene {
             _gameEntities.add(new Floor(new Vector2(screenWidth/2,j * (screenHeight / 11) + gridOffset.y + 50),j));
         }
 
+        _gameEntities.add(new Border(new Vector2(0,screenHeight / 2),1));
+        _gameEntities.add(new Border(new Vector2(screenWidth,screenHeight / 2),1));
+
         //Create Grid Holders
         for (int i = 0; i < 9; i++){
             for (int j = 0; j < 5; j++){
@@ -56,6 +64,12 @@ public class MainGameScene extends GameScene {
                 HolderArr[i][j] = new Holder(new Vector2(i * (screenWidth / 19) + gridOffset.x,j * (screenHeight / 11) + gridOffset.y),size,j);
                 _gameEntities.add(HolderArr[i][j]);
             }
+        }
+
+        for (int j = 0; j < 5; j++){
+
+            float spacing = screenHeight / 12;
+            _gameEntities.add(new Minecart(j,HolderArr[0][j].getPosition().add(new Vector2(-spacing,0))));
         }
 
         player =new PlayerEntity();
@@ -86,6 +100,23 @@ public class MainGameScene extends GameScene {
         super.onUpdate(dt);
         text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,screenHeight - 100));
         text_eggCount.setText("EGG: " + Egg,new Vector2(100,100));
+
+        _totalEnemyTimer += dt;
+
+        if (_totalEnemyTimer > _enemySpawnTimer){
+            _totalEnemyTimer = 0;
+
+            int random  = new Random().nextInt(1);
+            if (random == 0){
+                int layer = new Random().nextInt(5);
+                //
+                _gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+            }
+        }
+
+
+
+
 
 
 

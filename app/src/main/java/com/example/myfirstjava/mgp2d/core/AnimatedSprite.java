@@ -7,8 +7,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 public class AnimatedSprite {
-    private final int _col;
-    private final int _row;
+    private int _col;
+    private int _row;
     private final int  _width;
     private final int _height;
     private int _currentFrame = 0;
@@ -16,11 +16,13 @@ public class AnimatedSprite {
     private int _endFrame;
     private final float _timePerFrame;
     private float _timeAccumulated = 0f;
-    private final Bitmap _bmp;
+    private Bitmap _bmp;
     private boolean _isLooping = true;
 
     private final Rect _src;
     private final Rect _dst;
+
+    public Vector2 offset = new Vector2(0 ,0);
 
     protected AnimatedSprite(Bitmap bitmap, int row, int col, int fps){
         _bmp = bitmap;
@@ -42,6 +44,15 @@ public class AnimatedSprite {
     }
 
     public void setNew(int start, int end){
+        _startFrame = start;
+        _currentFrame = start;
+        _endFrame = end;
+    }
+
+    public void setNewBitmap(Bitmap bitmap,int row, int col, int start, int end){
+        _bmp = bitmap;
+        _col = col;
+        _row = row;
         _startFrame = start;
         _currentFrame = start;
         _endFrame = end;
@@ -79,10 +90,10 @@ public class AnimatedSprite {
         _src.right = srcX + _width;
         _src.bottom = srcY + _height;
 
-        _dst.left = x;
-        _dst.top = y - (_height/4);
-        _dst.right = x + _width;
-        _dst.bottom = y + (_height/4) * 3;
+        _dst.left = x + (int)offset.x;
+        _dst.top = y - (_height/4) + (int)offset.y;
+        _dst.right = x + _width + (int)offset.x;
+        _dst.bottom = y + (_height/4) * 3 + (int)offset.y;
 
         canvas.drawBitmap(_bmp,_src,_dst,paint);
     }

@@ -16,6 +16,7 @@ public class Chicken extends LivingEntity{
     float timer = 10;
     float recharge = 10;
     public Chicken(Vector2 position, int layer) {
+        isEnemy = false;
         setLayer(layer);
         int size = 100;
         SetHealth(5);
