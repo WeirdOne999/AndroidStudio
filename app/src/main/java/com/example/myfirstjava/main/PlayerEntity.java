@@ -34,6 +34,7 @@ public class PlayerEntity extends GameEntity {
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
 
+        /*
         for (int i = 0; i < gamescene._gameEntities.size();i++){
             if (gamescene._gameEntities.get(i) != this){
                 if (gamescene._gameEntities.get(i) instanceof Holder)  {
@@ -45,6 +46,8 @@ public class PlayerEntity extends GameEntity {
                 }
             }
         }
+        
+         */
 
         //sprite.update(dt);
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
