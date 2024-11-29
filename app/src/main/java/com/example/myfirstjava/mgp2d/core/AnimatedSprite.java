@@ -8,6 +8,7 @@ import android.graphics.Rect;
 
 public class AnimatedSprite {
     private final int _col;
+    private final int _row;
     private final int  _width;
     private final int _height;
     private int _currentFrame = 0;
@@ -24,18 +25,26 @@ public class AnimatedSprite {
     protected AnimatedSprite(Bitmap bitmap, int row, int col, int fps){
         _bmp = bitmap;
         _col = col;
+        _row = row;
         _width = _bmp.getWidth() / _col;
         _height = _bmp.getHeight() / row;
         _timePerFrame = 1f/fps;
-        _endFrame  = _col * row;
+        //_endFrame  = _col * row;
         _src = new Rect();
         _dst = new Rect();
     }
 
     public AnimatedSprite(Bitmap bitmap, int row, int col, int fps, int startFrame, int endFrame){
         this(bitmap,row,col,fps);
+        _currentFrame = startFrame;
         _startFrame = startFrame;
         _endFrame = endFrame;
+    }
+
+    public void setNew(int start, int end){
+        _startFrame = start;
+        _currentFrame = start;
+        _endFrame = end;
     }
 
     public void setLopping(boolean shouldLoop) {_isLooping = shouldLoop;}
@@ -58,9 +67,9 @@ public class AnimatedSprite {
 
     public void render(Canvas canvas, int x, int y, Paint paint){
         int frameX = _currentFrame % _col;
-        int frameY = _currentFrame / _col;
+        int frameY = _currentFrame / _row;
         int srcX = frameX * _width;
-        int srcY = frameY & _height;
+        int srcY = frameY * _height;
 
         x -= (int) (0.5f * _width);
         y -= (int) (0.5f * _height);

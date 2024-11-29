@@ -29,8 +29,8 @@ public abstract class GameEntity {
 
     private Rect _srcRect;
     private Rect _dstRect;
-    public void setAnimatedSprite(Bitmap bmp,int row,int col, int fps) {
-        _animatedSprite = new AnimatedSprite(bmp,row,col,fps);
+    public void setAnimatedSprite(Bitmap bmp,int row,int col, int fps,int start,int end) {
+        _animatedSprite = new AnimatedSprite(bmp,row,col,fps,start,end);
         _sprite = bmp;
     }
 

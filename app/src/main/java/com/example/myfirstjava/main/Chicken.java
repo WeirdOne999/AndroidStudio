@@ -23,7 +23,7 @@ public class Chicken extends LivingEntity{
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.minibunny);
         //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
         setSize(new Vector2(size,size));
-        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight() / 1,(int)getScreenHeight() / 1,true),4,4,12);
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight() / 1,(int)getScreenHeight() / 1,true),4,4,12,0,3);
     }
 
     @Override

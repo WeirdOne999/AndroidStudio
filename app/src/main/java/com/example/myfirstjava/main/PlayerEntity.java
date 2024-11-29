@@ -22,10 +22,10 @@ public class PlayerEntity extends GameEntity {
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
         _sprite = Bitmap.createScaledBitmap(bmp,200,200,true);
         */
-        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.wolfidle);
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.minibunny);
         //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
         setSize(new Vector2(100,100));
-        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),1,5,12);
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),4,4,12,0,4);
         setLayer(-1);
     }
 
