@@ -25,11 +25,12 @@ public class MainGameScene extends GameScene {
 
     public GameEntity player;
 
+
     public int screenWidth;
     public int screenHeight;
 
     private Vector2 gridOffset = new Vector2(750,350);
-    Holder[][] HolderArr = new Holder[9][5];
+
 
     private float _enemySpawnTimer = 5;
     private float _totalEnemyTimer = 0;
@@ -37,12 +38,15 @@ public class MainGameScene extends GameScene {
     public int Egg;
     Text text_FPS;
     Text text_eggCount;
+
+    public int ChangeCursorSpritei;
     @Override
     public void onCreate() {    
         super.onCreate();
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
         screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
 
+        instance = this;
         gridOffset = new Vector2(screenWidth / 2.9f,screenHeight / 3.2f);
 
         _gameEntities.add(new BackgroundEntity(R.drawable.netherback,0));
@@ -123,8 +127,6 @@ public class MainGameScene extends GameScene {
 
 
 
-
-
         /*
         if (motionEvent == null) return;
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !BackDialog.isShowing()){
@@ -144,6 +146,10 @@ public class MainGameScene extends GameScene {
 
     }
 
+
+    public void ChangeCursorSpriteIndex(int index){
+        ChangeCursorSpritei = index;
+    }
     @Override
     public void addVariable(String addVaraible, int i) {
         super.addVariable(addVaraible, i);

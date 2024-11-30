@@ -2,7 +2,8 @@ package com.example.myfirstjava.main;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.myfirstjava.R;
@@ -15,8 +16,7 @@ public class PlayerEntity extends GameEntity {
 
     //private boolean _isHolding = false;
     private int currentID = -1;
-
-
+    public int[] cursordrawable = new int[4];
     public PlayerEntity(){
         /*
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
@@ -26,8 +26,20 @@ public class PlayerEntity extends GameEntity {
         //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
         setSize(new Vector2(100,100));
         //R.drawable.skeletonattack,4,5,5,9,12
-        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),4,5,12,5,7);
+
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),bmp.getWidth() / 32,bmp.getWidth() / 32,12,0,0);
         setLayer(-1);
+        cursordrawable[0] = R.drawable.minibunny;
+        cursordrawable[1] = R.drawable.miniboar;
+        cursordrawable[2] = R.drawable.minibear;
+        cursordrawable[3] = R.drawable.miniwolf;
+
+    }
+
+    public void ChangeCursorSprite(){
+
+
+
     }
 
 
@@ -50,6 +62,19 @@ public class PlayerEntity extends GameEntity {
         
          */
 
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), cursordrawable[MainGameScene.instance.ChangeCursorSpritei]);
+
+        if (bmp == null) {
+
+            return; // Handle the error appropriately
+        }
+
+        // Scale the bitmap and set as animated sprite
+        Log.d("BitmapSize", bmp.getWidth() + " " + bmp.getHeight());
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),bmp.getHeight() / 96,bmp.getWidth() / 96,12,0,0);
+
+
+
         //sprite.update(dt);
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
         if (motionEvent == null) return;
@@ -70,6 +95,7 @@ public class PlayerEntity extends GameEntity {
             for (int i = 0; i < motionEvent.getPointerCount(); i++){
                 if (motionEvent.getPointerId(i) == currentID){
                     _position = new Vector2(motionEvent.getX(i),motionEvent.getY(i));
+
                 }
             }
 

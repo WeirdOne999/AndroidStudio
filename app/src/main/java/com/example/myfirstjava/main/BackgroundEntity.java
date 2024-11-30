@@ -13,7 +13,8 @@ public class BackgroundEntity extends GameEntity {
     private float _backgroundPosition;
     private Bitmap _backgroundBitmap0;
     private Bitmap _backgroundBitmap1;
-    int screenWidth;
+    private final int screenWidth; // Screen width
+
 
     int speed = 1;
 
@@ -23,7 +24,10 @@ public class BackgroundEntity extends GameEntity {
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), id);
         _backgroundBitmap0 = Bitmap.createScaledBitmap(bmp,screenWidth,screenHeight,true);
         _backgroundBitmap1 = Bitmap.createScaledBitmap(bmp,screenWidth,screenHeight,true);
+
         this.speed = speed;
+
+
     }
 
     @Override

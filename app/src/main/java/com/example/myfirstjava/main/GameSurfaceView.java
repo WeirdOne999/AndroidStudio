@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.example.myfirstjava.R;
+
 public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainGameScene mainGameScene;
@@ -13,6 +15,8 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         super(context);
         getHolder().addCallback(this);
         mainGameScene = new MainGameScene(); // Initialize your MainGameScene here
+
+
     }
 
     @Override
@@ -32,6 +36,6 @@ public class GameSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     // You can call onRender or custom rendering logic in this method
     public void render(Canvas canvas) {
-        mainGameScene.onRender(canvas); // Call MainGameScene's rendering logic here
+        //mainGameScene.onRender(canvas); // Call MainGameScene's rendering logic here
     }
 }

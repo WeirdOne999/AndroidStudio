@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.example.myfirstjava.main.Holder;
+
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -21,6 +23,7 @@ public abstract class GameScene {
     public static GameScene getNext() { return _next; }
 
     private static final HashMap<Class<?>, GameScene> map = new HashMap<>();
+    public Holder[][] HolderArr = new Holder[9][5];
 
     private int _frameCount;
     private long _lastTime;

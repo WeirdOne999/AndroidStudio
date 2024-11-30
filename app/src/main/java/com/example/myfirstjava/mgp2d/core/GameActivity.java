@@ -61,20 +61,35 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.myfirstjava.R;
+import com.example.myfirstjava.main.BackgroundEntity;
 import com.example.myfirstjava.main.GameSurfaceView;
+import com.example.myfirstjava.main.GameUIEntity;
 import com.example.myfirstjava.main.MainGameScene;
+
+import com.example.myfirstjava.main.UIEntity;
+import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.main.MainGameSurfaceView;
 
+import java.util.TreeSet;
+
 public class GameActivity extends FragmentActivity {
+
+    private static GameUIEntity uiEntity;
+    private MainGameSurfaceView surfaceView;
+
 
     private static class UpdateThread extends Thread {
         public boolean _isRunning = true;
@@ -82,13 +97,16 @@ public class GameActivity extends FragmentActivity {
         public boolean isRunning() { return _isRunning; }
         private final SurfaceHolder _surfaceHolder;
 
+
         public UpdateThread(SurfaceView surfaceView) {
-            _surfaceHolder = surfaceView.getHolder();
-            _surfaceHolder.addCallback(new SurfaceHolder.Callback() {
-                @Override public void surfaceCreated(@NonNull SurfaceHolder holder) { if (!isAlive()) start(); }
-                @Override public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {}
-                @Override public void surfaceDestroyed(@NonNull SurfaceHolder holder) { terminate(); }
-            });
+            _surfaceHolder = surfaceView != null ? surfaceView.getHolder() : null;
+            if (_surfaceHolder != null) {
+                _surfaceHolder.addCallback(new SurfaceHolder.Callback() {
+                    @Override public void surfaceCreated(@NonNull SurfaceHolder holder) { if (!isAlive()) start(); }
+                    @Override public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {}
+                    @Override public void surfaceDestroyed(@NonNull SurfaceHolder holder) { terminate(); }
+                });
+            }
         }
 
         @Override
@@ -112,13 +130,18 @@ public class GameActivity extends FragmentActivity {
                 // Update current game scene
                 GameScene.getCurrent().onUpdate(deltaTime * _timeScale);
 
+                if (uiEntity.CursorActionExecute){
+                    MainGameScene.instance.ChangeCursorSpriteIndex(uiEntity.ButtonPressed);
+                }
+                uiEntity.Update();
                 // Render current game scene
                 Canvas canvas = _surfaceHolder.lockCanvas(null);
                 if (canvas != null) {
                     synchronized (_surfaceHolder) {
-                        canvas.drawColor(Color.BLACK); // reset canvas
+                        //canvas.drawColor(Color.BLACK); // reset canvas
                         if (GameScene.getCurrent() != null)
                             GameScene.getCurrent().onRender(canvas);
+
                     }
                     _surfaceHolder.unlockCanvasAndPost(canvas);
                 }
@@ -149,14 +172,33 @@ public class GameActivity extends FragmentActivity {
         setContentView(frameLayout);
 
         // Create and add MainGameSurfaceView
-        MainGameSurfaceView surfaceView = new MainGameSurfaceView(this, frameLayout);
+
+        //when button click to house, remove this, add house overlay
+        surfaceView = new MainGameSurfaceView(this, frameLayout);
         frameLayout.addView(surfaceView);
 
-//        // Create and add MainGameScene as a custom view (You could subclass View or SurfaceView)
-//        GameSurfaceView gameSurfaceView = new GameSurfaceView(this);
-//        frameLayout.addView(gameSurfaceView);
+        uiEntity = new GameUIEntity(this, frameLayout);
+
+        uiEntity.setupButtonClicks();
+        // Inflate and add the overlay UI from XML
+//        View Hatchingoverlay = getLayoutInflater().inflate(R.layout.hatchingui, frameLayout, false);
+//        frameLayout.addView(Hatchingoverlay);
+
+//        View Craftingoverlay = getLayoutInflater().inflate(R.layout.craftingui, frameLayout, false);
+//        frameLayout.addView(Craftingoverlay);
+
+//        // Access UI components for updates or interaction
+//        TextView fpsText = overlay.findViewById(R.id.fps_text);
+//        Button pauseButton = overlay.findViewById(R.id.pause_button);
+//
+//        // Example: Add functionality to the Pause button
+//        pauseButton.setOnClickListener(v -> {
+//            GameActivity.instance.setTimeScale(0); // Pauses the game
+//        });
 
         _updateThread = new UpdateThread(surfaceView);
+
+
     }
 
     @Override
@@ -165,18 +207,29 @@ public class GameActivity extends FragmentActivity {
         return true;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (!_updateThread.isRunning())
-            _updateThread.start();
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        if (!_updateThread.isRunning()) {
+//            _updateThread = new UpdateThread(surfaceView);
+//            _updateThread.start();
+//        }
+//
+//        if (uiEntity != null) {
+//            runOnUiThread(uiEntity::resume);
+//        }
+//    }
 
     @Override
     protected void onStop() {
         super.onStop();
         _updateThread.terminate();
         GameScene.exitCurrent();
+
+        // Pause UI
+//        if (uiEntity != null) {
+//            runOnUiThread(uiEntity::pause);
+//        }
     }
 
     @Override
@@ -184,5 +237,21 @@ public class GameActivity extends FragmentActivity {
         super.onPause();
         _updateThread.terminate();
         GameScene.exitCurrent();
+        // Pause UI
+        if (uiEntity != null) {
+            runOnUiThread(uiEntity::pause);
+        }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!_updateThread.isRunning()) {
+            _updateThread = new UpdateThread(surfaceView);
+            _updateThread.start();
+        }
+        uiEntity.resume();
+    }
+
+
 }
