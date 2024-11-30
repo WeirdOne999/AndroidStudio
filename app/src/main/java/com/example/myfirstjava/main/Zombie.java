@@ -25,19 +25,32 @@ public class Zombie extends EnemyEntity{
     @Override
     public void attack(float dt, GameScene gameScene, LivingEntity ge) {
         super.attack(dt, gameScene, ge);
-            _animatedSprite.setLopping(false);
+        currentState = State.ATTACK;
+        _animatedSprite.setLopping(false);
+        //Log.d("ATTACKCHECK",""+_animatedSprite.hasFinished() + currentState.toString());
+        currentspeed = 0;
+        if (currentState == State.ATTACK && prevState == State.ATTACK){
             if (_animatedSprite.hasFinished()){
                 ge.SetHealth(ge.getHealth() - 1);
                 currentState = State.WALK;
             }
-
-        currentState = State.ATTACK;
+        }
 
     }
 
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
+
+        if(touchedPlant != null){
+            //ATTACK
+            //Log.d("ZOMBTOUCHPLANT" , "HEALTH:  " + touchedPlant.getHealth());
+            attack(dt,gamescene,touchedPlant);
+        }else{
+            if (currentState == State.ATTACK){
+                currentState = State.WALK;
+            }
+        }
     }
 
     @Override

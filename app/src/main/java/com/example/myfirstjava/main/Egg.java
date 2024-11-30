@@ -31,9 +31,9 @@ public class Egg extends PhysicsEntity {
     }
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
+        this.gamescene = gamescene;
         super.onUpdate(dt, gamescene);
         timer += dt;
-        this.gamescene = gamescene;
         if (!isTouchingGround){
             for (int i = 0; i < gamescene._gameEntities.size();i++){
                 if (gamescene._gameEntities.get(i) != this){

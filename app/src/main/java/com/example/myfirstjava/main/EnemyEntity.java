@@ -50,13 +50,15 @@ public class EnemyEntity extends LivingEntity{
     float currentspeed;
     float size;
 
-    LivingEntity livingEntity;
+    LivingEntity touchedPlant;
 
     float yOffset = getScreenHeight() / 12;
 
     public animationHolder walk = new animationHolder();
     public animationHolder attack = new animationHolder();
     public animationHolder idle = new animationHolder();
+
+    public LivingEntity touchedPLant;
 
     public void SetSprite(animationHolder anim){
         float temp = 0;
@@ -77,7 +79,6 @@ public class EnemyEntity extends LivingEntity{
         currentspeed = speed;
         this.size = size;
         currentState = State.WALK;
-        prevState = State.WALK;
     }
 
     @Override
@@ -86,6 +87,7 @@ public class EnemyEntity extends LivingEntity{
         addImpulse(direction.normalize().multiply(currentspeed));
         SetPositions(dt);
         boolean isTouchingPlant = false;
+        touchedPlant = null;
         for (int i = 0; i < gamescene._gameEntities.size();i++){
             if (gamescene._gameEntities.get(i) != this){
 
@@ -95,31 +97,28 @@ public class EnemyEntity extends LivingEntity{
                         LivingEntity temp = (LivingEntity)gamescene._gameEntities.get(i);
                         if (!temp.isEnemy){
                             isTouchingPlant = true;
-                            livingEntity = temp;
+                            touchedPlant = temp;
                         }
                     }
                 }
             }
         }
 
-        if (isTouchingPlant){
-            currentState = State.IDLE;
-            currentspeed = 0;
-            attack(dt,gamescene,livingEntity);
-        }else{
-            currentState = State.WALK;
-            currentspeed = speed;
-        }
-
         //ENTER STATE
         if (currentState != prevState){
-            Log.d("ENEMYSTATECHECK", currentState.toString() + " " + prevState.toString());
+            if (prevState!= null) Log.d("ENEMYSTATECHECK", currentState.toString() + " " + prevState.toString());
             if (currentState == State.IDLE){
+
+                currentspeed = 0;
                 SetSprite(idle);
+                _animatedSprite.setLopping(true);
                 Log.d("ENEMYSTATE", "IDLE ENTER");
             }
             else if (currentState == State.WALK){
+
+                currentspeed = speed;
                 SetSprite(walk);
+                _animatedSprite.setLopping(true);
                 Log.d("ENEMYSTATE", "WALK ENTER");
             }
             else if (currentState == State.ATTACK){

@@ -103,14 +103,18 @@ public class MainGameScene extends GameScene {
 
         _totalEnemyTimer += dt;
 
-        if (_totalEnemyTimer > _enemySpawnTimer){
+        if (_totalEnemyTimer > _enemySpawnTimer + new Random().nextInt(5) - 2){
             _totalEnemyTimer = 0;
 
-            int random  = new Random().nextInt(1);
+            int random  = new Random().nextInt(2);
+            int layer = new Random().nextInt(5);
             if (random == 0){
-                int layer = new Random().nextInt(5);
-                //
+                _gameEntityCache.add(new Skeleton(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+
+            }
+            else if (random == 1){
                 _gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+
             }
         }
 

@@ -22,8 +22,12 @@ public class ProjectileEntity extends PhysicsEntity{
         hasGravity = gravity;
         this.speed = speed;
         this.direction = direction;
-        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.llamaspit);
-        setSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight()/15,(int)getScreenHeight()/15,true));
+    }
+
+    public void SpriteSet(int id, int size){
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), id);
+        setSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight()/size,(int)getScreenHeight()/size,true));
+
     }
 
     @Override
@@ -72,7 +76,7 @@ public class ProjectileEntity extends PhysicsEntity{
 
     }
     public void touchEnemy(LivingEntity enemy){
-        enemy.destroy();
+
     }
 
     public void touchPlant(LivingEntity plant){
