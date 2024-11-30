@@ -65,6 +65,7 @@ public class ProjectileEntity extends PhysicsEntity{
                 }
             }
         }
+
     }
 
     public void touchFloor(){

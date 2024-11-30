@@ -15,14 +15,18 @@ public class AnimatedSprite {
     private int _startFrame;
     private int _endFrame;
     private final float _timePerFrame;
-    private float _timeAccumulated = 0f;
-    private Bitmap _bmp;
+    public float _timeAccumulated = 0f;
+    public Bitmap _bmp;
     private boolean _isLooping = true;
 
     private final Rect _src;
     private final Rect _dst;
 
     public Vector2 offset = new Vector2(0 ,0);
+
+    public void set_timeAccumulated(float time){
+        _timeAccumulated = time;
+    }
 
     protected AnimatedSprite(Bitmap bitmap, int row, int col, int fps){
         _bmp = bitmap;
@@ -39,6 +43,15 @@ public class AnimatedSprite {
     public AnimatedSprite(Bitmap bitmap, int row, int col, int fps, int startFrame, int endFrame){
         this(bitmap,row,col,fps);
         _currentFrame = startFrame;
+        _startFrame = startFrame;
+        _endFrame = endFrame;
+    }
+
+    public void setCurrentToZero(){_currentFrame = 0;}
+
+    public AnimatedSprite(Bitmap bitmap, int row, int col, int fps, int startFrame, int endFrame, boolean current){
+        this(bitmap,row,col,fps);
+        if (!current)_currentFrame = startFrame;
         _startFrame = startFrame;
         _endFrame = endFrame;
     }

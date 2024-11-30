@@ -34,7 +34,7 @@ public class Llama extends LivingEntity{
         timer -= dt;
         if (timer <= 0){
             if (!hasShot){
-                gamescene._gameEntityCache.add(new ProjectileEntity(this,new Vector2(1,0),15,false));
+                //gamescene._gameEntityCache.add(new ProjectileEntity(this,new Vector2(1,0),15,false));
             }
             hasShot = true;
 

@@ -3,9 +3,11 @@ package com.example.myfirstjava.main;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.myfirstjava.R;
 import com.example.myfirstjava.mgp2d.core.GameActivity;
+import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
@@ -33,19 +35,38 @@ class animationHolder{
 
 public class EnemyEntity extends LivingEntity{
 
+    enum State{
+        WALK,
+        ATTACK,
+        IDLE
+    }
+
+    State currentState;
+    State prevState;
+
+
     Vector2 direction;
     float speed;
+    float currentspeed;
     float size;
 
+    LivingEntity livingEntity;
 
+    float yOffset = getScreenHeight() / 12;
 
     public animationHolder walk = new animationHolder();
     public animationHolder attack = new animationHolder();
     public animationHolder idle = new animationHolder();
 
     public void SetSprite(animationHolder anim){
-        setAnimatedSprite(Bitmap.createScaledBitmap(anim.bmp,(int)(getScreenHeight() *size),(int)(getScreenHeight() * size),true),anim.row,anim.col,anim.start,anim.end,anim.fps);
+        float temp = 0;
+        setAnimatedSprite(Bitmap.createScaledBitmap(anim.bmp,
+                (int)(getScreenHeight() * (size * anim.col) ),
+                (int)(getScreenHeight() * (size * anim.row)),
+                true),anim.row,anim.col,anim.start,anim.end,anim.fps);
         _animatedSprite.setNew(anim.start,anim.end);
+        _animatedSprite.offset = new Vector2(0,yOffset);
+
     }
 
     public EnemyEntity(float health,float speed, float size){
@@ -53,14 +74,68 @@ public class EnemyEntity extends LivingEntity{
         SetHealth(health);
         direction = new Vector2(-1,0);
         this.speed = speed;
+        currentspeed = speed;
         this.size = size;
+        currentState = State.WALK;
+        prevState = State.WALK;
     }
 
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
-        addImpulse(direction.normalize().multiply(speed));
+        addImpulse(direction.normalize().multiply(currentspeed));
         SetPositions(dt);
+        boolean isTouchingPlant = false;
+        for (int i = 0; i < gamescene._gameEntities.size();i++){
+            if (gamescene._gameEntities.get(i) != this){
+
+                if (gamescene._gameEntities.get(i) instanceof LivingEntity)  {
+                    if (this.isColliding(gamescene._gameEntities.get(i))){
+
+                        LivingEntity temp = (LivingEntity)gamescene._gameEntities.get(i);
+                        if (!temp.isEnemy){
+                            isTouchingPlant = true;
+                            livingEntity = temp;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (isTouchingPlant){
+            currentState = State.IDLE;
+            currentspeed = 0;
+            attack(dt,gamescene,livingEntity);
+        }else{
+            currentState = State.WALK;
+            currentspeed = speed;
+        }
+
+        //ENTER STATE
+        if (currentState != prevState){
+            Log.d("ENEMYSTATECHECK", currentState.toString() + " " + prevState.toString());
+            if (currentState == State.IDLE){
+                SetSprite(idle);
+                Log.d("ENEMYSTATE", "IDLE ENTER");
+            }
+            else if (currentState == State.WALK){
+                SetSprite(walk);
+                Log.d("ENEMYSTATE", "WALK ENTER");
+            }
+            else if (currentState == State.ATTACK){
+                SetSprite(attack);
+                Log.d("ENEMYSTATE", "ATTACK ENTER");
+            }
+
+            prevState = currentState;
+            Log.d("ENEMYSTATEAFTER", currentState.toString() + " " + prevState.toString());
+
+        }
+    }
+
+    public boolean isAnim(animationHolder anim) {return anim.bmp.sameAs(_animatedSprite._bmp);}
+
+    public void attack(float dt, GameScene gameScene,LivingEntity ge){
     }
 
     @Override

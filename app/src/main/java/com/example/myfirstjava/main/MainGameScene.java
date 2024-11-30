@@ -78,7 +78,7 @@ public class MainGameScene extends GameScene {
         player.setSize(new Vector2(170,170));
         _gameEntities.add(player);
         for (int i = 0; i < 1; i++){
-            for (int j = 0; j < 1; j++){
+            for (int j = 0; j < 5; j++){
                 _gameEntities.add(new Chicken(HolderArr[i][j].getPosition(),j));
             }
         }
