@@ -49,7 +49,7 @@ public class GameUIEntity {
             // Modify text for each button dynamically in the update loop
             gameSurface.post(() -> {
                 for (int i = 0; i < gameSurface.characterButtons.length; i++) {
-                    gameSurface.characterButtons[i].setText(String.valueOf(gameSurface.characteramounts[i]));
+                    //gameSurface.characterButtons[i].setText(String.valueOf(gameSurface.characteramounts[i]));
                 }
             });
         }
@@ -59,24 +59,25 @@ public class GameUIEntity {
         gameSurface.post(() -> {
             for (int i = 0; i < gameSurface.characterButtons.length; i++) {
                 final int index = i;  // Use final to access inside the listener
-                gameSurface.characterButtons[i].setOnTouchListener(new View.OnTouchListener() {
-                    @SuppressLint("ClickableViewAccessibility")
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        switch (event.getAction()){
-                            case MotionEvent.ACTION_DOWN:
-                                ButtonPressed = index;
-                                DecrementCharacterText(index);
-
-                                CursorActionExecute = true;
-                                return true;
-                        }
-                        return false;
-                    }
-                });
+//                gameSurface.characterButtons[i].setOnTouchListener(new View.OnTouchListener() {
+//                    @SuppressLint("ClickableViewAccessibility")
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        switch (event.getAction()){
+//                            case MotionEvent.ACTION_DOWN:
+//                                ButtonPressed = index;
+//                                DecrementCharacterText(index);
+//                                CursorActionExecute = true;
+//                                return true;
+//                        }
+//                        return false;
+//                    }
+//                });
                 gameSurface.characterButtons[i].setOnClickListener(v -> {
                     // Handle the button click for the i-th button
-
+                    ButtonPressed = index;
+                    //DecrementCharacterText(index);
+                    CursorActionExecute = true;
                     // You can add more logic here, e.g., change background or trigger game actions
                 });
             }

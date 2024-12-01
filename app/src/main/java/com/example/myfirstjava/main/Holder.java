@@ -27,6 +27,11 @@ public class Holder extends GameEntity {
     @Override
     public void onUpdate(float dt, GameScene gameScene) {
     }
+
+    @Override
+    public void onRender(Canvas canvas) {
+    }
+
     /*
     @Override
     public boolean isColliding(CollisionEntity collider) {

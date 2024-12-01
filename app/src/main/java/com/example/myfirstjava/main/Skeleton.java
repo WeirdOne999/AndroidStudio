@@ -21,7 +21,7 @@ public class Skeleton extends EnemyEntity{
         walk.setAnimationHolder(R.drawable.skeletonwalk,4,2,4,5,12);
         attack.setAnimationHolder(R.drawable.skeletonattack,4,5,5,9,12);
         idle.setAnimationHolder(R.drawable.skeletonidle,3,5,8,11,12);
-        SetSprite(attack);
+        SetSprite(walk);
         int size = 100;
         setSize(new Vector2(size,size));
     }
@@ -36,17 +36,16 @@ public class Skeleton extends EnemyEntity{
         timer += dt;
 
         if (timer > attackCooldown){
-            /*
+            currentState = State.ATTACK;
+            _animatedSprite.setLopping(false);
             if (_animatedSprite.hasFinished()){
                 //shoot arrow
+                timer = 0;
                 gamescene._gameEntityCache.add(new Arrow(this));
-
-                //_animatedSprite.setLopping(true);
+                _animatedSprite.setLopping(true);
                 currentState = State.WALK;
             }
 
-            currentState = State.ATTACK;
-             */
 
         }
     }

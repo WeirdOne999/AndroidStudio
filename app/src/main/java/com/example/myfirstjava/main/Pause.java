@@ -15,6 +15,7 @@ import com.example.myfirstjava.mgp2d.core.Vector2;
 public class Pause extends GameEntity {
 
     public Pause(){
+        canTap = true;
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
 
         setSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight()/10,(int)getScreenHeight()/10,true));

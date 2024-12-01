@@ -43,6 +43,7 @@ public class MainGameScene extends GameScene {
     @Override
     public void onCreate() {    
         super.onCreate();
+        Egg = 200;
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
         screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
 
@@ -83,10 +84,10 @@ public class MainGameScene extends GameScene {
         _gameEntities.add(player);
         for (int i = 0; i < 1; i++){
             for (int j = 0; j < 5; j++){
-                _gameEntities.add(new Chicken(HolderArr[i][j].getPosition(),j));
+               // _gameEntities.add(new Chicken(HolderArr[i][j].getPosition(),j));
             }
         }
-        _gameEntities.add(new Llama(HolderArr[1][1].getPosition(),1));
+        //_gameEntities.add(new Llama(HolderArr[1][1].getPosition(),1));
 
         _gameEntities.add(new Pause());
         text_FPS = new Text(R.color.teal_200,75, Paint.Align.RIGHT);
@@ -102,7 +103,7 @@ public class MainGameScene extends GameScene {
     public void onUpdate(float dt) {
         //Log.d("SCENESIZE", "SIZE OF ARRAY: " + _gameEntities.size());
         super.onUpdate(dt);
-        text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,screenHeight - 100));
+        text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,0 + 100));
         text_eggCount.setText("EGG: " + Egg,new Vector2(100,100));
 
         _totalEnemyTimer += dt;

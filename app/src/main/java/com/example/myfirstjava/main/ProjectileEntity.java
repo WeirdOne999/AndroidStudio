@@ -57,11 +57,11 @@ public class ProjectileEntity extends PhysicsEntity{
 
                         LivingEntity temp = (LivingEntity)gamescene._gameEntities.get(i);
                         if (temp.isEnemy){
-                            Log.d("PROJTOUCH","ENEMY");
+                            //Log.d("PROJTOUCH","ENEMY");
                             //ENEMY
                             touchEnemy(temp);
                         }else{
-                            Log.d("PROJTOUCH","PLANT");
+                            //Log.d("PROJTOUCH","PLANT");
                             //PLANT
                             touchPlant(temp);
                         }

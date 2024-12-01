@@ -13,14 +13,24 @@ import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
+import java.sql.Struct;
+
 class ButtonStructure{
-    public ButtonStructure(int id, GameEntity entity){
+    enum type{
+        CHICKEN,
+        LLAMA,
+        IRONGOLEM,
+        SHEEP
+    }
+    public ButtonStructure(int id, type entity,int cost){
         this.id = id;
         this.entity = entity;
+        this.cost = cost;
     }
 
     public int id;
-    public GameEntity entity;
+    public type entity;
+    public int cost;
 }
 
 public class PlayerEntity extends GameEntity {
@@ -46,10 +56,10 @@ public class PlayerEntity extends GameEntity {
 
         setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),bmp.getWidth() / 32,bmp.getWidth() / 32,12,0,0);
         setLayer(-1);
-        cursordrawable[0] = new ButtonStructure(R.drawable.minibunny,new Chicken(new Vector2(0,0),-1));
-        cursordrawable[1] = new ButtonStructure(R.drawable.miniwolf,new Llama(new Vector2(0,0),-1));
-        cursordrawable[2] = new ButtonStructure(R.drawable.minibear,new Llama(new Vector2(0,0),-1));
-        cursordrawable[3] = new ButtonStructure(R.drawable.miniboar,new Llama(new Vector2(0,0),-1));
+        cursordrawable[0] = new ButtonStructure(R.drawable.minibunny, ButtonStructure.type.CHICKEN,10);
+        cursordrawable[1] = new ButtonStructure(R.drawable.miniwolf,ButtonStructure.type.LLAMA,15);
+        cursordrawable[2] = new ButtonStructure(R.drawable.minibear,ButtonStructure.type.IRONGOLEM,20);
+        cursordrawable[3] = new ButtonStructure(R.drawable.miniboar,ButtonStructure.type.SHEEP,20);
 
     }
 
@@ -62,24 +72,9 @@ public class PlayerEntity extends GameEntity {
 
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
-        super.onUpdate(dt, gamescene);
-
-        /*
-        for (int i = 0; i < gamescene._gameEntities.size();i++){
-            if (gamescene._gameEntities.get(i) != this){
-                if (gamescene._gameEntities.get(i) instanceof Holder)  {
-                    if (this.isColliding(gamescene._gameEntities.get(i))){
-                        Holder temp = (Holder)gamescene._gameEntities.get(i);
-                        temp.destroy();
-                    }
-
-                }
-            }
-        }
-        
-         */
-
-        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), cursordrawable[MainGameScene.instance.ChangeCursorSpritei].id);
+        Log.d("CCS", "" + MainGameScene.instance.ChangeCursorSpritei);
+        Bitmap bmp = null;
+        if (MainGameScene.instance.ChangeCursorSpritei >= 0 && MainGameScene.instance.ChangeCursorSpritei < 4) bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), cursordrawable[MainGameScene.instance.ChangeCursorSpritei].id);
 
         if (bmp == null) {
 
@@ -87,7 +82,7 @@ public class PlayerEntity extends GameEntity {
         }
 
         // Scale the bitmap and set as animated sprite
-        Log.d("BitmapSize", bmp.getWidth() + " " + bmp.getHeight());
+        //Log.d("BitmapSize", bmp.getWidth() + " " + bmp.getHeight());
         setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),bmp.getHeight() / 96,bmp.getWidth() / 96,12,0,0);
 
 
@@ -104,31 +99,54 @@ public class PlayerEntity extends GameEntity {
         if (currentID == -1 && (motionEvent.getAction() == MotionEvent.ACTION_POINTER_DOWN) ||
         motionEvent.getAction() == MotionEvent.ACTION_DOWN){
             currentID = pointerId;
-            render = true;
+            if (MainGameScene.instance.ChangeCursorSpritei >= 0) render = true;
         } else if (currentID != -1 && (motionEvent.getAction() == MotionEvent.ACTION_POINTER_UP) ||
                 motionEvent.getAction() == MotionEvent.ACTION_UP){
-            currentID = -1;
-            render = false;
+
+
 
             //TODO: COLLISION
-            if (MainGameScene.instance.ChangeCursorSpritei >= 0){
-                _entityCache = cursordrawable[MainGameScene.instance.ChangeCursorSpritei].entity;
-                for (int i = 0; i < gamescene._gameEntities.size();i++) {
-                    if (gamescene._gameEntities.get(i) != this) {
-                        if (gamescene._gameEntities.get(i) instanceof Holder) {
-                            if (this.touching(gamescene._gameEntities.get(i))) {
-                                Holder temp = (Holder)gamescene._gameEntities.get(i);
-                                GameEntity pointerToEntity = _entityCache;
-                                gamescene._gameEntityCache.add(temp);
-                                pointerToEntity.setPosition(temp.getPosition());
-                                pointerToEntity.setLayer(temp.getLayer());
+            if (MainGameScene.instance.Egg >= cursordrawable[MainGameScene.instance.ChangeCursorSpritei].cost ){
+                if (MainGameScene.instance.ChangeCursorSpritei >= 0 && render){
+                    for (int i = 0; i < gamescene._gameEntities.size();i++) {
+                        if (gamescene._gameEntities.get(i) != this) {
+                            if (gamescene._gameEntities.get(i) instanceof Holder) {
+                                if (this.touching(gamescene._gameEntities.get(i))) {
+                                    Log.d("TOUCHHOLDER","" + i);
+                                    Holder temp = (Holder)gamescene._gameEntities.get(i);
+                                    if (temp._mob == null){
+                                        MainGameScene.instance.addVariable("Egg",-cursordrawable[MainGameScene.instance.ChangeCursorSpritei].cost);
+                                        LivingEntity tempGE = null;
+                                        switch (cursordrawable[MainGameScene.instance.ChangeCursorSpritei].entity){
+                                            case CHICKEN:
+                                                tempGE = new Chicken(temp.getPosition(),temp.getLayer());
+                                                break;
+                                            case LLAMA:
+                                                tempGE = new Llama(temp.getPosition(),temp.getLayer());
+                                                break;
+                                            case SHEEP:
+                                                tempGE = new Sheep(temp.getPosition(),temp.getLayer());
+                                                break;
+                                            case IRONGOLEM:
+                                                tempGE = new Llama(temp.getPosition(),temp.getLayer());
+                                                break;
+                                        }
+                                        temp._mob = tempGE;
+                                        tempGE.onHolder = temp;
+                                        gamescene._gameEntityCache.add(tempGE);
+                                        break;
+                                    }
 
+
+                                }
                             }
                         }
                     }
                 }
             }
 
+            currentID = -1;
+            render = false;
             MainGameScene.instance.ChangeCursorSpritei = -1;
         }
         if (currentID != -1){

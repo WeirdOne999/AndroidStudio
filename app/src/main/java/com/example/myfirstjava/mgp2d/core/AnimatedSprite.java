@@ -62,6 +62,11 @@ public class AnimatedSprite {
         _endFrame = end;
     }
 
+    public void SetRange(int start, int end){
+        _startFrame = start;
+        _endFrame = end;
+    }
+
     public void setNewBitmap(Bitmap bitmap,int row, int col, int start, int end){
         _bmp = bitmap;
         _col = col;

@@ -34,10 +34,12 @@ public abstract class GameEntity {
         _sprite = bmp;
     }
 
+    public boolean canTap = false;
+
     public void onUpdate(float dt, GameScene gamescene) {
         if (_animatedSprite != null) _animatedSprite.update(dt);
 
-        if (_sprite != null) {
+        if (_sprite != null && canTap) {
             MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
             if (motionEvent == null) return;
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
@@ -48,22 +50,10 @@ public abstract class GameEntity {
                 float spriteY = getPosition().y; // Y position of the sprite
                 float spriteWidth = _sprite.getWidth(); // Width of the sprite
                 float spriteHeight = _sprite.getHeight(); // Height of the sprite
-                Log.d("TAPPOS", "Tap Position: " + tapPositionX + " " + tapPositionY + " SPR: " + spriteX + " " + spriteY + " SPRI_SIZE:" + spriteWidth +  " " + spriteHeight);
-
-// Check if the tap is within the sprite's bounds
-
+                //Log.d("TAPPOS", "Tap Position: " + tapPositionX + " " + tapPositionY + " SPR: " + spriteX + " " + spriteY + " SPRI_SIZE:" + spriteWidth +  " " + spriteHeight);
                 if (tapPositionX >= spriteX- spriteWidth / 2 && tapPositionX <= (spriteX + spriteWidth / 2) &&
                         tapPositionY >= spriteY- spriteHeight/ 2 && tapPositionY <= (spriteY + spriteHeight/ 2)) {
                     onTap();
-
-                    //Log.d("TAPPOS", "Tap Position: " + tapPositionX + " " + tapPositionY + " " + spriteX + " " + spriteY + " " + spriteWidth +  " " + spriteHeight);
-
-                        /*
-                        BackDialog backDialog = new BackDialog();
-                        backDialog.show(GameActivity.instance.getSupportFragmentManager(),"Back dialog");
-
-                         */
-                    //Log.d("TouchEvent", "Sprite touched!");
                 }
             }
         }

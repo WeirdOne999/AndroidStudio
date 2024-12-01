@@ -85,14 +85,7 @@ public abstract class GameScene {
             _gameEntities.add(_gameEntityCache.get(i));
             _gameEntityCache.remove(i);
         }
-        //Log.d("ENTITYCACHE","GE: " + _gameEntities.size() + " GEC: " + _gameEntityCache.size());
-        /*
-        for (int i = _gameEntities.size() - 1; i >= 0 ; i--){
-            if (_gameEntities.get(i).canDestroy())
-                _gameEntities.remove(i);
-        }
-
-         */
+        Log.d("TEST","FPS: " + _fps + " GE: " + _gameEntities.size() + " GEC: " + _gameEntityCache.size());
     }
     public void onRender(Canvas canvas){
         canvas.drawColor(Color.parseColor("#b2d4ff"));

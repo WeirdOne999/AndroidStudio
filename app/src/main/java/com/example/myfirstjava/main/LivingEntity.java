@@ -5,7 +5,7 @@ import com.example.myfirstjava.mgp2d.core.GameScene;
 
 public class LivingEntity extends PhysicsEntity {
     private float Health = 0;
-
+    public Holder onHolder;
     public void SetHealth(float health){
         Health = health;
     }

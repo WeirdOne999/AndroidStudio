@@ -65,7 +65,7 @@ public class EnemyEntity extends LivingEntity{
         setAnimatedSprite(Bitmap.createScaledBitmap(anim.bmp,
                 (int)(getScreenHeight() * (size * anim.col) ),
                 (int)(getScreenHeight() * (size * anim.row)),
-                true),anim.row,anim.col,anim.start,anim.end,anim.fps);
+                false),anim.row,anim.col,anim.start,anim.end,anim.fps);
         _animatedSprite.setNew(anim.start,anim.end);
         _animatedSprite.offset = new Vector2(0,yOffset);
 
@@ -112,22 +112,22 @@ public class EnemyEntity extends LivingEntity{
                 currentspeed = 0;
                 SetSprite(idle);
                 _animatedSprite.setLopping(true);
-                Log.d("ENEMYSTATE", "IDLE ENTER");
+                //Log.d("ENEMYSTATE", "IDLE ENTER");
             }
             else if (currentState == State.WALK){
 
                 currentspeed = speed;
                 SetSprite(walk);
                 _animatedSprite.setLopping(true);
-                Log.d("ENEMYSTATE", "WALK ENTER");
+                //Log.d("ENEMYSTATE", "WALK ENTER");
             }
             else if (currentState == State.ATTACK){
                 SetSprite(attack);
-                Log.d("ENEMYSTATE", "ATTACK ENTER");
+                //Log.d("ENEMYSTATE", "ATTACK ENTER");
             }
 
             prevState = currentState;
-            Log.d("ENEMYSTATEAFTER", currentState.toString() + " " + prevState.toString());
+            //Log.d("ENEMYSTATEAFTER", currentState.toString() + " " + prevState.toString());
 
         }
     }

@@ -27,7 +27,7 @@ public class Egg extends PhysicsEntity {
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.egg);
 
         setSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight()/15,(int)getScreenHeight()/15,true));
-
+        canTap = true;
     }
     @Override
     public void onUpdate(float dt, GameScene gamescene) {

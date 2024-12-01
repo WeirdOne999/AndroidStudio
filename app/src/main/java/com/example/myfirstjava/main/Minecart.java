@@ -40,7 +40,7 @@ public class Minecart extends PhysicsEntity{
 
                         LivingEntity temp = (LivingEntity)gamescene._gameEntities.get(i);
                         if (temp.isEnemy){
-                            Log.d("PROJTOUCH","ENEMY");
+                            //Log.d("PROJTOUCH","ENEMY");
                             temp.destroy();
                             touchEnemy = true;
                         }

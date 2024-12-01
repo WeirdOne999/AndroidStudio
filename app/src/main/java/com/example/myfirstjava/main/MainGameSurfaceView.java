@@ -35,6 +35,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
     public Button[] characterButtons = new Button[4];
     public Drawable[] characterdrawables = new Drawable[4];
+    public int[] cost = {10, 15, 20, 20};
+
 
     public int[] characteramounts = new int[4];
     public int characterbuttonindex =0;
@@ -78,7 +80,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         buttonWidth = 50; // Width in dp
         buttonHeight = 50; // Height in dp
-        buttonStartX = screenWidth - 2500; // Starting X position
+        buttonStartX = 0 + screenWidth / 25; // Starting X position
         buttonStartY = screenHeight - 900; // Fixed Y position near the bottom of the screen
 
         characterdrawables[0] = getResources().getDrawable(R.drawable.chicken, null); // Replace with actual drawable
@@ -114,7 +116,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
                         characterButtons[i] = new Button(context);
                         characterButtons[i].setBackground(characterdrawables[i]);
-                        characterButtons[i].setText("0");
+                        characterButtons[i].setText("" + cost[i]);
                         characterButtons[i].setTextColor(Color.WHITE);
                         characterButtons[i].setShadowLayer(5, 2, 2, Color.BLACK);
                         characterButtons[i].setGravity(Gravity.RIGHT | Gravity.BOTTOM);
@@ -136,7 +138,6 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             } catch (IndexOutOfBoundsException e) {
                 Log.e("Array Error", "Index out of bounds while initializing buttons: " + e.getMessage());
             }
-
 
 
 
@@ -213,8 +214,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             // Modify text for each button dynamically in the update loop
             post(() -> {
                 for (int i = 0; i < characterButtons.length; i++) {
-                    characterButtons[i].setText("10");
-                    Log.d("Update", "Button " + (i + 1) + " text updated");
+                    //characterButtons[i].setText("10");
+                    //Log.d("Update", "Button " + (i + 1) + " text updated");
                 }
             });
         }
