@@ -81,10 +81,10 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         buttonStartX = screenWidth - 2500; // Starting X position
         buttonStartY = screenHeight - 900; // Fixed Y position near the bottom of the screen
 
-        characterdrawables[0] = context.getResources().getDrawable(R.drawable.chicken, null);
-        characterdrawables[1] = context.getResources().getDrawable(R.drawable.llama, null);
-        characterdrawables[2] = context.getResources().getDrawable(R.drawable.irongolem, null);
-        characterdrawables[3] = context.getResources().getDrawable(R.drawable.sheep, null);
+        characterdrawables[0] = getResources().getDrawable(R.drawable.chicken, null); // Replace with actual drawable
+        characterdrawables[1] = getResources().getDrawable(R.drawable.llama, null);
+        characterdrawables[2] = getResources().getDrawable(R.drawable.irongolem, null);
+        characterdrawables[3] = getResources().getDrawable(R.drawable.sheep, null);
 
 
         Arrays.fill(characteramounts, 10);
@@ -106,29 +106,38 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
 
         // Create a row of buttons
-        for (int i = 0; i < characterButtons.length; i++) {
-            characterButtons[i] = new Button(context);
 
-            characterButtons[i].setBackground(characterdrawables[i]);
-            characterButtons[i].setText("0");
-            characterButtons[i].setTextColor(Color.WHITE);
-            characterButtons[i].setShadowLayer(5, 2, 2, Color.BLACK);
-            characterButtons[i].setGravity(Gravity.RIGHT | Gravity.BOTTOM);
-            // Calculate position for each button in the row
-            int buttonPosY = buttonStartY + (i * (buttonHeight + 100)); // 20 is spacing between buttons
+            try {
+                for (int i = 0; i < characterButtons.length; i++) {
+                    try {
+                        if (characterdrawables[i] == null) continue;
 
-            FrameLayout.LayoutParams characterbuttonparams = new FrameLayout.LayoutParams(
-                    (int) (buttonWidth * getResources().getDisplayMetrics().density),
-                    (int) (buttonHeight * getResources().getDisplayMetrics().density)
-            );
-            characterbuttonparams.leftMargin = buttonStartX; // X position
-            characterbuttonparams.topMargin = buttonPosY; // Fixed Y position
+                        characterButtons[i] = new Button(context);
+                        characterButtons[i].setBackground(characterdrawables[i]);
+                        characterButtons[i].setText("0");
+                        characterButtons[i].setTextColor(Color.WHITE);
+                        characterButtons[i].setShadowLayer(5, 2, 2, Color.BLACK);
+                        characterButtons[i].setGravity(Gravity.RIGHT | Gravity.BOTTOM);
+                        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                                (int) (buttonWidth * getResources().getDisplayMetrics().density),
+                                (int) (buttonHeight * getResources().getDisplayMetrics().density)
+                        );
+                        params.leftMargin = buttonStartX;
+                        params.topMargin = buttonStartY + (i * (buttonHeight + 100));
+                        characterButtons[i].setLayoutParams(params);
 
-            characterButtons[i].setLayoutParams(characterbuttonparams);
+                        frameLayout.addView(characterButtons[i]);
+                    } catch (Exception e) {
+                        Log.e("Button Error", "Failed to create button at index " + i, e);
+                    }
 
-            // Add the button to the FrameLayout
-            frameLayout.addView(characterButtons[i]);
-        }
+
+                }
+            } catch (IndexOutOfBoundsException e) {
+                Log.e("Array Error", "Index out of bounds while initializing buttons: " + e.getMessage());
+            }
+
+
 
 
 
@@ -202,7 +211,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
         if (characterButtons != null && characterButtons.length > 0) {
             // Modify text for each button dynamically in the update loop
-            this.post(() -> {
+            post(() -> {
                 for (int i = 0; i < characterButtons.length; i++) {
                     characterButtons[i].setText("10");
                     Log.d("Update", "Button " + (i + 1) + " text updated");
