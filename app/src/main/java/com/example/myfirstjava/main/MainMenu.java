@@ -64,6 +64,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
         } else if (v == _startButton){
             startActivity(new Intent().setClass(this, GameActivity.class));
             GameScene.enter(MainGameScene.class);
+            AudioClass.getInstance().StopAudio();
         }
     }
 

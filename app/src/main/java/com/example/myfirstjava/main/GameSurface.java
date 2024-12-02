@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.view.Gravity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -14,6 +15,7 @@ import android.widget.FrameLayout;
 import androidx.core.content.ContextCompat;
 
 import com.example.myfirstjava.R;
+import com.example.myfirstjava.mgp2d.core.GameActivity;
 
 //SURFACE VIEW CLASS
 public class GameSurface extends SurfaceView implements Runnable {
@@ -24,6 +26,7 @@ public class GameSurface extends SurfaceView implements Runnable {
     private float backgroundPosition;
     private Bitmap backgroundBitmap0;
     private Bitmap backgroundBitmap1;
+
 
 
     private int screenWidth, screenHeight;
@@ -46,7 +49,7 @@ public class GameSurface extends SurfaceView implements Runnable {
         backgroundBitmap0 = Bitmap.createScaledBitmap(bmp, screenWidth * 2, screenHeight, true);
         backgroundBitmap1 = Bitmap.createScaledBitmap(bmp, screenWidth * 2, screenHeight, true);
 
-
+        AudioClass.getInstance().PlayAudio(context, R.raw.c418, true);
 
     }
 
