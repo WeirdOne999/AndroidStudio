@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Vector;
 
 public abstract class GameScene {
-
     // region Static props for managing multiple scenes
 
     private static GameScene _current = null;
@@ -90,7 +89,7 @@ public abstract class GameScene {
     public void onRender(Canvas canvas){
         canvas.drawColor(Color.parseColor("#b2d4ff"));
         for (GameEntity i : _gameEntities){
-            i.onRender(canvas);
+             i.onRender(canvas);
         }
     }
 

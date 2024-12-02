@@ -30,12 +30,7 @@ public class EndDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.endui, null);
 
         // Set up buttons
-        Button buttonYes = view.findViewById(R.id.retry_button2);
         Button buttonNo = view.findViewById(R.id.mainmenu_button);
-
-        buttonYes.setOnClickListener(v -> {
-
-        });
 
         buttonNo.setOnClickListener(v -> {
             GameActivity.instance.finish();

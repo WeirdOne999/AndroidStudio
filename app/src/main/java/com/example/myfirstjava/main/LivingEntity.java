@@ -1,5 +1,7 @@
 package com.example.myfirstjava.main;
 
+import android.util.Log;
+
 import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 
@@ -14,6 +16,7 @@ public class LivingEntity extends PhysicsEntity {
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
+        Log.d("CHIKCENTEST","LIVINGENTITY");
         if (Health <= 0){
             if (!isEnemy){
                 onHolder._mob = null;

@@ -37,6 +37,7 @@ public abstract class GameEntity {
     public boolean canTap = false;
 
     public void onUpdate(float dt, GameScene gamescene) {
+        Log.d("CHIKCENTEST","GAMEENTITY");
         if (_animatedSprite != null) _animatedSprite.update(dt);
 
         if (_sprite != null && canTap) {

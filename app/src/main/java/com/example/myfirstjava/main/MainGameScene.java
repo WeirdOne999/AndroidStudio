@@ -21,9 +21,11 @@ import java.util.Vector;
 
 public class MainGameScene extends GameScene {
 
+    public boolean canReset = false;
     public static MainGameScene instance = null;
 
     public GameEntity player;
+
 
 
     public int screenWidth;
@@ -47,6 +49,20 @@ public class MainGameScene extends GameScene {
     @Override
     public void onCreate() {    
         super.onCreate();
+        onEnter();
+    }
+
+    @Override
+    public void onEnter() {
+        super.onEnter();
+        for (int i = _gameEntities.size() - 1;i >= 0; i--){
+            //_gameEntities.get(i).destroy();
+            _gameEntities.remove(i);
+        }
+        for (int i = _gameEntityCache.size() - 1;i >= 0; i--){
+            //_gameEntityCache.get(i).destroy();
+            _gameEntities.remove(i);
+        }
         Egg = 200;
         screenWidth = GameActivity.instance.getResources().getDisplayMetrics().widthPixels;
         screenHeight = GameActivity.instance.getResources().getDisplayMetrics().heightPixels;
@@ -80,17 +96,10 @@ public class MainGameScene extends GameScene {
             float spacing = screenHeight / 12;
             _gameEntities.add(new Minecart(j,HolderArr[0][j].getPosition().add(new Vector2(-spacing,0))));
         }
-
         player =new PlayerEntity();
-
         player.setLayer(1);
         player.setSize(new Vector2(170,170));
         _gameEntities.add(player);
-        for (int i = 0; i < 1; i++){
-            for (int j = 0; j < 5; j++){
-               // _gameEntities.add(new Chicken(HolderArr[i][j].getPosition(),j));
-            }
-        }
         //_gameEntities.add(new Llama(HolderArr[1][1].getPosition(),1));
         _gameEntities.add(new House(new Vector2(0 + (int)screenWidth / 5,(int)screenHeight/2),0));
         _gameEntities.add(new Pause());
@@ -98,16 +107,22 @@ public class MainGameScene extends GameScene {
         _gameEntities.add(text_FPS);
         text_eggCount = new Text(R.color.teal_200,75,Paint.Align.LEFT);
         _gameEntities.add(text_eggCount);
+        won=false;
+        lost=false;
         //_gameEntities.add(new PhysicsEntity(1));
     }
 
-
-
     @Override
     public void onUpdate(float dt) {
+        super.onUpdate(dt);
+        Log.d("ARRSIZ", "After Array size: " + _gameEntities.size() + " " + _gameEntityCache.size());
+        if(canReset){
+            onEnter();
+            canReset = false;
+        }
         //Log.d("SCENESIZE", "SIZE OF ARRAY: " + _gameEntities.size());
         if (won || lost) return;
-        super.onUpdate(dt);
+
         text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,0 + 100));
         text_eggCount.setText("EGG: " + Egg,new Vector2(100,100));
 

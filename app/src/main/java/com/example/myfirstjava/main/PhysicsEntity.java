@@ -3,6 +3,7 @@ package com.example.myfirstjava.main;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.myfirstjava.R;
@@ -79,6 +80,7 @@ public class PhysicsEntity extends GameEntity {
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt,gamescene);
+        Log.d("CHIKCENTEST","PHYSISCS");
     }
 
 
