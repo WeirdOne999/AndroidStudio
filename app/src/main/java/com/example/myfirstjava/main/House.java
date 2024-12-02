@@ -36,6 +36,5 @@ public class House extends GameEntity {
 
     @Override
     public void onRender(Canvas canvas) {
-        super.onRender(canvas);
     }
 }
