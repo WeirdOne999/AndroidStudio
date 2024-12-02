@@ -92,8 +92,6 @@ public class PlayerEntity extends GameEntity {
         //sprite.update(dt);
         MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
         if (motionEvent == null) return;
-
-
         int action = motionEvent.getActionMasked();
         int actionIndex = motionEvent.getActionIndex();
         int pointerId = motionEvent.getPointerId(actionIndex);
@@ -106,9 +104,9 @@ public class PlayerEntity extends GameEntity {
                 motionEvent.getAction() == MotionEvent.ACTION_UP){
 
 
-
+//&& MainGameSurfaceView.instance.characteramounts[MainGameScene.instance.ChangeCursorSpritei] > 0
             //TODO: COLLISION
-            if (MainGameScene.instance.Egg >= cursordrawable[MainGameScene.instance.ChangeCursorSpritei].cost && MainGameScene.instance.Planting){
+            if (MainGameScene.instance.Egg >= cursordrawable[MainGameScene.instance.ChangeCursorSpritei].cost && MainGameScene.instance.Planting && MainGameSurfaceView.instance.characteramounts[MainGameScene.instance.ChangeCursorSpritei] > 0){
                 if (MainGameScene.instance.ChangeCursorSpritei >= 0 && render){
                     for (int i = 0; i < gamescene._gameEntities.size();i++) {
                         if (gamescene._gameEntities.get(i) != this) {
@@ -117,6 +115,7 @@ public class PlayerEntity extends GameEntity {
                                     Log.d("TOUCHHOLDER","" + i);
                                     Holder temp = (Holder)gamescene._gameEntities.get(i);
                                     if (temp._mob == null){
+                                        MainGameSurfaceView.instance.characteramounts[MainGameScene.instance.ChangeCursorSpritei]--;
                                         MainGameScene.instance.addVariable("Egg",-cursordrawable[MainGameScene.instance.ChangeCursorSpritei].cost);
                                         LivingEntity tempGE = null;
                                         switch (cursordrawable[MainGameScene.instance.ChangeCursorSpritei].entity){

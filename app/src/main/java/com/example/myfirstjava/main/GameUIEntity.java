@@ -68,13 +68,17 @@ public class GameUIEntity {
         Log.e("GameUIEntity", "EGGS SIZE:" + String.valueOf(gameSurface.eggs.size()));
         Log.e("GameUIEntity", "EGGSBUTTON SIZE:" + String.valueOf(gameSurface.eggButtons.size()));
 
-        for (int i =0; i < gameSurface.characteramounts.length; i++){
-            if (gameSurface.characteramounts[i] <= 0){
+        for (int i = 0; i < gameSurface.characteramounts.length; i++) {
+            if (gameSurface.characteramounts[i] <= 0) {
                 gameSurface.characteramounts[i] = 0;
             }
         }
 
-        //setupButtonClicks();
+//        //setupButtonClicks();
+        for (int i = 0; i < gameSurface.characterButtons.length; i++) {
+            Log.e("GameUIEntity" + i, "CharacterAmount:" + i + " " + gameSurface.characteramounts[i]);
+
+        }
     }
 
     public void setupButtonClicks() {
@@ -94,7 +98,7 @@ public class GameUIEntity {
                                     MainGameScene.instance.Planting = true;
                                     ButtonPressed = index;
                                     CursorActionExecute = true;
-                                    DecrementCharacterText(index);
+
                             }
                             return false;
                         }
@@ -107,7 +111,7 @@ public class GameUIEntity {
                             //buttons.setVisibility(View.GONE);
 
                         }
-                        DecrementCharacterText(index);
+
 
 
 
