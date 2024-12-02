@@ -116,7 +116,7 @@ public class PlayerEntity extends GameEntity {
                                     Holder temp = (Holder)gamescene._gameEntities.get(i);
                                     if (temp._mob == null){
                                         MainGameSurfaceView.instance.characteramounts[MainGameScene.instance.ChangeCursorSpritei]--;
-                                        MainGameScene.instance.addVariable("Egg",-cursordrawable[MainGameScene.instance.ChangeCursorSpritei].cost);
+
                                         LivingEntity tempGE = null;
                                         switch (cursordrawable[MainGameScene.instance.ChangeCursorSpritei].entity){
                                             case CHICKEN:

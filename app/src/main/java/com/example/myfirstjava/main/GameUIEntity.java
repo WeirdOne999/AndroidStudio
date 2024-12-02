@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.example.myfirstjava.mgp2d.core.GameActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,32 +21,27 @@ public class GameUIEntity {
     private MainGameSurfaceView gameSurface;
     private int test = 0;
 
-    public int ButtonPressed =0;
+    public int ButtonPressed = 0;
     public boolean GoToHouse = false;
     public boolean CursorActionExecute = false;
 
     private boolean isResuming = true; // Flag to indicate if the update is ongoing
 
-
     public GameUIEntity(Context context, FrameLayout container) {
-        gameSurface = new MainGameSurfaceView(context,container);
+        gameSurface = new MainGameSurfaceView(context, container);
         container.addView(gameSurface); // Add the GameSurface to the provided container
-
-
         gameSurface.post(() -> setupButtonClicks());
-
         gameSurface.createhatchingbuttons();
         gameSurface.creategamebuttons();
         gameSurface.GameLayout();
     }
 
-    public void setSize(int width, int height){
-        gameSurface.setSize(width,height);
+    public void setSize(int width, int height) {
+        gameSurface.setSize(width, height);
     }
 
-
-    public void Update(){
-        if (gameSurface != null){
+    public void Update() {
+        if (gameSurface != null) {
             gameSurface.run();
         }
 
@@ -65,8 +62,8 @@ public class GameUIEntity {
             });
         }
         EggUpdate();
-        Log.e("GameUIEntity", "EGGS SIZE:" + String.valueOf(gameSurface.eggs.size()));
-        Log.e("GameUIEntity", "EGGSBUTTON SIZE:" + String.valueOf(gameSurface.eggButtons.size()));
+        Log.e("GameUIEntity", "EGGS SIZE:" + gameSurface.eggs.size());
+        Log.e("GameUIEntity", "EGGSBUTTON SIZE:" + gameSurface.eggButtons.size());
 
         for (int i = 0; i < gameSurface.characteramounts.length; i++) {
             if (gameSurface.characteramounts[i] <= 0) {
@@ -74,11 +71,11 @@ public class GameUIEntity {
             }
         }
 
-//        //setupButtonClicks();
         for (int i = 0; i < gameSurface.characterButtons.length; i++) {
             Log.e("GameUIEntity" + i, "CharacterAmount:" + i + " " + gameSurface.characteramounts[i]);
-
         }
+
+        Log.e("GameUIEntity", String.valueOf(GameActivity.instance.deltaTime));
     }
 
     public void setupButtonClicks() {
@@ -87,80 +84,48 @@ public class GameUIEntity {
 
             for (int i = 0; i < gameSurface.characterButtons.length; i++) {
                 final int index = i;  // Use final to access inside the listener
-                //if (gameSurface.characteramounts[i] >0){
-                    gameSurface.characterButtons[i].setOnTouchListener(new View.OnTouchListener() {
+                gameSurface.characterButtons[i].setOnTouchListener((v, event) -> {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        MainGameScene.instance.Planting = true;
+                        ButtonPressed = index;
+                        CursorActionExecute = true;
+                    }
+                    return false;
+                });
 
-                        @SuppressLint("ClickableViewAccessibility")
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            switch (event.getAction()) {
-                                case MotionEvent.ACTION_DOWN:
-                                    MainGameScene.instance.Planting = true;
-                                    ButtonPressed = index;
-                                    CursorActionExecute = true;
+                gameSurface.characterButtons[i].setOnClickListener(v -> {
+                    for (Button buttons : gameSurface.hatchingeggs) {
+                        //buttons.setVisibility(View.GONE);
+                    }
+                });
 
-                            }
-                            return false;
-                        }
-
-                    });
-
-                    gameSurface.characterButtons[i].setOnClickListener(v -> {
-                        // Handle the button click for the i-th button
-                        for (Button buttons : gameSurface.hatchingeggs){
-                            //buttons.setVisibility(View.GONE);
-
-                        }
-
-
-
-
-                        // You can add more logic here, e.g., change background or trigger game actions
-                    });
-
-
-               // }
-
-
-
-
-                    gameSurface.toHouseButton.setOnClickListener(v -> {
-                        GoToHouse = true;
-
-                        gameSurface.HatchingLayout();
-
-
-                    });
+                gameSurface.toHouseButton.setOnClickListener(v -> {
+                    GoToHouse = true;
+                    gameSurface.HatchingLayout();
+                });
 
                 gameSurface.toFarmButton.setOnClickListener(v -> {
                     GoToHouse = false;
-
                     gameSurface.GameLayout();
-
-
                 });
-
             }
-            if (gameSurface.hatchingeggs != null){
+
+            if (gameSurface.hatchingeggs != null) {
                 for (int i = 0; i < gameSurface.hatchingeggs.length; i++) {
                     final int index = i;  // Use final to access inside the listener
-                    if (MainGameScene.instance.Egg >= gameSurface.cost[i]){
-
+                    if (MainGameScene.instance.Egg >= gameSurface.cost[i]) {
                         gameSurface.hatchingeggs[i].setOnClickListener(v -> {
                             EggClass egg = new EggClass(gameSurface.hatchingeggsdrawables[index], gameSurface.hatchingduration[index], gameSurface.characterNames[index]);
                             egg.reset();
                             MainGameScene.instance.addVariable("Egg", -gameSurface.cost[index]);
-                            gameSurface.eggs.add(egg);
-                            CreateNewEggs();
+                            synchronized (gameSurface.eggs) {
+                                gameSurface.eggs.add(egg);
+                            }
+                            CreateNewEggs(); // Synchronize egg buttons and eggs
                         });
-
                     }
-
-
-
                 }
             }
-
         });
 
         CursorActionExecute = false;
@@ -173,35 +138,37 @@ public class GameUIEntity {
             int spacingX = 400; // Horizontal spacing between eggs
             int yPosition = 700; // Vertical Y position
 
-            // Remove any extra buttons
-            while (gameSurface.eggButtons.size() > gameSurface.eggs.size()) {
-                Button extraButton = gameSurface.eggButtons.remove(gameSurface.eggButtons.size() - 1);
-                frameLayout.removeView(extraButton);
-            }
+            // Remove any extra buttons safely
+            synchronized (gameSurface.eggs) {
+                while (gameSurface.eggButtons.size() > gameSurface.eggs.size()) {
+                    Button extraButton = gameSurface.eggButtons.remove(gameSurface.eggButtons.size() - 1);
+                    frameLayout.removeView(extraButton);
+                }
 
-            // Add missing buttons
-            while (gameSurface.eggButtons.size() < gameSurface.eggs.size()) {
-                Button eggButton = new Button(gameSurface.getContext());
-                eggButton.setText("0:00");
-                eggButton.setTextColor(Color.WHITE);
-                eggButton.setShadowLayer(5, 2, 2, Color.BLACK);
-                eggButton.setGravity(Gravity.BOTTOM);
-                gameSurface.eggButtons.add(eggButton);
-                frameLayout.addView(eggButton);
-            }
+                // Add missing buttons
+                while (gameSurface.eggButtons.size() < gameSurface.eggs.size()) {
+                    Button eggButton = new Button(gameSurface.getContext());
+                    eggButton.setText("0:00");
+                    eggButton.setTextColor(Color.WHITE);
+                    eggButton.setShadowLayer(5, 2, 2, Color.BLACK);
+                    eggButton.setGravity(Gravity.BOTTOM);
+                    gameSurface.eggButtons.add(eggButton);
+                    frameLayout.addView(eggButton);
+                }
 
-            // Update positions and visuals for existing buttons
-            for (int i = 0; i < gameSurface.eggs.size(); i++) {
-                Button eggButton = gameSurface.eggButtons.get(i);
-                eggButton.setBackground(gameSurface.eggs.get(i).getBackgroundImage());
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                        300, // Width
-                        300  // Height
-                );
-                params.leftMargin = startX + i * spacingX;
-                params.topMargin = yPosition;
-                eggButton.setLayoutParams(params);
-                eggButton.setVisibility(View.VISIBLE);
+                // Update positions and visuals for existing buttons
+                for (int i = 0; i < gameSurface.eggs.size(); i++) {
+                    Button eggButton = gameSurface.eggButtons.get(i);
+                    eggButton.setBackground(gameSurface.eggs.get(i).getBackgroundImage());
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                            300, // Width
+                            300  // Height
+                    );
+                    params.leftMargin = startX + i * spacingX;
+                    params.topMargin = yPosition;
+                    eggButton.setLayoutParams(params);
+                    eggButton.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -212,54 +179,55 @@ public class GameUIEntity {
             return;
         }
 
-        // Remove egg
-        EggClass eggToRemove = gameSurface.eggs.get(index);
-        for (int i = 0; i < gameSurface.characterNames.length; i++) {
-            if (eggToRemove.getName().equals(gameSurface.characterNames[i])) {
-                IncrementCharacterText(i);
+        // Remove egg safely with synchronization
+        synchronized (gameSurface.eggs) {
+            EggClass eggToRemove = gameSurface.eggs.get(index);
+            for (int i = 0; i < gameSurface.characterNames.length; i++) {
+                if (eggToRemove.getName().equals(gameSurface.characterNames[i])) {
+                    IncrementCharacterText(i);
+                }
             }
-        }
-        gameSurface.eggs.remove(index);
+            gameSurface.eggs.remove(index);
 
-        // Remove associated button
-        Button buttonToRemove = gameSurface.eggButtons.get(index);
-        if (buttonToRemove != null) {
-            FrameLayout frameLayout = (FrameLayout) gameSurface.getParent();
-            if (frameLayout != null) {
-                frameLayout.removeView(buttonToRemove); // Detach the button from the UI
+            // Remove associated button safely
+            Button buttonToRemove = gameSurface.eggButtons.get(index);
+            if (buttonToRemove != null) {
+                FrameLayout frameLayout = (FrameLayout) gameSurface.getParent();
+                if (frameLayout != null) {
+                    frameLayout.removeView(buttonToRemove); // Detach the button from the UI
+                }
             }
-        }
-        gameSurface.eggButtons.remove(index);
+            gameSurface.eggButtons.remove(index);
 
-        // Recreate buttons to ensure synchronization
-        CreateNewEggs();
+            // Recreate buttons to ensure synchronization
+            CreateNewEggs();
+        }
     }
 
-
-
     public void EggUpdate() {
-        for (int i = 0; i < gameSurface.eggs.size(); i++) {
-            EggClass egg = gameSurface.eggs.get(i);
-            Button eggButton = gameSurface.eggButtons.get(i);
+        synchronized (gameSurface.eggs) {
+            for (int i = 0; i < gameSurface.eggs.size(); i++) {
+                EggClass egg = gameSurface.eggs.get(i);
+                Button eggButton = gameSurface.eggButtons.get(i);
 
-            if (eggButton != null) {
-                eggButton.setText(egg.isHatched() ? "Hatched!" : egg.getRemainingTime());
-                eggButton.setOnClickListener(null); // Clear any old listener
+                if (eggButton != null) {
+                    eggButton.setText(egg.isHatched() ? "Hatched!" : egg.getRemainingTime());
+                    eggButton.setOnClickListener(null); // Clear any old listener
 
-                if (egg.isHatched()) {
-                    int finalIndex = i; // Capture current index safely
-                    eggButton.setOnClickListener(v -> removeEgg(finalIndex));
+                    if (egg.isHatched()) {
+                        int finalIndex = i; // Capture current index safely
+                        eggButton.setOnClickListener(v -> removeEgg(finalIndex));
+                    }
                 }
             }
         }
     }
 
-
-    public void IncrementCharacterText(int index){
+    public void IncrementCharacterText(int index) {
         gameSurface.characteramounts[index]++;
     }
 
-    public void DecrementCharacterText(int index){
+    public void DecrementCharacterText(int index) {
         gameSurface.characteramounts[index]--;
     }
 
@@ -279,3 +247,4 @@ public class GameUIEntity {
         isResuming = false;
     }
 }
+
