@@ -148,6 +148,7 @@ public class GameUIEntity {
 
                         gameSurface.hatchingeggs[i].setOnClickListener(v -> {
                             EggClass egg = new EggClass(gameSurface.hatchingeggsdrawables[index], gameSurface.hatchingduration[index], gameSurface.characterNames[index]);
+                            egg.reset();
                             MainGameScene.instance.addVariable("Egg", -gameSurface.cost[index]);
                             gameSurface.eggs.add(egg);
                             CreateNewEggs();
@@ -165,114 +166,94 @@ public class GameUIEntity {
         CursorActionExecute = false;
     }
 
-   private void CreateNewEggs(){
-       FrameLayout frameLayout = (FrameLayout) gameSurface.getParent();
-       if (frameLayout != null) {
+    private void CreateNewEggs() {
+        FrameLayout frameLayout = (FrameLayout) gameSurface.getParent();
+        if (frameLayout != null) {
+            int startX = 100; // Initial X position
+            int spacingX = 400; // Horizontal spacing between eggs
+            int yPosition = 700; // Vertical Y position
 
-           int startX = 100; // Initial X position
-           int startY = 500; // Initial Y position
-           int spacingX = 400; // Horizontal spacing between eggs
-           int yPosition = 700; // Vertical spacing between eggs
+            // Remove any extra buttons
+            while (gameSurface.eggButtons.size() > gameSurface.eggs.size()) {
+                Button extraButton = gameSurface.eggButtons.remove(gameSurface.eggButtons.size() - 1);
+                frameLayout.removeView(extraButton);
+            }
 
+            // Add missing buttons
+            while (gameSurface.eggButtons.size() < gameSurface.eggs.size()) {
+                Button eggButton = new Button(gameSurface.getContext());
+                eggButton.setText("0:00");
+                eggButton.setTextColor(Color.WHITE);
+                eggButton.setShadowLayer(5, 2, 2, Color.BLACK);
+                eggButton.setGravity(Gravity.BOTTOM);
+                gameSurface.eggButtons.add(eggButton);
+                frameLayout.addView(eggButton);
+            }
 
-           while (gameSurface.eggButtons.size() < gameSurface.eggs.size()) {
-               Button eggButton = new Button(gameSurface.getContext());
-               eggButton.setText("0:00");
-               eggButton.setTextColor(Color.WHITE);
-               eggButton.setShadowLayer(5, 2, 2, Color.BLACK);
-               eggButton.setGravity(Gravity.BOTTOM);
+            // Update positions and visuals for existing buttons
+            for (int i = 0; i < gameSurface.eggs.size(); i++) {
+                Button eggButton = gameSurface.eggButtons.get(i);
+                eggButton.setBackground(gameSurface.eggs.get(i).getBackgroundImage());
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                        300, // Width
+                        300  // Height
+                );
+                params.leftMargin = startX + i * spacingX;
+                params.topMargin = yPosition;
+                eggButton.setLayoutParams(params);
+                eggButton.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 
-               gameSurface.eggButtons.add(eggButton);
-               frameLayout.addView(eggButton);
-           }
-
-           // Update existing buttons
-           for (int i = 0; i < gameSurface.eggs.size(); i++) {
-               Button eggButton = gameSurface.eggButtons.get(i);
-               eggButton.setBackground(gameSurface.eggs.get(i).getBackgroundImage());
-
-               // Update position
-               FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                       300, // Width
-                       300  // Height
-               );
-               params.leftMargin = startX + i * spacingX;
-               params.topMargin = yPosition;
-               eggButton.setLayoutParams(params);
-               eggButton.setVisibility(View.VISIBLE); // Ensure button is visible
-           }
-
-           // Hide unused buttons
-           for (int i = gameSurface.eggs.size(); i < gameSurface.eggButtons.size(); i++) {
-
-               gameSurface.eggButtons.get(i).setVisibility(View.GONE);
-           }
-       }
-   }
     public void removeEgg(int index) {
-        for (int i =0 ; i < gameSurface.characterNames.length; i++){
-            if (gameSurface.eggs.get(index).getName() == gameSurface.characterNames[i]){
+        if (index < 0 || index >= gameSurface.eggs.size()) {
+            Log.e("GameUIEntity", "Invalid index for removal: " + index);
+            return;
+        }
+
+        // Remove egg
+        EggClass eggToRemove = gameSurface.eggs.get(index);
+        for (int i = 0; i < gameSurface.characterNames.length; i++) {
+            if (eggToRemove.getName().equals(gameSurface.characterNames[i])) {
                 IncrementCharacterText(i);
             }
         }
+        gameSurface.eggs.remove(index);
 
-        Log.e("GameUIEntity", "EGGNAME:" + String.valueOf(gameSurface.eggs.get(index).getName()) + "CHARNAME:" + String.valueOf(gameSurface.characterNames[index]));
-        if (index >= 0 && index < gameSurface.eggs.size()) {
-            gameSurface.eggs.remove(index);
-            CreateNewEggs();
-
+        // Remove associated button
+        Button buttonToRemove = gameSurface.eggButtons.get(index);
+        if (buttonToRemove != null) {
+            FrameLayout frameLayout = (FrameLayout) gameSurface.getParent();
+            if (frameLayout != null) {
+                frameLayout.removeView(buttonToRemove); // Detach the button from the UI
+            }
         }
+        gameSurface.eggButtons.remove(index);
+
+        // Recreate buttons to ensure synchronization
+        CreateNewEggs();
     }
 
+
+
     public void EggUpdate() {
-        // Exit early if there are no eggs
-        if (gameSurface.eggs.isEmpty()) return;
-
-        // Ensure eggButtons and eggs are synchronized in size
-        while (gameSurface.eggs.size() < gameSurface.eggButtons.size()) {
-            Button eggButton = new Button(gameSurface.getContext());
-            eggButton.setText("0:00");
-            eggButton.setTextColor(Color.WHITE);
-            eggButton.setShadowLayer(5, 2, 2, Color.BLACK);
-            eggButton.setGravity(Gravity.BOTTOM);
-            gameSurface.eggButtons.add(eggButton);
-            // Ensure button is added to the layout if necessary
-            ((FrameLayout) gameSurface.getParent()).addView(eggButton);
-        }
-
-        // Update existing buttons with the egg information
-        for (int i = 0; i < gameSurface.eggs.size() -1; i++) {
+        for (int i = 0; i < gameSurface.eggs.size(); i++) {
             EggClass egg = gameSurface.eggs.get(i);
             Button eggButton = gameSurface.eggButtons.get(i);
 
+            if (eggButton != null) {
+                eggButton.setText(egg.isHatched() ? "Hatched!" : egg.getRemainingTime());
+                eggButton.setOnClickListener(null); // Clear any old listener
 
-            // Avoid redundant updates
-            String remainingTime = egg.getRemainingTime();
-            if (eggButton != null && !eggButton.getText().toString().equals(remainingTime)) {
-                eggButton.setText(remainingTime);
-            }
-
-            // Check if the egg has hatched
-            if (egg.isHatched()) {
-                if (eggButton != null && !eggButton.getText().toString().equals("Hatched!")) {
-                    eggButton.setText("Hatched!");
-                }
-
-                // Add click listener to remove the egg once it's hatched
-                int finalI = i;  // Make the index final for use in the listener
-                if (eggButton != null) {
-                    eggButton.setOnClickListener(v -> removeEgg(finalI));
+                if (egg.isHatched()) {
+                    int finalIndex = i; // Capture current index safely
+                    eggButton.setOnClickListener(v -> removeEgg(finalIndex));
                 }
             }
-        }
-
-
-        for (int i = gameSurface.eggs.size(); i < gameSurface.eggButtons.size(); i++) {
-        if (gameSurface.eggButtons.get(i) != null) {
-            gameSurface.eggButtons.get(i).setVisibility(View.GONE);
-        }
         }
     }
+
 
     public void IncrementCharacterText(int index){
         gameSurface.characteramounts[index]++;

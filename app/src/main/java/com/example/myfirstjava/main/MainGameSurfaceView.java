@@ -41,7 +41,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     public Drawable[] characterdrawables = new Drawable[4];
     public String[] characterNames = {"Chicken", "Llama", "Iron Golem", "Sheep"};
     public int[] cost = {10, 15, 20, 20};
-    public long[] hatchingduration = {1000, 1500, 2000, 2000};
+    public long[] hatchingduration = {5000, 7000, 10000, 10000};
 
     public int[] characteramounts = new int[4];
     public int characterbuttonindex =0;
@@ -206,22 +206,23 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             buttons.setVisibility(View.INVISIBLE);
 
         }
-        toHouseButton.setVisibility(View.INVISIBLE);
-        toFarmButton.setVisibility(View.VISIBLE);
+
 
         for (Button buttons : hatchingeggs){
             buttons.setVisibility(View.VISIBLE);
 
         }
 
-//        for (Button buttons : eggButtons){
-//            buttons.setVisibility(View.VISIBLE);
-//
-//        }
 
-        for (int i = 0; i < eggs.size(); i++){
+
+        for (int i = 0; i < eggButtons.size(); i++){
             eggButtons.get(i).setVisibility(View.VISIBLE);
         }
+
+
+
+        toHouseButton.setVisibility(View.INVISIBLE);
+        toFarmButton.setVisibility(View.VISIBLE);
     }
 
     public void GameLayout(){

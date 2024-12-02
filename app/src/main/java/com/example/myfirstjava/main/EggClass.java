@@ -9,11 +9,21 @@ public class EggClass {
     private long hatchingDuration; // in milliseconds
     private long creationTime; // timestamp when the egg was created
 
+    private long startHatchingDuration;
     private String Name;
+
+    private boolean isHatched = false;
+
+    public void reset() {
+        this.hatchingDuration = startHatchingDuration;
+        this.isHatched = false;
+    }
+
     public EggClass(Drawable backgroundImage, long hatchingDuration, String name) {
         this.backgroundImage = backgroundImage;
         this.hatchingDuration = hatchingDuration;
         this.creationTime = System.currentTimeMillis();
+        this.startHatchingDuration = hatchingDuration;
         this.Name = name;
     }
     public String getName(){
@@ -36,6 +46,7 @@ public class EggClass {
     public boolean isHatched() {
         return System.currentTimeMillis() - creationTime >= hatchingDuration;
     }
+
 
     public String getRemainingTime() {
         long remainingTime = hatchingDuration - (System.currentTimeMillis() - creationTime);
