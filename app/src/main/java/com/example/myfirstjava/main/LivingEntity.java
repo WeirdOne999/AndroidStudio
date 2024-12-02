@@ -15,6 +15,9 @@ public class LivingEntity extends PhysicsEntity {
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
         if (Health <= 0){
+            if (!isEnemy){
+                onHolder._mob = null;
+            }
             destroy();
         }
     }

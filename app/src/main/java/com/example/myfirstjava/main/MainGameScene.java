@@ -40,6 +40,7 @@ public class MainGameScene extends GameScene {
     Text text_eggCount;
 
     public int ChangeCursorSpritei;
+    public boolean Planting = false;
     @Override
     public void onCreate() {    
         super.onCreate();
@@ -66,7 +67,7 @@ public class MainGameScene extends GameScene {
 
                 float spacing = screenHeight / 12;
                 int size = (int) spacing + 5;
-                HolderArr[i][j] = new Holder(new Vector2(i * (screenWidth / 19) + gridOffset.x,j * (screenHeight / 11) + gridOffset.y),size,j);
+                HolderArr[i][j] = new Holder(new Vector2(i * (screenWidth / 19) + gridOffset.x,j * (screenHeight / 11) + gridOffset.y),1,j);
                 _gameEntities.add(HolderArr[i][j]);
             }
         }

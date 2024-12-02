@@ -51,15 +51,15 @@ public class PlayerEntity extends GameEntity {
         */
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.skeletonattack);
         //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
-        setSize(new Vector2(100,100));
+        setSize(new Vector2(5,5));
         //R.drawable.skeletonattack,4,5,5,9,12
 
         setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),bmp.getWidth() / 32,bmp.getWidth() / 32,12,0,0);
         setLayer(-1);
-        cursordrawable[0] = new ButtonStructure(R.drawable.minibunny, ButtonStructure.type.CHICKEN,10);
-        cursordrawable[1] = new ButtonStructure(R.drawable.miniwolf,ButtonStructure.type.LLAMA,15);
-        cursordrawable[2] = new ButtonStructure(R.drawable.minibear,ButtonStructure.type.IRONGOLEM,20);
-        cursordrawable[3] = new ButtonStructure(R.drawable.miniboar,ButtonStructure.type.SHEEP,20);
+        cursordrawable[0] = new ButtonStructure(R.drawable.minibunny, ButtonStructure.type.CHICKEN,5);
+        cursordrawable[1] = new ButtonStructure(R.drawable.miniwolf,ButtonStructure.type.LLAMA,10);
+        cursordrawable[2] = new ButtonStructure(R.drawable.minibear,ButtonStructure.type.IRONGOLEM,15);
+        cursordrawable[3] = new ButtonStructure(R.drawable.miniboar,ButtonStructure.type.SHEEP,15);
 
     }
 
@@ -74,7 +74,8 @@ public class PlayerEntity extends GameEntity {
     public void onUpdate(float dt, GameScene gamescene) {
         Log.d("CCS", "" + MainGameScene.instance.ChangeCursorSpritei);
         Bitmap bmp = null;
-        if (MainGameScene.instance.ChangeCursorSpritei >= 0 && MainGameScene.instance.ChangeCursorSpritei < 4) bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), cursordrawable[MainGameScene.instance.ChangeCursorSpritei].id);
+        //
+        if (MainGameScene.instance.ChangeCursorSpritei >= 0 && MainGameScene.instance.ChangeCursorSpritei < 4) bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(),cursordrawable[MainGameScene.instance.ChangeCursorSpritei].id );
 
         if (bmp == null) {
 
@@ -83,7 +84,8 @@ public class PlayerEntity extends GameEntity {
 
         // Scale the bitmap and set as animated sprite
         //Log.d("BitmapSize", bmp.getWidth() + " " + bmp.getHeight());
-        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,100 * 10,100* 10,true),bmp.getHeight() / 96,bmp.getWidth() / 96,12,0,0);
+        int tempsize = (int)getScreenHeight() / 5 * bmp.getHeight() / 96;
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,tempsize,tempsize,true),bmp.getHeight() / 96,bmp.getWidth() / 96,12,0,0);
 
 
 
@@ -106,7 +108,7 @@ public class PlayerEntity extends GameEntity {
 
 
             //TODO: COLLISION
-            if (MainGameScene.instance.Egg >= cursordrawable[MainGameScene.instance.ChangeCursorSpritei].cost ){
+            if (MainGameScene.instance.Egg >= cursordrawable[MainGameScene.instance.ChangeCursorSpritei].cost && MainGameScene.instance.Planting){
                 if (MainGameScene.instance.ChangeCursorSpritei >= 0 && render){
                     for (int i = 0; i < gamescene._gameEntities.size();i++) {
                         if (gamescene._gameEntities.get(i) != this) {
@@ -148,6 +150,7 @@ public class PlayerEntity extends GameEntity {
             currentID = -1;
             render = false;
             MainGameScene.instance.ChangeCursorSpritei = -1;
+            MainGameScene.instance.Planting = false;
         }
         if (currentID != -1){
             for (int i = 0; i < motionEvent.getPointerCount(); i++){
@@ -162,7 +165,7 @@ public class PlayerEntity extends GameEntity {
 
     @Override
     public void onRender(Canvas canvas) {
-        if(render)super.onRender(canvas);
+        if(MainGameScene.instance.Planting)super.onRender(canvas);
     }
 }
 

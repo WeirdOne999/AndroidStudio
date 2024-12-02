@@ -57,27 +57,27 @@ public class GameUIEntity {
 
     public void setupButtonClicks() {
         gameSurface.post(() -> {
+            ButtonPressed = -1;
             for (int i = 0; i < gameSurface.characterButtons.length; i++) {
                 final int index = i;  // Use final to access inside the listener
-//                gameSurface.characterButtons[i].setOnTouchListener(new View.OnTouchListener() {
-//                    @SuppressLint("ClickableViewAccessibility")
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        switch (event.getAction()){
-//                            case MotionEvent.ACTION_DOWN:
-//                                ButtonPressed = index;
-//                                DecrementCharacterText(index);
-//                                CursorActionExecute = true;
-//                                return true;
-//                        }
-//                        return false;
-//                    }
-//                });
+                gameSurface.characterButtons[i].setOnTouchListener(new View.OnTouchListener() {
+                    @SuppressLint("ClickableViewAccessibility")
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()){
+                            case MotionEvent.ACTION_DOWN:
+                            MainGameScene.instance.Planting = true;
+                            ButtonPressed = index;
+                                CursorActionExecute = true;
+                        }
+                        return false;
+                    }
+                });
                 gameSurface.characterButtons[i].setOnClickListener(v -> {
                     // Handle the button click for the i-th button
-                    ButtonPressed = index;
+
                     //DecrementCharacterText(index);
-                    CursorActionExecute = true;
+
                     // You can add more logic here, e.g., change background or trigger game actions
                 });
             }

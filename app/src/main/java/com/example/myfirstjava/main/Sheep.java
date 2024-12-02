@@ -48,7 +48,7 @@ public class Sheep extends LivingEntity{
         if (touched != null){
             _animatedSprite.setLopping(false);
             //TODO: CHANGE THE RANGE CUZ ITS ABIT OUT
-            _animatedSprite.SetRange(15,19);
+            _animatedSprite.SetRange(22,23);
 
             if(_animatedSprite.hasFinished()){
                 _animatedSprite.setLopping(true);
