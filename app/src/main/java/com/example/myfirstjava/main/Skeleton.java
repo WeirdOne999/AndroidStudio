@@ -49,6 +49,12 @@ public class Skeleton extends EnemyEntity{
 
 
         }
+
+        if(touchedPlant != null){
+            currentspeed = 0;
+        }else{
+            currentspeed = speed;
+        }
     }
 
     @Override

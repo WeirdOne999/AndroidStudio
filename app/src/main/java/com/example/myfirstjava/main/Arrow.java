@@ -13,6 +13,10 @@ public class Arrow extends ProjectileEntity{
         SpriteSet(R.drawable.arrow,15);
     }
 
+    public void reset(){
+        super.reset();
+    }
+
     @Override
     public void touchPlant(LivingEntity plant) {
         super.touchEnemy(plant);

@@ -39,6 +39,9 @@ public class MainGameScene extends GameScene {
     Text text_FPS;
     Text text_eggCount;
 
+    boolean won = false;
+    boolean lost = false;
+
     public int ChangeCursorSpritei;
     public boolean Planting = false;
     @Override
@@ -89,7 +92,7 @@ public class MainGameScene extends GameScene {
             }
         }
         //_gameEntities.add(new Llama(HolderArr[1][1].getPosition(),1));
-
+        _gameEntities.add(new House(new Vector2(0 + (int)screenWidth / 5,(int)screenHeight/2),0));
         _gameEntities.add(new Pause());
         text_FPS = new Text(R.color.teal_200,75, Paint.Align.RIGHT);
         _gameEntities.add(text_FPS);
@@ -103,6 +106,7 @@ public class MainGameScene extends GameScene {
     @Override
     public void onUpdate(float dt) {
         //Log.d("SCENESIZE", "SIZE OF ARRAY: " + _gameEntities.size());
+        if (won || lost) return;
         super.onUpdate(dt);
         text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,0 + 100));
         text_eggCount.setText("EGG: " + Egg,new Vector2(100,100));
@@ -123,29 +127,6 @@ public class MainGameScene extends GameScene {
 
             }
         }
-
-
-
-
-
-
-        /*
-        if (motionEvent == null) return;
-        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN && !BackDialog.isShowing()){
-            BackDialog backDialog = new BackDialog();
-            backDialog.show(GameActivity.instance.getSupportFragmentManager(),"Back dialog");
-        }
-         */
-        /*
-        for (GameEntity i: _gameEntities){
-            if (i == player) continue;
-            if (player.isColliding(i)){
-                i.destroy();
-            }
-        }
-        */
-
-
     }
 
 
@@ -164,5 +145,13 @@ public class MainGameScene extends GameScene {
     public void onRender(Canvas canvas) {
         super.onRender(canvas);
 
+    }
+
+    public void wonLost(boolean wonLost){
+        if (wonLost){
+            won = true;
+        }else{
+            lost = true;
+        }
     }
 }
