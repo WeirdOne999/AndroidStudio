@@ -229,7 +229,7 @@ public class GameUIEntity {
         if (gameSurface.eggs.isEmpty()) return;
 
         // Ensure eggButtons and eggs are synchronized in size
-        while (gameSurface.eggButtons.size() < gameSurface.eggs.size()) {
+        while (gameSurface.eggs.size() < gameSurface.eggButtons.size()) {
             Button eggButton = new Button(gameSurface.getContext());
             eggButton.setText("0:00");
             eggButton.setTextColor(Color.WHITE);
@@ -241,9 +241,10 @@ public class GameUIEntity {
         }
 
         // Update existing buttons with the egg information
-        for (int i = 0; i < gameSurface.eggs.size(); i++) {
+        for (int i = 0; i < gameSurface.eggs.size() -1; i++) {
             EggClass egg = gameSurface.eggs.get(i);
             Button eggButton = gameSurface.eggButtons.get(i);
+
 
             // Avoid redundant updates
             String remainingTime = egg.getRemainingTime();

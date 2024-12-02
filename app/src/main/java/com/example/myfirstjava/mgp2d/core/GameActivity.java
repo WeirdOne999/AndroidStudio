@@ -92,6 +92,8 @@ public class GameActivity extends FragmentActivity {
 
     private View hatchingOverlay;
 
+    public static float deltaTime;
+
     private void toggleHatchingUI(boolean show) {
         runOnUiThread(() -> {
             if (hatchingOverlay != null) {
@@ -128,7 +130,7 @@ public class GameActivity extends FragmentActivity {
             while(_isRunning) {
                 // Calculating deltaTime
                 long currentTime = System.nanoTime();
-                float deltaTime = (currentTime-prevTime)/1000000000.0f;
+                deltaTime = (currentTime-prevTime)/1000000000.0f;
                 prevTime = currentTime;
 
                 if (GameScene.getNext() != GameScene.getCurrent())
