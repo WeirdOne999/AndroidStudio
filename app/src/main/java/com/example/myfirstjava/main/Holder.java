@@ -18,7 +18,8 @@ public class Holder extends GameEntity {
     public Holder(Vector2 pos, int size, int layer){
         setPosition(pos);
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.holder);
-        //setSprite(Bitmap.createScaledBitmap(bmp,size,size,true));
+        int scale = (int)getScreenHeight() / 12;
+        setSprite(Bitmap.createScaledBitmap(bmp,scale,scale,true));
         //afterSetSprite();
         setLayer(layer);
         setSize(new Vector2(size,size));
@@ -30,6 +31,8 @@ public class Holder extends GameEntity {
 
     @Override
     public void onRender(Canvas canvas) {
+
+        //super.onRender(canvas);
     }
 
     /*

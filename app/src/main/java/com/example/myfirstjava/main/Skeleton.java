@@ -17,6 +17,7 @@ public class Skeleton extends EnemyEntity{
     public Skeleton(Vector2 pos, int layer){
         super(75,2,0.375f);
         setLayer(layer);
+        isEnemy=true;
         setPosition(pos);
         walk.setAnimationHolder(R.drawable.skeletonwalk,4,2,4,5,12);
         attack.setAnimationHolder(R.drawable.skeletonattack,4,5,5,9,12);

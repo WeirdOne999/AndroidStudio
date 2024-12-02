@@ -10,7 +10,9 @@ import com.example.myfirstjava.mgp2d.core.Vector2;
 
 public class Zombie extends EnemyEntity{
     public Zombie(Vector2 pos,int layer){
+
         super(100,5,0.375f);
+        isEnemy=true;
         setLayer(layer);
         setPosition(pos);
         walk.setAnimationHolder(R.drawable.zombiewalk,4,4,4,7,12);

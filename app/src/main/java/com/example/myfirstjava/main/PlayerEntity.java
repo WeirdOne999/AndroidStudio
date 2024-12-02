@@ -130,7 +130,7 @@ public class PlayerEntity extends GameEntity {
                                                 tempGE = new Sheep(temp.getPosition(),temp.getLayer());
                                                 break;
                                             case IRONGOLEM:
-                                                tempGE = new Llama(temp.getPosition(),temp.getLayer());
+                                                tempGE = new IronGolem(temp.getPosition(),temp.getLayer());
                                                 break;
                                         }
                                         temp._mob = tempGE;
