@@ -90,7 +90,17 @@ public class GameActivity extends FragmentActivity {
     private static GameUIEntity uiEntity;
     private MainGameSurfaceView surfaceView;
 
+    private View hatchingOverlay;
 
+    private void toggleHatchingUI(boolean show) {
+        runOnUiThread(() -> {
+            if (hatchingOverlay != null) {
+                hatchingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+            } else {
+                //Log.e("GameActivity", "Hatching overlay is null!");
+            }
+        });
+    }
     private static class UpdateThread extends Thread {
         public boolean _isRunning = true;
         public void terminate() { _isRunning = false; }
@@ -145,6 +155,15 @@ public class GameActivity extends FragmentActivity {
                     }
                     _surfaceHolder.unlockCanvasAndPost(canvas);
                 }
+
+                if (uiEntity.GoToHouse) {
+                    GameActivity.instance.toggleHatchingUI(true); // Show UI
+                } else {
+                    GameActivity.instance.toggleHatchingUI(false); // Hide UI
+                }
+
+//        View Craftingoverlay = getLayoutInflater().inflate(R.layout.craftingui, frameLayout, false);
+//        frameLayout.addView(Craftingoverlay);
             }
         }
     }
@@ -178,14 +197,11 @@ public class GameActivity extends FragmentActivity {
         frameLayout.addView(surfaceView);
 
         uiEntity = new GameUIEntity(this, frameLayout);
-
         uiEntity.setupButtonClicks();
         // Inflate and add the overlay UI from XML
-//        View Hatchingoverlay = getLayoutInflater().inflate(R.layout.hatchingui, frameLayout, false);
-//        frameLayout.addView(Hatchingoverlay);
 
-//        View Craftingoverlay = getLayoutInflater().inflate(R.layout.craftingui, frameLayout, false);
-//        frameLayout.addView(Craftingoverlay);
+        addHatchingUI(frameLayout);
+
 
 //        // Access UI components for updates or interaction
 //        TextView fpsText = overlay.findViewById(R.id.fps_text);
@@ -199,6 +215,14 @@ public class GameActivity extends FragmentActivity {
         _updateThread = new UpdateThread(surfaceView);
 
 
+    }
+
+    private void addHatchingUI(FrameLayout frameLayout) {
+        runOnUiThread(() -> {
+            hatchingOverlay = getLayoutInflater().inflate(R.layout.hatchingui, frameLayout, false);
+            hatchingOverlay.setVisibility(View.GONE);
+            frameLayout.addView(hatchingOverlay);
+        });
     }
 
     @Override
@@ -251,6 +275,7 @@ public class GameActivity extends FragmentActivity {
             _updateThread.start();
         }
         uiEntity.resume();
+
     }
 
 
