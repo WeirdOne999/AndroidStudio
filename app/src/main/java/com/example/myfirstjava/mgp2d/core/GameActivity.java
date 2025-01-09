@@ -85,7 +85,7 @@ import com.example.myfirstjava.main.MainGameSurfaceView;
 
 import java.util.TreeSet;
 
-public class GameActivity extends FragmentActivity {
+public class GameActivity extends FragmentActivity{
 
     private static GameUIEntity uiEntity;
     private MainGameSurfaceView surfaceView;
