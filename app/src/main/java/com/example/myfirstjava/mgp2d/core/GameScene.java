@@ -85,6 +85,10 @@ public abstract class GameScene {
             _gameEntityCache.remove(i);
         }
         Log.d("TEST","FPS: " + _fps + " GE: " + _gameEntities.size() + " GEC: " + _gameEntityCache.size());
+
+        if( GameActivity.instance.areSensorsWorking()){
+            Log.d("ACCEL", String.valueOf(GameActivity.instance.getSensorEvent().values[1] * 10));
+        }
     }
     public void onRender(Canvas canvas){
         canvas.drawColor(Color.parseColor("#b2d4ff"));

@@ -55,8 +55,13 @@ Each GameEntity contains these methods:
 
 package com.example.myfirstjava.mgp2d.core;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -85,7 +90,7 @@ import com.example.myfirstjava.main.MainGameSurfaceView;
 
 import java.util.TreeSet;
 
-public class GameActivity extends FragmentActivity{
+public class GameActivity extends FragmentActivity implements SensorEventListener {
 
     private static GameUIEntity uiEntity;
     private MainGameSurfaceView surfaceView;
@@ -103,6 +108,28 @@ public class GameActivity extends FragmentActivity{
             }
         });
     }
+
+    private SensorManager _sensorManager;
+
+    private Sensor _accelerometer;
+    private static SensorEvent _sensorEvent = null;
+
+    public SensorEvent getSensorEvent() {return _sensorEvent;}
+
+    private static int _currentSensorAccuracy = SensorManager.SENSOR_STATUS_ACCURACY_HIGH;
+
+    public boolean areSensorsWorking() { return _currentSensorAccuracy >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM;}
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        _sensorEvent = event;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        _currentSensorAccuracy = accuracy;
+    }
+
     private static class UpdateThread extends Thread {
         public boolean _isRunning = true;
         public void terminate() { _isRunning = false; }
@@ -216,6 +243,9 @@ public class GameActivity extends FragmentActivity{
 
         _updateThread = new UpdateThread(surfaceView);
 
+        _sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+        _accelerometer = _sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
 
     }
 
@@ -233,25 +263,25 @@ public class GameActivity extends FragmentActivity{
         return true;
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
+    @Override
+    protected void onStart() {
+        _sensorManager.registerListener(this,_accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
+        super.onStart();
 //        if (!_updateThread.isRunning()) {
 //            _updateThread = new UpdateThread(surfaceView);
 //            _updateThread.start();
 //        }
-//
 //        if (uiEntity != null) {
 //            runOnUiThread(uiEntity::resume);
 //        }
-//    }
+    }
 
     @Override
     protected void onStop() {
         super.onStop();
         _updateThread.terminate();
         GameScene.exitCurrent();
-
+        _sensorManager.unregisterListener(this);
         // Pause UI
 //        if (uiEntity != null) {
 //            runOnUiThread(uiEntity::pause);
@@ -267,11 +297,13 @@ public class GameActivity extends FragmentActivity{
         if (uiEntity != null) {
             runOnUiThread(uiEntity::pause);
         }
+        _sensorManager.unregisterListener(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        _sensorManager.registerListener(this,_accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
         if (!_updateThread.isRunning()) {
             _updateThread = new UpdateThread(surfaceView);
             _updateThread.start();
