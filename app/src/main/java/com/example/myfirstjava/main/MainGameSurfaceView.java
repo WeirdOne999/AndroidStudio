@@ -72,6 +72,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     @SuppressLint("UseCompatLoadingForDrawables")
     public MainGameSurfaceView(Context context, FrameLayout frameLayout) {
         super(context);
+        AudioClass.getInstance().PlayBackgroundMusic(context, R.raw.ariamath, true);
         instance = this;
         setZOrderOnTop(true);
         ImageView backgroundView = new ImageView(context);

@@ -1,6 +1,7 @@
 package com.example.myfirstjava.main;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -21,12 +22,13 @@ import java.util.Vector;
 
 public class MainGameScene extends GameScene {
 
+
     public boolean canReset = false;
     public static MainGameScene instance = null;
 
     public GameEntity player;
 
-
+    //Audio Conditions
 
     public int screenWidth;
     public int screenHeight;
@@ -46,6 +48,8 @@ public class MainGameScene extends GameScene {
 
     public int ChangeCursorSpritei;
     public boolean Planting = false;
+
+    Context context;
     @Override
     public void onCreate() {    
         super.onCreate();
@@ -55,6 +59,7 @@ public class MainGameScene extends GameScene {
     @Override
     public void onEnter() {
         super.onEnter();
+        context = GameActivity.instance;
         for (int i = _gameEntities.size() - 1;i >= 0; i--){
             //_gameEntities.get(i).destroy();
             _gameEntities.remove(i);
@@ -110,6 +115,7 @@ public class MainGameScene extends GameScene {
         won=false;
         lost=false;
         //_gameEntities.add(new PhysicsEntity(1));
+        AudioClass.getInstance().PlaySFX(context, R.raw.mobsspawn);
     }
 
     @Override
@@ -135,12 +141,13 @@ public class MainGameScene extends GameScene {
             int layer = new Random().nextInt(5);
             if (random == 0){
                 _gameEntityCache.add(new Skeleton(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
-
+                AudioClass.getInstance().PlaySFX(context, R.raw.skeletonsound);
             }
             else if (random == 1){
                 _gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
-
+                AudioClass.getInstance().PlaySFX(context, R.raw.zombiesound);
             }
+
         }
     }
 
@@ -167,6 +174,7 @@ public class MainGameScene extends GameScene {
             won = true;
         }else{
             lost = true;
+
         }
     }
 }

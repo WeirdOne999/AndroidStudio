@@ -121,15 +121,19 @@ public class PlayerEntity extends GameEntity {
                                         switch (cursordrawable[MainGameScene.instance.ChangeCursorSpritei].entity){
                                             case CHICKEN:
                                                 tempGE = new Chicken(temp.getPosition(),temp.getLayer());
+                                                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.chicken);
                                                 break;
                                             case LLAMA:
                                                 tempGE = new Llama(temp.getPosition(),temp.getLayer());
+                                                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.llama);
                                                 break;
                                             case SHEEP:
                                                 tempGE = new Sheep(temp.getPosition(),temp.getLayer());
+                                                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.sheep);
                                                 break;
                                             case IRONGOLEM:
                                                 tempGE = new IronGolem(temp.getPosition(),temp.getLayer());
+                                                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.irongloem);
                                                 break;
                                         }
                                         temp._mob = tempGE;

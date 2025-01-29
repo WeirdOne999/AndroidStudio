@@ -30,6 +30,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
+        AudioClass.getInstance().PlayBackgroundMusic(this, R.raw.c418, true);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -59,12 +60,13 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v){
+        AudioClass.getInstance().PlaySFX(this, R.raw.ui);
         if (v == _helpButton){
             startActivity(new Intent().setClass(this,HelpPage.class));
         } else if (v == _startButton){
             startActivity(new Intent().setClass(this, GameActivity.class));
             GameScene.enter(MainGameScene.class);
-            AudioClass.getInstance().StopAudio();
+            AudioClass.getInstance().StopBackgroundMusic();
         }
     }
 
@@ -72,6 +74,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
     protected void onResume() {
         super.onResume();
         uiEntity.resume();
+        AudioClass.getInstance().StopBackgroundMusic();
+        AudioClass.getInstance().StopAllSFX();
+        AudioClass.getInstance().PlayBackgroundMusic(this, R.raw.c418, true);
     }
 
     @Override

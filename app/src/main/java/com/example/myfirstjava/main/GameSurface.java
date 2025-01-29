@@ -49,7 +49,7 @@ public class GameSurface extends SurfaceView implements Runnable {
         backgroundBitmap0 = Bitmap.createScaledBitmap(bmp, screenWidth * 2, screenHeight, true);
         backgroundBitmap1 = Bitmap.createScaledBitmap(bmp, screenWidth * 2, screenHeight, true);
 
-        AudioClass.getInstance().PlayAudio(context, R.raw.c418, true);
+
 
     }
 

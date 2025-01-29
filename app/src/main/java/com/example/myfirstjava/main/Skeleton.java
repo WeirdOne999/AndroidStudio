@@ -1,8 +1,10 @@
 package com.example.myfirstjava.main;
 
+import android.content.Context;
 import android.graphics.Canvas;
 
 import com.example.myfirstjava.R;
+import com.example.myfirstjava.mgp2d.core.GameActivity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
@@ -12,7 +14,7 @@ public class Skeleton extends EnemyEntity{
     float timer = 0;
     final float attackCooldown = 5.0f;
 
-
+    Context context;
 
     public Skeleton(Vector2 pos, int layer){
         super(75,2,0.375f);
@@ -25,6 +27,7 @@ public class Skeleton extends EnemyEntity{
         SetSprite(walk);
         int size = 100;
         setSize(new Vector2(size,size));
+        context = GameActivity.instance;
     }
 
     @Override
@@ -45,6 +48,7 @@ public class Skeleton extends EnemyEntity{
                 gamescene._gameEntityCache.add(new Arrow(this));
                 _animatedSprite.setLopping(true);
                 currentState = State.WALK;
+                AudioClass.getInstance().PlaySFX(context, R.raw.arrowsound);
             }
 
 

@@ -35,7 +35,7 @@ public class Chicken extends LivingEntity{
         if (timer <= 0){
             //Log.d("ARRSIZ", "Array size: " + gamescene._gameEntities.size());
             gamescene._gameEntityCache.add(new Egg(this.getLayer(),this.getPosition()));
-
+            AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.eggpop);
 
             timer = recharge;
         }

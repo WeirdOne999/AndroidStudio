@@ -1,5 +1,6 @@
 package com.example.myfirstjava.main;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -11,7 +12,9 @@ import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
 public class House extends GameEntity {
+    Context context;
     public House(Vector2 pos, int layer){
+        context = GameActivity.instance;
         Vector2 spritesize = new Vector2(getScreenWidth() / 12,getScreenHeight() * 3);
         setPosition(pos);
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.holder);
@@ -29,6 +32,7 @@ public class House extends GameEntity {
                     if(!EndDialog.isShowing()){
                         EndDialog endDialog = new EndDialog();
                         endDialog.show(GameActivity.instance.getSupportFragmentManager(),"End Dialog");
+                        AudioClass.getInstance().PlaySFX(context, R.raw.lost);
                     }
 
                 }

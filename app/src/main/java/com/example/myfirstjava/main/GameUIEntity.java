@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.example.myfirstjava.R;
 import com.example.myfirstjava.mgp2d.core.GameActivity;
 
 import java.util.ArrayList;
@@ -85,6 +86,7 @@ public class GameUIEntity {
             for (int i = 0; i < gameSurface.characterButtons.length; i++) {
                 final int index = i;  // Use final to access inside the listener
                 gameSurface.characterButtons[i].setOnTouchListener((v, event) -> {
+
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         MainGameScene.instance.Planting = true;
                         ButtonPressed = index;
@@ -94,17 +96,20 @@ public class GameUIEntity {
                 });
 
                 gameSurface.characterButtons[i].setOnClickListener(v -> {
+                    AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
                     for (Button buttons : gameSurface.hatchingeggs) {
                         //buttons.setVisibility(View.GONE);
                     }
                 });
 
                 gameSurface.toHouseButton.setOnClickListener(v -> {
+                    AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
                     GoToHouse = true;
                     gameSurface.HatchingLayout();
                 });
 
                 gameSurface.toFarmButton.setOnClickListener(v -> {
+                    AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
                     GoToHouse = false;
                     gameSurface.GameLayout();
                 });
@@ -115,6 +120,7 @@ public class GameUIEntity {
                     final int index = i;  // Use final to access inside the listener
                     if (MainGameScene.instance.Egg >= gameSurface.cost[i]) {
                         gameSurface.hatchingeggs[i].setOnClickListener(v -> {
+                            AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
                             EggClass egg = new EggClass(gameSurface.hatchingeggsdrawables[index], gameSurface.hatchingduration[index], gameSurface.characterNames[index]);
                             egg.reset();
                             MainGameScene.instance.addVariable("Egg", -gameSurface.cost[index]);

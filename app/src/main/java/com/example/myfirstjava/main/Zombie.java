@@ -1,17 +1,22 @@
 package com.example.myfirstjava.main;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.util.Log;
 
 import com.example.myfirstjava.R;
+import com.example.myfirstjava.mgp2d.core.GameActivity;
 import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
 public class Zombie extends EnemyEntity{
+
+    Context context;
     public Zombie(Vector2 pos,int layer){
 
         super(100,5,0.375f);
+        context = GameActivity.instance;
         isEnemy=true;
         setLayer(layer);
         setPosition(pos);
@@ -48,6 +53,7 @@ public class Zombie extends EnemyEntity{
             //ATTACK
             //Log.d("ZOMBTOUCHPLANT" , "HEALTH:  " + touchedPlant.getHealth());
             attack(dt,gamescene,touchedPlant);
+            //AudioClass.getInstance().PlaySFX(context, R.raw.punch);
         }else{
             if (currentState == State.ATTACK){
                 currentState = State.WALK;

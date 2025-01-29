@@ -1,5 +1,6 @@
 package com.example.myfirstjava.main;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -14,7 +15,9 @@ public class Minecart extends PhysicsEntity{
     float speed = 30;
     boolean touchEnemy = false;
 
+    Context context;
     public Minecart(int layer, Vector2 position){
+        context = GameActivity.instance;
         setLayer(layer);
         setPosition(position);
 
@@ -43,6 +46,7 @@ public class Minecart extends PhysicsEntity{
                             //Log.d("PROJTOUCH","ENEMY");
                             temp.destroy();
                             touchEnemy = true;
+                            AudioClass.getInstance().PlaySFX(context, R.raw.minecart);
                         }
                     }
                 }
