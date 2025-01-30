@@ -271,7 +271,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
         toHouseButton = new Button(this.getContext());
         toHouseButton.setText("HOUSE");
-
+        toHouseButton.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams tohouseparams = new FrameLayout.LayoutParams(
                 (int) (150 * getResources().getDisplayMetrics().density),
                 (int) (50 * getResources().getDisplayMetrics().density)

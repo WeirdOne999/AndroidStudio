@@ -13,7 +13,7 @@ public class EggClass {
     private String Name;
 
     private boolean isHatched = false;
-
+    private boolean hasPlayedSFX = false; // New flag
     public void reset() {
         this.hatchingDuration = startHatchingDuration;
         this.isHatched = false;
@@ -26,6 +26,15 @@ public class EggClass {
         this.startHatchingDuration = hatchingDuration;
         this.Name = name;
     }
+
+    public boolean hasPlayedSFX() {
+        return hasPlayedSFX;
+    }
+
+    public void setPlayedSFX(boolean played) {
+        this.hasPlayedSFX = played;
+    }
+
     public String getName(){
 
         return Name;

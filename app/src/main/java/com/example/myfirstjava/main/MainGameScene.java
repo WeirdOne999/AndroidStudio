@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Vibrator;
 import android.service.notification.ZenPolicy;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -54,6 +55,7 @@ public class MainGameScene extends GameScene {
     public void onCreate() {    
         super.onCreate();
         onEnter();
+
     }
 
     @Override

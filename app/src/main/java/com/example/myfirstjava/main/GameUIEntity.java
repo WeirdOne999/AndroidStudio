@@ -3,6 +3,8 @@ package com.example.myfirstjava.main;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -26,6 +28,7 @@ public class GameUIEntity {
     public boolean GoToHouse = false;
     public boolean CursorActionExecute = false;
 
+    private Vibrator _vibrator;
     private boolean isResuming = true; // Flag to indicate if the update is ongoing
 
     public GameUIEntity(Context context, FrameLayout container) {
@@ -35,7 +38,9 @@ public class GameUIEntity {
         gameSurface.createhatchingbuttons();
         gameSurface.creategamebuttons();
         gameSurface.GameLayout();
+        _vibrator = (Vibrator) GameActivity.instance.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
     }
+
 
     public void setSize(int width, int height) {
         gameSurface.setSize(width, height);
@@ -210,6 +215,7 @@ public class GameUIEntity {
         }
     }
 
+    @SuppressLint("NewApi")
     public void EggUpdate() {
         synchronized (gameSurface.eggs) {
             for (int i = 0; i < gameSurface.eggs.size(); i++) {
@@ -221,13 +227,26 @@ public class GameUIEntity {
                     eggButton.setOnClickListener(null); // Clear any old listener
 
                     if (egg.isHatched()) {
+                        MainGameSurfaceView.instance.toHouseButton.setBackgroundColor(Color.GREEN);
                         int finalIndex = i; // Capture current index safely
-                        eggButton.setOnClickListener(v -> removeEgg(finalIndex));
+                        eggButton.setOnClickListener(v -> {
+                            removeEgg(finalIndex);
+                            MainGameSurfaceView.instance.toHouseButton.setBackgroundColor(Color.WHITE);
+                        });
+
+                        // Play SFX only if it hasn't been played before
+                        if (!egg.hasPlayedSFX()) {
+                            AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.completed);
+                            egg.setPlayedSFX(true); // Mark SFX as played
+                            _vibrator.vibrate(VibrationEffect.createOneShot(500,100));
+                        }
+
                     }
                 }
             }
         }
     }
+
 
     public void IncrementCharacterText(int index) {
         gameSurface.characteramounts[index]++;

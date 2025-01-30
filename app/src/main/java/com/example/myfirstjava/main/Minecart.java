@@ -1,8 +1,11 @@
 package com.example.myfirstjava.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 
 import com.example.myfirstjava.R;
@@ -11,7 +14,7 @@ import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
 public class Minecart extends PhysicsEntity{
-
+    private Vibrator _vibrator;
     float speed = 30;
     boolean touchEnemy = false;
 
@@ -23,8 +26,11 @@ public class Minecart extends PhysicsEntity{
 
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.minecart);
         setSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight()/10,(int)getScreenHeight()/10,true));
+
+        _vibrator = (Vibrator) GameActivity.instance.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
     }
 
+    @SuppressLint("NewApi")
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
         if(touchEnemy)addImpulse(new Vector2(1,0).multiply(speed));
@@ -47,6 +53,7 @@ public class Minecart extends PhysicsEntity{
                             temp.destroy();
                             touchEnemy = true;
                             AudioClass.getInstance().PlaySFX(context, R.raw.minecart);
+                            _vibrator.vibrate(VibrationEffect.createOneShot(500,100));
                         }
                     }
                 }
