@@ -38,7 +38,7 @@ public abstract class GameEntity {
 
     public void onUpdate(float dt, GameScene gamescene) {
         Log.d("CHIKCENTEST","GAMEENTITY");
-        if (_animatedSprite != null) _animatedSprite.update(dt);
+        //if (_animatedSprite != null) _animatedSprite.update(dt);
 
         if (_sprite != null && canTap) {
             MotionEvent motionEvent = GameActivity.instance.getMotionEvent();

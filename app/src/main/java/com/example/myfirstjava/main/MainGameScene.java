@@ -41,6 +41,15 @@ public class MainGameScene extends GameScene {
     private float _totalEnemyTimer = 0;
 
     public int Egg;
+    public int Stone;
+    public int Iron;
+    public int Gold;
+    public int Diamond;
+    public int Wood;
+    public int Birch_Wood;
+    public int Oak_Wood;
+    public int Pale_Wood;
+    public int Crimson_Wood;
     Text text_FPS;
     Text text_eggCount;
 
@@ -162,6 +171,33 @@ public class MainGameScene extends GameScene {
         super.addVariable(addVaraible, i);
         if (addVaraible.equals("Egg")){
             this.Egg += i;
+        }
+        else if (addVaraible.equals("Stone")){
+            this.Stone += i;
+        }
+        else if (addVaraible.equals("Iron")){
+            this.Iron += i;
+        }
+        else if (addVaraible.equals("Gold")){
+            this.Gold += i;
+        }
+        else if (addVaraible.equals("Diamond")){
+            this.Diamond += i;
+        }
+        else if (addVaraible.equals("Wood")){
+            this.Wood += i;
+        }
+        else if (addVaraible.equals("Birch Wood")){
+            this.Birch_Wood += i;
+        }
+        else if (addVaraible.equals("Oak Wood")){
+            this.Oak_Wood += i;
+        }
+        else if (addVaraible.equals("Pale Wood")){
+            this.Pale_Wood += i;
+        }
+        else if (addVaraible.equals("Crimson Wood")){
+            this.Crimson_Wood += i;
         }
     }
 

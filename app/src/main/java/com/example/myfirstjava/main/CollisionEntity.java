@@ -15,6 +15,7 @@ public class CollisionEntity extends GameEntity {
 
 
     public boolean isColliding(CollisionEntity collider) {
+        if (getLayer() != collider.getLayer()) return false;
         float Left = getPosition().x - getSize().x / 2;
         float Right = getPosition().x + getSize().x / 2;
         float Top = getPosition().y - (getSize().y / 2);
