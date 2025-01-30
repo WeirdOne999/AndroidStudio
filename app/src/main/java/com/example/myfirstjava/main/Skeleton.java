@@ -48,7 +48,7 @@ public class Skeleton extends EnemyEntity{
                 gamescene._gameEntityCache.add(new Arrow(this));
                 _animatedSprite.setLopping(true);
                 currentState = State.WALK;
-                AudioClass.getInstance().PlaySFX(context, R.raw.completed);
+                AudioClass.getInstance().PlaySFX(context, R.raw.bow);
             }
 
 

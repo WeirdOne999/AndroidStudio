@@ -17,7 +17,7 @@ public class Minecart extends PhysicsEntity{
     private Vibrator _vibrator;
     float speed = 30;
     boolean touchEnemy = false;
-
+    private static boolean isFirstCollision = false;
     Context context;
     public Minecart(int layer, Vector2 position){
         context = GameActivity.instance;
@@ -54,6 +54,11 @@ public class Minecart extends PhysicsEntity{
                             touchEnemy = true;
                             AudioClass.getInstance().PlaySFX(context, R.raw.minecart);
                             _vibrator.vibrate(VibrationEffect.createOneShot(500,100));
+                            if (!isFirstCollision) {
+                                isFirstCollision = true;
+                                AudioClass.getInstance().StopBackgroundMusic();
+                                AudioClass.getInstance().PlayBackgroundMusic(context, R.raw.pigstep, true);
+                            }
                         }
                     }
                 }

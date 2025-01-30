@@ -26,6 +26,7 @@ public class GameUIEntity {
 
     public int ButtonPressed = 0;
     public boolean GoToHouse = false;
+    public boolean GoToCraft = false;
     public boolean CursorActionExecute = false;
 
     private Vibrator _vibrator;
@@ -107,18 +108,36 @@ public class GameUIEntity {
                     }
                 });
 
-                gameSurface.toHouseButton.setOnClickListener(v -> {
-                    AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
-                    GoToHouse = true;
-                    gameSurface.HatchingLayout();
-                });
 
-                gameSurface.toFarmButton.setOnClickListener(v -> {
-                    AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
-                    GoToHouse = false;
-                    gameSurface.GameLayout();
-                });
             }
+
+            gameSurface.toggleinvenbutton.setOnClickListener(v -> {
+                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
+                //TOGGLE BETWEEN MOBS AND ITEMS
+            });
+
+
+            gameSurface.toHouseButton.setOnClickListener(v -> {
+                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
+                GoToHouse = true;
+                GoToCraft = false;
+                gameSurface.HatchingLayout();
+            });
+
+            gameSurface.toFarmButton.setOnClickListener(v -> {
+                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
+                gameSurface.GameLayout();
+                GoToHouse = false;
+                GoToCraft = false;
+
+            });
+
+            gameSurface.toCraftButton.setOnClickListener(v -> {
+                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
+                GoToHouse = false;
+                GoToCraft = true;
+                gameSurface.CraftingLayout();
+            });
 
             if (gameSurface.hatchingeggs != null) {
                 for (int i = 0; i < gameSurface.hatchingeggs.length; i++) {
@@ -227,11 +246,11 @@ public class GameUIEntity {
                     eggButton.setOnClickListener(null); // Clear any old listener
 
                     if (egg.isHatched()) {
-                        MainGameSurfaceView.instance.toHouseButton.setBackgroundColor(Color.GREEN);
+                        MainGameSurfaceView.instance.toHouseButton.setTextColor(Color.GREEN);
                         int finalIndex = i; // Capture current index safely
                         eggButton.setOnClickListener(v -> {
                             removeEgg(finalIndex);
-                            MainGameSurfaceView.instance.toHouseButton.setBackgroundColor(Color.WHITE);
+                            MainGameSurfaceView.instance.toHouseButton.setTextColor(Color.WHITE);
                         });
 
                         // Play SFX only if it hasn't been played before

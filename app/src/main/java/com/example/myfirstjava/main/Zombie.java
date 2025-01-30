@@ -53,7 +53,7 @@ public class Zombie extends EnemyEntity{
             //ATTACK
             //Log.d("ZOMBTOUCHPLANT" , "HEALTH:  " + touchedPlant.getHealth());
             attack(dt,gamescene,touchedPlant);
-            AudioClass.getInstance().PlaySFX(context, R.raw.punch);
+            //AudioClass.getInstance().PlaySFX(context, R.raw.punch);
         }else{
             if (currentState == State.ATTACK){
                 currentState = State.WALK;

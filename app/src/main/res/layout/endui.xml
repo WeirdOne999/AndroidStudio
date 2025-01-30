@@ -13,6 +13,7 @@
         android:layout_marginStart="92dp"
         android:layout_marginTop="168dp"
         android:layout_marginEnd="96dp"
+        android:fontFamily="@font/pixelify_sans_semibold"
         android:layout_marginBottom="1dp"
         android:backgroundTint="#6B6B6B"
         android:text="home"

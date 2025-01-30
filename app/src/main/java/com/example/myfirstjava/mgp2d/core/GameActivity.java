@@ -97,12 +97,24 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
 
     private View hatchingOverlay;
 
+    private View craftingOverlay;
+
     public static float deltaTime;
 
     private void toggleHatchingUI(boolean show) {
         runOnUiThread(() -> {
             if (hatchingOverlay != null) {
                 hatchingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+            } else {
+                //Log.e("GameActivity", "Hatching overlay is null!");
+            }
+        });
+    }
+
+    private void toggleCraftingUI(boolean show) {
+        runOnUiThread(() -> {
+            if (craftingOverlay != null) {
+                craftingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
             } else {
                 //Log.e("GameActivity", "Hatching overlay is null!");
             }
@@ -187,8 +199,13 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
 
                 if (uiEntity.GoToHouse) {
                     GameActivity.instance.toggleHatchingUI(true); // Show UI
-                } else {
+                    GameActivity.instance.toggleCraftingUI(false);
+                }else if (uiEntity.GoToCraft){
+                    GameActivity.instance.toggleHatchingUI(false); // Show UI
+                    GameActivity.instance.toggleCraftingUI(true);
+                }else {
                     GameActivity.instance.toggleHatchingUI(false); // Hide UI
+                    GameActivity.instance.toggleCraftingUI(false);
                 }
 
 //        View Craftingoverlay = getLayoutInflater().inflate(R.layout.craftingui, frameLayout, false);
@@ -230,7 +247,7 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
         // Inflate and add the overlay UI from XML
 
         addHatchingUI(frameLayout);
-
+        addCraftingUI(frameLayout);
 
 //        // Access UI components for updates or interaction
 //        TextView fpsText = overlay.findViewById(R.id.fps_text);
@@ -254,6 +271,14 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
             hatchingOverlay = getLayoutInflater().inflate(R.layout.hatchingui, frameLayout, false);
             hatchingOverlay.setVisibility(View.GONE);
             frameLayout.addView(hatchingOverlay);
+        });
+    }
+
+    private void addCraftingUI(FrameLayout frameLayout) {
+        runOnUiThread(() -> {
+            craftingOverlay = getLayoutInflater().inflate(R.layout.craftingui, frameLayout, false);
+            craftingOverlay.setVisibility(View.GONE);
+            frameLayout.addView(craftingOverlay);
         });
     }
 

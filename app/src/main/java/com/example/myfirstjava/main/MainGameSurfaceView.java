@@ -17,6 +17,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,6 +52,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     public Drawable[] hatchingeggsdrawables = new Drawable[4];
     public Button[] eggshop = new Button[5];
     public Button toHouseButton;
+    public Button toCraftButton;
     public Button toFarmButton;
     public List<Button> eggButtons = new ArrayList<>();
     public List<EggClass> eggs = new ArrayList<EggClass>();
@@ -62,7 +66,14 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     public int hatcheggwidth, hatcheggheight;
     public int hatchbuttonStartX, hatchbuttonStartY;
 
+    private ScrollView craftingScrollView; // Store ScrollView reference
+    private ImageView craftedItemImage;
 
+    private TextView craftedItemText;
+
+    private TextView confirmcraftbutton;
+
+    public Button toggleinvenbutton;
 
     public void setSize(int width,int height){
         screenWidth = width;
@@ -90,7 +101,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         screenHeight = getResources().getDisplayMetrics().heightPixels;
         buttonWidth = 50; // Width in dp
         buttonHeight = 50; // Height in dp
-        buttonStartX = 0 + screenWidth / 25; // Starting X position
+        buttonStartX = 0 + screenWidth / 13; // Starting X position
         buttonStartY = screenHeight - 900; // Fixed Y position near the bottom of the screen
 
         characterdrawables[0] = getResources().getDrawable(R.drawable.chicken, null); // Replace with actual drawable
@@ -190,7 +201,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         }
         toFarmButton = new Button(this.getContext());
         toFarmButton.setText("FARM");
-
+        toFarmButton.setBackgroundResource(R.drawable.button);
+        toFarmButton.setTextColor(Color.WHITE);
         FrameLayout.LayoutParams tohouseparams = new FrameLayout.LayoutParams(
                 (int) (150 * getResources().getDisplayMetrics().density),
                 (int) (50 * getResources().getDisplayMetrics().density)
@@ -199,8 +211,152 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         tohouseparams.topMargin = screenHeight - 200; // Fixed Y position
 
         toFarmButton.setLayoutParams(tohouseparams);
+
+        toCraftButton = new Button(this.getContext());
+        toCraftButton.setText("CRAFT");
+        toCraftButton.setBackgroundResource(R.drawable.button);
+        toCraftButton.setTextColor(Color.WHITE);
+        FrameLayout.LayoutParams tocraftparams = new FrameLayout.LayoutParams(
+                (int) (150 * getResources().getDisplayMetrics().density),
+                (int) (50 * getResources().getDisplayMetrics().density)
+        );
+        tocraftparams.leftMargin = screenWidth - 500; // X position
+        tocraftparams.topMargin = screenHeight - 400; // Fixed Y position
+
+        toCraftButton.setLayoutParams(tocraftparams);
+        frameLayout.addView(toCraftButton);
         frameLayout.addView(toFarmButton);
+
+
     }
+
+    public void createCraftingLayout() {
+        FrameLayout frameLayout = (FrameLayout) this.getParent();
+
+        if (craftedItemImage == null) {
+            craftedItemImage = new ImageView(getContext());
+            FrameLayout.LayoutParams imageParams = new FrameLayout.LayoutParams(
+                    (int) (150 * getResources().getDisplayMetrics().density),
+                    (int) (150 * getResources().getDisplayMetrics().density)
+            );
+            imageParams.leftMargin = screenWidth / 2+ 400; // Center it
+            imageParams.topMargin = screenHeight / 2 -350; // Adjust position
+            craftedItemImage.setImageResource(R.drawable.irongolem);
+
+            craftedItemImage.setLayoutParams(imageParams);
+            craftedItemImage.setVisibility(View.VISIBLE); // Hide initially
+            frameLayout.addView(craftedItemImage);
+        }
+
+
+        if (craftedItemText == null) {
+            craftedItemText = new TextView(getContext());
+            craftedItemText.setTextSize(30);
+            craftedItemText.setText("Crafted Item");
+            craftedItemText.setTextColor(Color.WHITE);
+            craftedItemText.setGravity(Gravity.CENTER);
+            craftedItemText.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+            craftedItemText.setVisibility(View.VISIBLE);
+
+            FrameLayout.LayoutParams textParams = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+            );
+            textParams.leftMargin = screenWidth / 2 + 350;
+            textParams.topMargin = screenHeight -350; // Position below image
+
+            craftedItemText.setLayoutParams(textParams);
+            frameLayout.addView(craftedItemText);
+        }
+
+        if (confirmcraftbutton == null ) {
+            confirmcraftbutton = new Button(getContext());
+
+            confirmcraftbutton.setText("CRAFT");
+            confirmcraftbutton.setBackgroundResource(R.drawable.button);
+            confirmcraftbutton.setTextColor(Color.WHITE);
+            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                    (int) (120 * getResources().getDisplayMetrics().density),
+                    (int) (50 * getResources().getDisplayMetrics().density)
+            );
+            buttonParams.leftMargin = screenWidth / 2 + 350;
+            buttonParams.topMargin = screenHeight -200; // Position below image
+            confirmcraftbutton.setLayoutParams(buttonParams);
+
+            frameLayout.addView(confirmcraftbutton);
+
+        }
+        craftedItemText.bringToFront();
+
+        // Remove any existing ScrollView if it exists
+        if (craftingScrollView != null) {
+            frameLayout.removeView(craftingScrollView);
+            craftingScrollView = null; // Clear reference
+        }
+
+        // Create a new ScrollView
+        craftingScrollView = new ScrollView(getContext());
+        FrameLayout.LayoutParams scrollParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+        );
+        craftingScrollView.setLayoutParams(scrollParams);
+
+        // Create a LinearLayout inside the ScrollView
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+
+        // Add buttons dynamically
+        for (int i = 0; i < 10; i++) {
+            Button craftButton = new Button(getContext());
+            craftButton.setText("Craft Item " + (i + 1));
+            craftButton.setBackgroundResource(R.drawable.button);
+            craftButton.setTextColor(Color.WHITE);
+            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    (int) (50 * getResources().getDisplayMetrics().density)
+            );
+            buttonParams.setMargins(20, 5, 1200, 5);
+            craftButton.setLayoutParams(buttonParams);
+
+            linearLayout.addView(craftButton);
+        }
+
+        // Add the LinearLayout inside the ScrollView
+        craftingScrollView.addView(linearLayout);
+
+        // Add ScrollView to the main FrameLayout
+        frameLayout.addView(craftingScrollView);
+
+
+    }
+    public void removeCraftingScrollView() {
+        FrameLayout frameLayout = (FrameLayout) this.getParent();
+        if (craftingScrollView != null) {
+
+            frameLayout.removeView(craftingScrollView);
+            craftingScrollView = null; // Clear reference
+        }
+        if (craftedItemImage != null){
+            frameLayout.removeView(craftedItemImage);
+            craftedItemImage = null;
+        }
+
+        if (craftedItemText != null){
+            frameLayout.removeView(craftedItemText);
+            craftedItemText = null;
+        }
+
+        if (confirmcraftbutton != null){
+            frameLayout.removeView(confirmcraftbutton);
+            confirmcraftbutton= null;
+        }
+    }
+
 
     public void HatchingLayout(){
         for (Button buttons : characterButtons){
@@ -214,14 +370,38 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
         }
 
-
+        removeCraftingScrollView();
 
         for (int i = 0; i < eggButtons.size(); i++){
             eggButtons.get(i).setVisibility(View.VISIBLE);
         }
 
+        toggleinvenbutton.setVisibility(View.INVISIBLE);
+        toCraftButton.setVisibility(View.VISIBLE);
+        toHouseButton.setVisibility(View.INVISIBLE);
+        toFarmButton.setVisibility(View.VISIBLE);
+    }
+
+    public void CraftingLayout(){
+        for (Button buttons : characterButtons){
+            buttons.setVisibility(View.INVISIBLE);
+
+        }
 
 
+        for (Button buttons : hatchingeggs){
+            buttons.setVisibility(View.INVISIBLE);
+
+        }
+
+
+        createCraftingLayout();
+//        for (int i = 0; i < eggButtons.size(); i++){
+//            eggButtons.get(i).setVisibility(View.INVISIBLE);
+//        }
+
+        toggleinvenbutton.setVisibility(View.INVISIBLE);
+        toCraftButton.setVisibility(View.INVISIBLE);
         toHouseButton.setVisibility(View.INVISIBLE);
         toFarmButton.setVisibility(View.VISIBLE);
     }
@@ -231,12 +411,16 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             buttons.setVisibility(View.VISIBLE);
 
         }
+        toggleinvenbutton.setVisibility(View.VISIBLE);
         toFarmButton.setVisibility(View.INVISIBLE);
         toHouseButton.setVisibility(View.VISIBLE);
+        toCraftButton.setVisibility(View.INVISIBLE);
         for (Button buttons : hatchingeggs){
             buttons.setVisibility(View.INVISIBLE);
 
         }
+
+        removeCraftingScrollView();
 
         for (Button buttons : eggButtons){
             buttons.setVisibility(View.INVISIBLE);
@@ -245,6 +429,20 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     }
     public void creategamebuttons(){
         FrameLayout frameLayout = (FrameLayout) this.getParent();
+
+        toggleinvenbutton = new Button(this.getContext());
+        toggleinvenbutton.setText("T");
+        toggleinvenbutton.setTextColor(Color.WHITE);
+        toggleinvenbutton.setBackground(getResources().getDrawable(R.drawable.button, null));
+        FrameLayout.LayoutParams invenparams = new FrameLayout.LayoutParams(
+                (int) (buttonWidth/1.5 * getResources().getDisplayMetrics().density),
+                (int) (buttonHeight/1.5 * getResources().getDisplayMetrics().density)
+        );
+        invenparams.leftMargin = buttonStartX -150;
+        invenparams.topMargin = buttonStartY;
+        toggleinvenbutton.setLayoutParams(invenparams);
+
+        frameLayout.addView(toggleinvenbutton);
         for (int i = 0; i < characterButtons.length; i++) {
 
                 if (characterdrawables[i] == null) continue;
@@ -271,7 +469,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
         toHouseButton = new Button(this.getContext());
         toHouseButton.setText("HOUSE");
-        toHouseButton.setBackgroundColor(Color.WHITE);
+        toHouseButton.setBackgroundResource(R.drawable.button);
+        toHouseButton.setTextColor(Color.WHITE);
         FrameLayout.LayoutParams tohouseparams = new FrameLayout.LayoutParams(
                 (int) (150 * getResources().getDisplayMetrics().density),
                 (int) (50 * getResources().getDisplayMetrics().density)
