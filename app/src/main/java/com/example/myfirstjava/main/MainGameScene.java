@@ -141,7 +141,7 @@ public class MainGameScene extends GameScene {
         if (won || lost) return;
 
         text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,0 + 100));
-        text_eggCount.setText("EGG: " + Egg,new Vector2(100,100));
+        text_eggCount.setText("EGG: " + Wood,new Vector2(100,100));
 
         _totalEnemyTimer += dt;
 

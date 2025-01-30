@@ -85,9 +85,12 @@ public class LivingEntity extends PhysicsEntity {
         if (heldItem == Item.SWORD){
             return amountReturn;
         } else if (heldItem == Item.AXE){
-            int randomNumber = new Random().nextInt(amountReturn);
+            int randomNumber = new Random().nextInt(amountReturn) + 1;
             int maxAmt = Math.abs(randomNumber - amountReturn - 1);
+            Log.d("ITEMMINECRAFT",randomNumber + " " + amountReturn + " " + maxAmt);
             gamescene.addVariable(AxeResource[randomNumber-1],new Random().nextInt(maxAmt)+1);
+
+
             /*
             Wooden - > gets 2 & below [1-2,2-1]
             Stone - > gets 3 & below [1-3,2-2,3-1]
@@ -96,7 +99,7 @@ public class LivingEntity extends PhysicsEntity {
             Diamond - > gets 5 & below [1-6,2-5,3-4,4-3,5-2]
              */
         } else if (heldItem == Item.PICKAXE){
-            int randomNumber = new Random().nextInt(amountReturn) - 1;
+            int randomNumber = new Random().nextInt(amountReturn - 1) + 1;
             int maxAmt = Math.abs(randomNumber - amountReturn - 1 - 1);
             gamescene.addVariable(PickaxeResource[randomNumber-1],new Random().nextInt(maxAmt)+1);
             /*

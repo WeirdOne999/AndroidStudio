@@ -25,6 +25,7 @@ public class Chicken extends LivingEntity{
         //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
         setSize(new Vector2(size,size));
         setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight() / 1,(int)getScreenHeight() / 1,true),4,4,12,0,3);
+        SetItem(Item.AXE,Level.WOODEN);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class Chicken extends LivingEntity{
             //Log.d("ARRSIZ", "Array size: " + gamescene._gameEntities.size());
             gamescene._gameEntityCache.add(new Egg(this.getLayer(),this.getPosition()));
             AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.eggpop);
-
+            UseItem(gamescene);
             timer = recharge;
         }
     }
