@@ -34,7 +34,7 @@ public class Llama extends LivingEntity{
         timer -= dt;
         if (timer <= 0){
             if (!hasShot){
-                gamescene._gameEntityCache.add(new LlamaSpit(this));
+                gamescene._gameEntityCache.add(new LlamaSpit(this,UseItem(gamescene)));
                 AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.llamaspit);
             }
             hasShot = true;

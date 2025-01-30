@@ -61,7 +61,7 @@ public class IronGolem extends LivingEntity{
 
             _animatedSprite.setNew(0,3);
             _animatedSprite.setLopping(true);
-            if(touched != null) gamescene._gameEntityCache.add(new AreaDamage(3,touched.getPosition(),50));
+            if(touched != null) gamescene._gameEntityCache.add(new AreaDamage(3,touched.getPosition(),50 * UseItem(gamescene)));
         }
 
     }

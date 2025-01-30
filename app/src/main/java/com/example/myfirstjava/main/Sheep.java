@@ -28,7 +28,7 @@ public class Sheep extends LivingEntity{
         //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
         setSize(new Vector2(size,size));
         setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)(getScreenHeight() *1.5),(int)(getScreenHeight() * 1.5),true),6,5,12,0,3);
-
+        SetItem(Item.SWORD,Level.DIAMOND);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Sheep extends LivingEntity{
         if(_animatedSprite.hasFinished()){
             _animatedSprite.setLopping(true);
             _animatedSprite.setNew(0,3);
-            if(touched != null) touched.SetHealth(touched.getHealth() - damage);
+            if(touched != null) touched.SetHealth(touched.getHealth() - (damage * UseItem(gamescene)));
         }
 
     }
