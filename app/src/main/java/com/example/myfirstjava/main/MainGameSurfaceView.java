@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.myfirstjava.R;
+import com.example.myfirstjava.mgp2d.core.GameActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,14 +68,19 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     public int hatchbuttonStartX, hatchbuttonStartY;
 
     private ScrollView craftingScrollView; // Store ScrollView reference
-    private ImageView craftedItemImage;
+    public ImageView craftedItemImage;
 
-    private TextView craftedItemText;
+    public TextView craftedItemText;
 
-    private TextView confirmcraftbutton;
+    public Button confirmcraftbutton;
 
+    public ScrollView itemsscrollview;
+    public List<Button> itembuttons;
+    public List<Button> UIitemButtons;
     public Button toggleinvenbutton;
+    public boolean mobinvenactive;
 
+    public List<ItemsUI> myItems = ItemInventory.getItems();
     public void setSize(int width,int height){
         screenWidth = width;
         screenHeight = height;
@@ -83,6 +89,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     @SuppressLint("UseCompatLoadingForDrawables")
     public MainGameSurfaceView(Context context, FrameLayout frameLayout) {
         super(context);
+        itembuttons = new ArrayList<>();
+        UIitemButtons = new ArrayList<>();
         AudioClass.getInstance().PlayBackgroundMusic(context, R.raw.ariamath, true);
         instance = this;
         setZOrderOnTop(true);
@@ -140,7 +148,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
         // Create a row of buttons
 
-
+        mobinvenactive = true;
 
     }
 
@@ -241,7 +249,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             );
             imageParams.leftMargin = screenWidth / 2+ 400; // Center it
             imageParams.topMargin = screenHeight / 2 -350; // Adjust position
-            craftedItemImage.setImageResource(R.drawable.irongolem);
+            //craftedItemImage.setBackgroundResource(R.drawable.irongolem);
 
             craftedItemImage.setLayoutParams(imageParams);
             craftedItemImage.setVisibility(View.VISIBLE); // Hide initially
@@ -285,6 +293,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
             frameLayout.addView(confirmcraftbutton);
 
+
+
         }
         craftedItemText.bringToFront();
 
@@ -311,9 +321,10 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         ));
 
         // Add buttons dynamically
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < myItems.size(); i++) {
             Button craftButton = new Button(getContext());
-            craftButton.setText("Craft Item " + (i + 1));
+
+            craftButton.setText(myItems.get(i).getName());
             craftButton.setBackgroundResource(R.drawable.button);
             craftButton.setTextColor(Color.WHITE);
             LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
@@ -324,6 +335,9 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             craftButton.setLayoutParams(buttonParams);
 
             linearLayout.addView(craftButton);
+            UIitemButtons.add(craftButton);
+
+
         }
 
         // Add the LinearLayout inside the ScrollView
@@ -333,28 +347,24 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         frameLayout.addView(craftingScrollView);
 
 
+
     }
     public void removeCraftingScrollView() {
-        FrameLayout frameLayout = (FrameLayout) this.getParent();
-        if (craftingScrollView != null) {
 
-            frameLayout.removeView(craftingScrollView);
-            craftingScrollView = null; // Clear reference
-        }
-        if (craftedItemImage != null){
-            frameLayout.removeView(craftedItemImage);
-            craftedItemImage = null;
-        }
 
-        if (craftedItemText != null){
-            frameLayout.removeView(craftedItemText);
-            craftedItemText = null;
-        }
+        craftingScrollView.setVisibility(View.INVISIBLE);
+        craftedItemImage.setVisibility(View.INVISIBLE);
+        craftedItemText.setVisibility(View.INVISIBLE);
+        confirmcraftbutton.setVisibility(View.INVISIBLE);
+    }
 
-        if (confirmcraftbutton != null){
-            frameLayout.removeView(confirmcraftbutton);
-            confirmcraftbutton= null;
-        }
+    public void addCraftingScrollView() {
+
+
+        craftingScrollView.setVisibility(View.VISIBLE);
+        craftedItemImage.setVisibility(View.VISIBLE);
+        craftedItemText.setVisibility(View.VISIBLE);
+        confirmcraftbutton.setVisibility(View.VISIBLE);
     }
 
 
@@ -375,11 +385,12 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         for (int i = 0; i < eggButtons.size(); i++){
             eggButtons.get(i).setVisibility(View.VISIBLE);
         }
-
+        itemsscrollview.setVisibility(View.INVISIBLE);
         toggleinvenbutton.setVisibility(View.INVISIBLE);
         toCraftButton.setVisibility(View.VISIBLE);
         toHouseButton.setVisibility(View.INVISIBLE);
         toFarmButton.setVisibility(View.VISIBLE);
+
     }
 
     public void CraftingLayout(){
@@ -395,15 +406,20 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         }
 
 
-        createCraftingLayout();
+        addCraftingScrollView();
+        craftedItemImage.bringToFront();
+        craftedItemText.bringToFront();
+        confirmcraftbutton.bringToFront();
+        craftingScrollView.bringToFront();
 //        for (int i = 0; i < eggButtons.size(); i++){
 //            eggButtons.get(i).setVisibility(View.INVISIBLE);
 //        }
-
+        itemsscrollview.setVisibility(View.INVISIBLE);
         toggleinvenbutton.setVisibility(View.INVISIBLE);
         toCraftButton.setVisibility(View.INVISIBLE);
         toHouseButton.setVisibility(View.INVISIBLE);
         toFarmButton.setVisibility(View.VISIBLE);
+
     }
 
     public void GameLayout(){
@@ -426,10 +442,12 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             buttons.setVisibility(View.INVISIBLE);
 
         }
+
     }
     public void creategamebuttons(){
         FrameLayout frameLayout = (FrameLayout) this.getParent();
-
+        createCraftingLayout();
+        addCraftingScrollView();
         toggleinvenbutton = new Button(this.getContext());
         toggleinvenbutton.setText("T");
         toggleinvenbutton.setTextColor(Color.WHITE);
@@ -466,6 +484,55 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
 
         }
+
+        // Create a new ScrollView
+        itemsscrollview = new ScrollView(getContext());
+        FrameLayout.LayoutParams scrollParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        scrollParams.setMargins(0, 130, 0, 0);
+        itemsscrollview.setLayoutParams(scrollParams);
+        itemsscrollview.setVisibility(View.INVISIBLE);
+// Create a LinearLayout inside the ScrollView
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+
+// Add buttons dynamically
+        for (int i = 0; i < myItems.size(); i++) {
+            Button itembutton = new Button(getContext());
+
+            itembutton.setBackgroundResource(myItems.get(i).getImageResource());
+
+            itembutton.setText("0");
+            itembutton.setTextColor(Color.WHITE);
+            itembutton.setShadowLayer(5, 2, 2, Color.BLACK);
+            itembutton.setGravity(Gravity.RIGHT | Gravity.BOTTOM);
+            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
+                    (int) (buttonWidth * getResources().getDisplayMetrics().density),
+                    (int) (buttonHeight * getResources().getDisplayMetrics().density)
+            );
+            buttonParams.setMargins(200, 5, 0, 5);
+            itembutton.setLayoutParams(buttonParams);
+            itembutton.bringToFront();
+            linearLayout.addView(itembutton);
+            itembuttons.add(itembutton);
+
+
+            Log.d("DEBUG", "Buttons created: " + itembuttons.size());
+
+        }
+
+// Add LinearLayout to the ScrollView
+        itemsscrollview.addView(linearLayout);
+
+// Add ScrollView to the parent FrameLayout
+        frameLayout.addView(itemsscrollview);
 
         toHouseButton = new Button(this.getContext());
         toHouseButton.setText("HOUSE");

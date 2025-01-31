@@ -68,6 +68,8 @@ public class GameUIEntity {
                 }
             });
         }
+
+
         EggUpdate();
         Log.e("GameUIEntity", "EGGS SIZE:" + gameSurface.eggs.size());
         Log.e("GameUIEntity", "EGGSBUTTON SIZE:" + gameSurface.eggButtons.size());
@@ -83,8 +85,36 @@ public class GameUIEntity {
         }
 
         Log.e("GameUIEntity", String.valueOf(GameActivity.instance.deltaTime));
+
+
+        //ITEMS
+
+            if (gameSurface.itembuttons != null && gameSurface.itembuttons.size() > 0 ) {
+                // Modify text for each button dynamically in the update loop
+                gameSurface.post(() -> {
+                    for (int i = 0; i < gameSurface.myItems.size(); i++) {
+                        gameSurface.itembuttons.get(i).setText(String.valueOf(gameSurface.myItems.get(i).getAmount()));
+
+                    }
+
+                });
+            }
+
+            for (int i =0; i < gameSurface.myItems.size();i++){
+                if (gameSurface.myItems.get(i).getAmount() <= 0){
+                    gameSurface.myItems.get(i).setAmount(0);
+                }
+            }
+
+            for (int i = 0; i < gameSurface.myItems.size(); i++) {
+                Log.e("GameUIEntity" + i, "ItemsAmount:" + i + " " + gameSurface.myItems.get(i).getAmount());
+            }
+
+
+
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void setupButtonClicks() {
         gameSurface.post(() -> {
             ButtonPressed = -1;
@@ -114,8 +144,60 @@ public class GameUIEntity {
             gameSurface.toggleinvenbutton.setOnClickListener(v -> {
                 AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
                 //TOGGLE BETWEEN MOBS AND ITEMS
+                if (gameSurface.mobinvenactive){
+                    gameSurface.itemsscrollview.setVisibility(View.VISIBLE);
+                    for (Button buttons : gameSurface.characterButtons){
+                        buttons.setVisibility(View.INVISIBLE);
+
+                    }
+                    gameSurface.mobinvenactive = false;
+                }else {
+                    gameSurface.itemsscrollview.setVisibility(View.INVISIBLE);
+                    for (Button buttons : gameSurface.characterButtons){
+                        buttons.setVisibility(View.VISIBLE);
+
+                    }
+                    gameSurface.mobinvenactive = true;
+                }
+
+            });
+            Log.d("DEBUG", "UIitemButtons: " + gameSurface.UIitemButtons);
+            for (int i =0; i < gameSurface.UIitemButtons.size(); i++){
+                final int finalI = i;
+
+
+                gameSurface.UIitemButtons.get(i).setOnClickListener(v -> {
+
+
+
+                    AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
+                    gameSurface.craftedItemImage.setBackgroundResource(gameSurface.myItems.get(finalI).getImageResource());
+                    gameSurface.craftedItemText.setText(gameSurface.myItems.get(finalI).getName());
+                });
+            }
+
+            gameSurface.confirmcraftbutton.setOnClickListener(v -> {
+                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.completed);
+                // Get the resource ID from the tag
+                for (int i = 0; i < gameSurface.myItems.size(); i++) {
+
+                    if (gameSurface.craftedItemText.getText() == gameSurface.myItems.get(i).getName()){
+                        gameSurface.myItems.get(i).setAmount(gameSurface.myItems.get(i).getAmount() + 1);
+                    }
+                }
+
+                // Compare with the resources from your items
+
+
             });
 
+            for (int i =0; i < gameSurface.itembuttons.size(); i++){
+                int finalI = i;
+                gameSurface.itembuttons.get(i).setOnClickListener(v -> {
+                    gameSurface.myItems.get(finalI).setAmount(gameSurface.myItems.get(finalI).getAmount() - 1);
+                });
+
+            }
 
             gameSurface.toHouseButton.setOnClickListener(v -> {
                 AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
