@@ -18,6 +18,7 @@ import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Vector;
 
@@ -41,6 +42,8 @@ public class MainGameScene extends GameScene {
     private float _totalEnemyTimer = 0;
 
     public int Egg;
+
+    HashMap<String, Integer>material = new HashMap<>();
     public int Stone;
     public int Iron;
     public int Gold;
@@ -64,6 +67,16 @@ public class MainGameScene extends GameScene {
     public void onCreate() {    
         super.onCreate();
         onEnter();
+        material.put("Wood",100);
+        material.put("BirchWood",100);
+        material.put("OakWood",100);
+        material.put("PaleWood",100);
+        material.put("CrimsonWood",100);
+        material.put("Stone",100);
+        material.put("Iron",100);
+        material.put("Gold",100);
+        material.put("Diamond",100);
+
 
     }
 
@@ -141,7 +154,7 @@ public class MainGameScene extends GameScene {
         if (won || lost) return;
 
         text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,0 + 100));
-        text_eggCount.setText("EGG: " + Wood,new Vector2(100,100));
+        text_eggCount.setText("EGG: "  + Egg + " WOOD: " + material.get("Wood") + " Diamond: " + material.get("Diamond"),new Vector2(100,100));
 
         _totalEnemyTimer += dt;
 
@@ -172,32 +185,14 @@ public class MainGameScene extends GameScene {
         if (addVaraible.equals("Egg")){
             this.Egg += i;
         }
-        else if (addVaraible.equals("Stone")){
-            this.Stone += i;
-        }
-        else if (addVaraible.equals("Iron")){
-            this.Iron += i;
-        }
-        else if (addVaraible.equals("Gold")){
-            this.Gold += i;
-        }
-        else if (addVaraible.equals("Diamond")){
-            this.Diamond += i;
-        }
-        else if (addVaraible.equals("Wood")){
-            this.Wood += i;
-        }
-        else if (addVaraible.equals("Birch Wood")){
-            this.Birch_Wood += i;
-        }
-        else if (addVaraible.equals("Oak Wood")){
-            this.Oak_Wood += i;
-        }
-        else if (addVaraible.equals("Pale Wood")){
-            this.Pale_Wood += i;
-        }
-        else if (addVaraible.equals("Crimson Wood")){
-            this.Crimson_Wood += i;
+        else {
+            if (material.containsKey(addVaraible)){
+                //CONTAINS
+                material.put(addVaraible,material.get(addVaraible) + i);
+            }else{
+                //NO CONTAINS
+                material.put(addVaraible,i);
+            }
         }
     }
 

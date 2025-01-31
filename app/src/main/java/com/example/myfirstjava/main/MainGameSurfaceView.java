@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.GridLayout;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -247,15 +249,12 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                     (int) (150 * getResources().getDisplayMetrics().density),
                     (int) (150 * getResources().getDisplayMetrics().density)
             );
-            imageParams.leftMargin = screenWidth / 2+ 400; // Center it
-            imageParams.topMargin = screenHeight / 2 -350; // Adjust position
-            //craftedItemImage.setBackgroundResource(R.drawable.irongolem);
-
+            imageParams.leftMargin = screenWidth / 2 + 400; // Center it
+            imageParams.topMargin = screenHeight / 2 - 350; // Adjust position
             craftedItemImage.setLayoutParams(imageParams);
-            craftedItemImage.setVisibility(View.VISIBLE); // Hide initially
+            craftedItemImage.setVisibility(View.VISIBLE);
             frameLayout.addView(craftedItemImage);
         }
-
 
         if (craftedItemText == null) {
             craftedItemText = new TextView(getContext());
@@ -271,15 +270,13 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                     FrameLayout.LayoutParams.WRAP_CONTENT
             );
             textParams.leftMargin = screenWidth / 2 + 350;
-            textParams.topMargin = screenHeight -350; // Position below image
-
+            textParams.topMargin = screenHeight - 350; // Position below image
             craftedItemText.setLayoutParams(textParams);
             frameLayout.addView(craftedItemText);
         }
 
-        if (confirmcraftbutton == null ) {
+        if (confirmcraftbutton == null) {
             confirmcraftbutton = new Button(getContext());
-
             confirmcraftbutton.setText("CRAFT");
             confirmcraftbutton.setBackgroundResource(R.drawable.button);
             confirmcraftbutton.setTextColor(Color.WHITE);
@@ -288,14 +285,11 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                     (int) (50 * getResources().getDisplayMetrics().density)
             );
             buttonParams.leftMargin = screenWidth / 2 + 350;
-            buttonParams.topMargin = screenHeight -200; // Position below image
+            buttonParams.topMargin = screenHeight - 200; // Position below image
             confirmcraftbutton.setLayoutParams(buttonParams);
-
             frameLayout.addView(confirmcraftbutton);
-
-
-
         }
+
         craftedItemText.bringToFront();
 
         // Remove any existing ScrollView if it exists
@@ -312,43 +306,40 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         );
         craftingScrollView.setLayoutParams(scrollParams);
 
-        // Create a LinearLayout inside the ScrollView
-        LinearLayout linearLayout = new LinearLayout(getContext());
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+        // Create a GridLayout inside the ScrollView
+        GridLayout gridLayout = new GridLayout(getContext());
+        gridLayout.setColumnCount(4); // Set the number of columns in the grid
+        gridLayout.setLayoutParams(new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
         ));
 
-        // Add buttons dynamically
+        // Add buttons dynamically to the GridLayout
         for (int i = 0; i < myItems.size(); i++) {
             Button craftButton = new Button(getContext());
+            //craftButton.setText(myItems.get(i).getName());
 
-            craftButton.setText(myItems.get(i).getName());
-            craftButton.setBackgroundResource(R.drawable.button);
+            craftButton.setBackgroundResource(myItems.get(i).getImageResource());
             craftButton.setTextColor(Color.WHITE);
-            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    (int) (50 * getResources().getDisplayMetrics().density)
-            );
-            buttonParams.setMargins(20, 5, 1200, 5);
+
+            // Set layout params for the button
+            GridLayout.LayoutParams buttonParams = new GridLayout.LayoutParams();
+            buttonParams.width = (int) (100 * getResources().getDisplayMetrics().density); // Set width
+            buttonParams.height = (int) (100 * getResources().getDisplayMetrics().density); // Set height
+            buttonParams.setMargins(10, 10, 10, 10); // Add margin around the buttons
+
             craftButton.setLayoutParams(buttonParams);
-
-            linearLayout.addView(craftButton);
+            gridLayout.addView(craftButton);
             UIitemButtons.add(craftButton);
-
-
         }
 
-        // Add the LinearLayout inside the ScrollView
-        craftingScrollView.addView(linearLayout);
+        // Add GridLayout inside ScrollView
+        craftingScrollView.addView(gridLayout);
 
         // Add ScrollView to the main FrameLayout
         frameLayout.addView(craftingScrollView);
-
-
-
     }
+
     public void removeCraftingScrollView() {
 
 

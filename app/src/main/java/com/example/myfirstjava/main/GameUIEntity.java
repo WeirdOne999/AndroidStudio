@@ -177,12 +177,41 @@ public class GameUIEntity {
             }
 
             gameSurface.confirmcraftbutton.setOnClickListener(v -> {
-                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.completed);
+
                 // Get the resource ID from the tag
                 for (int i = 0; i < gameSurface.myItems.size(); i++) {
 
                     if (gameSurface.craftedItemText.getText() == gameSurface.myItems.get(i).getName()){
-                        gameSurface.myItems.get(i).setAmount(gameSurface.myItems.get(i).getAmount() + 1);
+                        Boolean canProduceItem = true;
+
+                        ArrayList<String> keysList = new ArrayList<>(gameSurface.myItems.get(i).materials.keySet());
+
+                        for (int k = 0; k < gameSurface.myItems.get(i).materials.size(); k++ ){
+                            //TO REMOVE FROM INVENTORY
+                            String temp = keysList.get(k);
+
+                            if (MainGameScene.instance.material.containsKey(temp)){
+                                if (MainGameScene.instance.material.get(temp) >= gameSurface.myItems.get(i).materials.get(temp)){
+                                    MainGameScene.instance.material.put(temp,MainGameScene.instance.material.get(temp) - gameSurface.myItems.get(i).materials.get(temp));
+                                    AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.completed);
+                                }else{
+                                    canProduceItem = false;
+                                    AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
+                                    break;
+                                }
+
+                            }else{
+                                canProduceItem = false;
+                                AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
+                                break;
+                            }
+                        }
+
+                        if(canProduceItem){
+                            gameSurface.myItems.get(i).setAmount(gameSurface.myItems.get(i).getAmount() + 1);
+                            //AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.completed);
+                        }
+
                     }
                 }
 

@@ -25,7 +25,7 @@ public class LivingEntity extends PhysicsEntity {
         NONE
     }
 
-    String[] AxeResource = {"Wood","Birch Wood","Oak Wood","Pale Wood","Crimson Wood"};
+    String[] AxeResource = {"Wood","BirchWood","OakWood","PaleWood","CrimsonWood"};
     String[] PickaxeResource = {"Stone","Iron","Gold","Diamond"};
     Item heldItem = Item.NONE;
     Level heldItemLevel = Level.WOODEN;
