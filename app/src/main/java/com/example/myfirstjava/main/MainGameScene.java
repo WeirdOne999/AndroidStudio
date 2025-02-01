@@ -76,7 +76,7 @@ public class MainGameScene extends GameScene {
         material.put("Iron",100);
         material.put("Gold",100);
         material.put("Diamond",100);
-
+        MainGameSurfaceView.instance.createMaterialGrid();
 
     }
 
@@ -154,7 +154,7 @@ public class MainGameScene extends GameScene {
         if (won || lost) return;
 
         text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,0 + 100));
-        text_eggCount.setText("EGG: "  + Egg + " WOOD: " + material.get("Wood") + " Diamond: " + material.get("Diamond"),new Vector2(100,100));
+        text_eggCount.setText("EGG: "  + Egg ,new Vector2(100,100));
 
         _totalEnemyTimer += dt;
 
@@ -194,6 +194,7 @@ public class MainGameScene extends GameScene {
                 material.put(addVaraible,i);
             }
         }
+
     }
 
     @Override

@@ -11,12 +11,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.example.myfirstjava.R;
 import com.example.myfirstjava.mgp2d.core.GameActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 //INTERFACE CLASS FOR MAINMENU FROM GAME SURFACE
@@ -67,6 +69,35 @@ public class GameUIEntity {
                     gameSurface.characterButtons[i].setText(String.valueOf(gameSurface.characteramounts[i]));
                 }
             });
+        }
+
+        if (gameSurface.MaterialAmount != null && MainGameScene.instance != null) {
+            // Check if the size of MaterialAmount matches the size of the material map
+            if (gameSurface.MaterialAmount.size() == MainGameScene.instance.material.size()) {
+                int index = 0;  // To track the position in MaterialAmount
+
+                // Iterate over the material entries
+                for (Map.Entry<String, Integer> entry : MainGameScene.instance.material.entrySet()) {
+                    String materialName = entry.getKey();
+                    int materialAmount = entry.getValue();
+
+                    // Ensure UI updates happen on the main thread
+                    int finalIndex = index;
+                    (GameActivity.instance).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Update the corresponding TextView with the material name and amount
+                            TextView materialTextView = gameSurface.MaterialAmount.get(finalIndex);
+                            materialTextView.setText(String.valueOf(materialAmount));
+                        }
+                    });
+
+                    // Increment the index to move to the next TextView
+                    index++;
+                }
+            } else {
+                Log.e("Game", "Mismatch between number of materials and TextViews!");
+            }
         }
 
 

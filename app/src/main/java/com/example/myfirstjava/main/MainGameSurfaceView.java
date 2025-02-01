@@ -32,6 +32,7 @@ import com.example.myfirstjava.mgp2d.core.GameActivity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 //SURFACE VIEW CLASS
 public class MainGameSurfaceView extends SurfaceView implements Runnable {
@@ -82,6 +83,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     public Button toggleinvenbutton;
     public boolean mobinvenactive;
 
+    public ScrollView MaterialScrollview;
+    public List<TextView> MaterialAmount;
     public List<ItemsUI> myItems = ItemInventory.getItems();
     public void setSize(int width,int height){
         screenWidth = width;
@@ -93,6 +96,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         super(context);
         itembuttons = new ArrayList<>();
         UIitemButtons = new ArrayList<>();
+        MaterialAmount = new ArrayList<>();
         AudioClass.getInstance().PlayBackgroundMusic(context, R.raw.ariamath, true);
         instance = this;
         setZOrderOnTop(true);
@@ -376,6 +380,9 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         for (int i = 0; i < eggButtons.size(); i++){
             eggButtons.get(i).setVisibility(View.VISIBLE);
         }
+        if (MaterialScrollview != null){
+            MaterialScrollview.setVisibility(View.INVISIBLE);
+        }
         itemsscrollview.setVisibility(View.INVISIBLE);
         toggleinvenbutton.setVisibility(View.INVISIBLE);
         toCraftButton.setVisibility(View.VISIBLE);
@@ -405,6 +412,9 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 //        for (int i = 0; i < eggButtons.size(); i++){
 //            eggButtons.get(i).setVisibility(View.INVISIBLE);
 //        }
+        if (MaterialScrollview != null){
+            MaterialScrollview.setVisibility(View.INVISIBLE);
+        }
         itemsscrollview.setVisibility(View.INVISIBLE);
         toggleinvenbutton.setVisibility(View.INVISIBLE);
         toCraftButton.setVisibility(View.INVISIBLE);
@@ -418,6 +428,10 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             buttons.setVisibility(View.VISIBLE);
 
         }
+        if (MaterialScrollview != null){
+            MaterialScrollview.setVisibility(View.VISIBLE);
+        }
+
         toggleinvenbutton.setVisibility(View.VISIBLE);
         toFarmButton.setVisibility(View.INVISIBLE);
         toHouseButton.setVisibility(View.VISIBLE);
@@ -538,7 +552,139 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
         toHouseButton.setLayoutParams(tohouseparams);
         frameLayout.addView(toHouseButton);
+
+
+
     }
+    public void createMaterialGrid() {
+        if (MainGameScene.instance == null || MainGameScene.instance.material == null) {
+            Log.e("Game", "MainGameScene.instance or material is null!");
+            return;
+        }
+
+        (GameActivity.instance).runOnUiThread(() -> {
+            FrameLayout frameLayout = (FrameLayout) this.getParent();
+            if (frameLayout == null) {
+                Log.e("Game", "frameLayout is null!");
+                return;
+            }
+
+            // Remove existing grid if needed
+            if (MaterialScrollview != null) {
+                frameLayout.removeView(MaterialScrollview);
+                MaterialScrollview = null;
+            }
+
+            // Create a new ScrollView
+            MaterialScrollview = new ScrollView(getContext());
+            FrameLayout.LayoutParams scrollParams = new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+            );
+            scrollParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL; // Ensure it's at the bottom
+            scrollParams.bottomMargin = 20; // Offset from the bottom
+            MaterialScrollview.setLayoutParams(scrollParams);
+
+            // Container for GridLayout (Ensures Center Alignment)
+            LinearLayout containerLayout = new LinearLayout(getContext());
+            containerLayout.setOrientation(LinearLayout.VERTICAL);
+            containerLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+            containerLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+
+            // Create GridLayout
+            GridLayout gridLayout = new GridLayout(getContext());
+            int totalMaterials = MainGameScene.instance.material.size();
+            gridLayout.setRowCount(2); // Always 2 rows
+            gridLayout.setColumnCount((int) Math.ceil((double) totalMaterials / 2)); // Adjust columns dynamically
+
+            LinearLayout.LayoutParams gridParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            gridLayout.setLayoutParams(gridParams);
+
+            int row = 0, col = 0;
+            for (Map.Entry<String, Integer> entry : MainGameScene.instance.material.entrySet()) {
+                String materialName = entry.getKey();
+                int materialAmount = entry.getValue();
+
+                LinearLayout itemLayout = new LinearLayout(getContext());
+                itemLayout.setOrientation(LinearLayout.HORIZONTAL);
+                itemLayout.setGravity(Gravity.CENTER_VERTICAL);
+                itemLayout.setPadding(20, 10, 20, 10);
+
+                // ImageView
+                ImageView materialImage = new ImageView(getContext());
+                materialImage.setImageResource(getMaterialImage(materialName));
+                LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(100, 100);
+                materialImage.setLayoutParams(imageParams);
+
+                // TextView
+                TextView materialCount = new TextView(getContext());
+
+                materialCount.setText(String.valueOf(materialAmount));
+                materialCount.setTextColor(Color.WHITE);
+                materialCount.setTextSize(20);
+                materialCount.setPadding(20, 0, 0, 0);
+
+                itemLayout.addView(materialImage);
+                itemLayout.addView(materialCount);
+                MaterialAmount.add(materialCount);
+                // GridLayout Params
+                GridLayout.LayoutParams gridItemParams = new GridLayout.LayoutParams(
+                        GridLayout.spec(row), GridLayout.spec(col)
+                );
+                gridItemParams.setMargins(20, 10, 20, 10);
+                itemLayout.setLayoutParams(gridItemParams);
+
+                gridLayout.addView(itemLayout);
+
+                // Update row/column positions
+                col++;
+                if (col >= gridLayout.getColumnCount()) {
+                    col = 0;
+                    row++;
+                }
+            }
+
+            containerLayout.addView(gridLayout);
+            MaterialScrollview.addView(containerLayout);
+            frameLayout.addView(MaterialScrollview);
+        });
+    }
+
+
+
+    // Helper function to get image resource from material name
+    private int getMaterialImage(String materialName) {
+        switch (materialName) {
+            case "Diamond":
+                return R.drawable.diamond;
+            case "Gold":
+                return R.drawable.gold;
+            case "Iron":
+                return R.drawable.iron;
+            case "Stone":
+                return R.drawable.stone;
+            case "CrimsonWood":
+                return R.drawable.crimsonwood;
+            case "BirchWood":
+                return R.drawable.birchwood;
+            case "PaleWood":
+                return R.drawable.palewood;
+            case "OakWood":
+                return R.drawable.oakwood;
+            case "Wood":
+                return R.drawable.wood;
+            default:
+                return 0; // Default image
+        }
+    }
+
+
     private void update(float dt) {
 
         if (characterButtons != null && characterButtons.length > 0) {
