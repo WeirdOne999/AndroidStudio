@@ -164,7 +164,7 @@ public class GameUIEntity {
     public void setupButtonClicks() {
         gameSurface.post(() -> {
             ButtonPressed = -1;
-
+            Log.d("MYFAULT","falseExec");
             for (int i = 0; i < gameSurface.characterButtons.length; i++) {
                 final int index = i;  // Use final to access inside the listener
                 gameSurface.characterButtons[i].setOnTouchListener((v, event) -> {
@@ -172,6 +172,7 @@ public class GameUIEntity {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         MainGameScene.instance.Planting = true;
                         ButtonPressed = index;
+                        Log.d("MYFAULT","ALW TRUE 2");
                         CursorActionExecute = true;
                     }
                     return false;
@@ -291,6 +292,7 @@ public class GameUIEntity {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         MainGameScene.instance.Planting = true;
                         ButtonPressed = finalI + gameSurface.characterButtons.length;
+                        Log.d("MYFAULT","ALW TRUE 3");
                         CursorActionExecute = true;
                     }
                     return false;
@@ -339,7 +341,6 @@ public class GameUIEntity {
             }
         });
 
-        CursorActionExecute = false;
     }
 
     private void CreateNewEggs() {

@@ -29,6 +29,21 @@ public class IronGolem extends LivingEntity{
 
     }
 
+    public void ON(Vector2 position, int layer) {
+        alive();
+        timer = cooldown;
+        isEnemy = false;
+        setLayer(layer);
+        int size = 100;
+        SetHealth(50);
+        setPosition(position);
+        bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.minibear);
+        //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
+        setSize(new Vector2(size,size));
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)(getScreenHeight() *1.5),(int)(getScreenHeight() * 1.5),true),8,10,12,0,3);
+
+    }
+
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);

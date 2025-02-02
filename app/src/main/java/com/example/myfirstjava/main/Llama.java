@@ -28,13 +28,28 @@ public class Llama extends LivingEntity{
 
     }
 
+    public void ON(Vector2 position, int layer) {
+        alive();
+        isEnemy = false;
+        setLayer(layer);
+        int size = 100;
+        SetHealth(10);
+        setPosition(position);
+        bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.miniwolf);
+        //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
+        setSize(new Vector2(size,size));
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)(getScreenHeight() *1.5),(int)(getScreenHeight() * 1.5),true),8,7,12,0,3);
+
+    }
+
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
         timer -= dt;
         if (timer <= 0){
             if (!hasShot){
-                gamescene._gameEntityCache.add(new LlamaSpit(this,UseItem(gamescene)));
+                //gamescene._gameEntityCache.add(new LlamaSpit(this,UseItem(gamescene)));
+                gamescene._gameEntityCache.add(LlamaSpitPool.acquire(this,UseItem(gamescene)));
                 AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.llamaspit);
             }
             hasShot = true;

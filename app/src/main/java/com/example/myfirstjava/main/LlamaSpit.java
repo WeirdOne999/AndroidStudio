@@ -14,6 +14,12 @@ public class LlamaSpit extends ProjectileEntity{
         damage *= damageMultiplier;
     }
 
+    public void ON(GameEntity parent,int damageMultiplier) {
+        super.ON(parent, new Vector2(1,0),15,false);
+        SpriteSet(R.drawable.llamaspit,15);
+        damage *= damageMultiplier;
+    }
+
     @Override
     public void touchEnemy(LivingEntity enemy) {
         super.touchEnemy(enemy);

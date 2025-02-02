@@ -63,6 +63,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -180,9 +181,10 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
 
                 // Update current game scene
                 GameScene.getCurrent().onUpdate(deltaTime * _timeScale);
-
+                //Log.d("CursorActionExecute", " " + uiEntity.CursorActionExecute + " " + uiEntity.ButtonPressed);
                 if (uiEntity.CursorActionExecute){
                     MainGameScene.instance.ChangeCursorSpriteIndex(uiEntity.ButtonPressed);
+                    uiEntity.CursorActionExecute = false;
                 }
                 uiEntity.Update();
                 // Render current game scene

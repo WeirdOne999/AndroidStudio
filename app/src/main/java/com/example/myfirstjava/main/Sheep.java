@@ -31,6 +31,21 @@ public class Sheep extends LivingEntity{
         SetItem(Item.SWORD,Level.DIAMOND);
     }
 
+    public void ON(Vector2 position, int layer) {
+        alive();
+        timer = cooldown;
+        isEnemy = false;
+        setLayer(layer);
+        int size = 100;
+        SetHealth(50);
+        setPosition(position);
+        bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.miniboar);
+        //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
+        setSize(new Vector2(size,size));
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)(getScreenHeight() *1.5),(int)(getScreenHeight() * 1.5),true),6,5,12,0,3);
+        SetItem(Item.SWORD,Level.DIAMOND);
+    }
+
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);

@@ -8,7 +8,23 @@ import android.view.MotionEvent;
 import com.example.myfirstjava.main.Arrow;
 import com.example.myfirstjava.main.ArrowFactory;
 import com.example.myfirstjava.main.ArrowPool;
+import com.example.myfirstjava.main.BackgroundEntity;
+import com.example.myfirstjava.main.Chicken;
+import com.example.myfirstjava.main.ChickenPool;
+import com.example.myfirstjava.main.Egg;
+import com.example.myfirstjava.main.EggPool;
 import com.example.myfirstjava.main.Holder;
+import com.example.myfirstjava.main.House;
+import com.example.myfirstjava.main.IronGolem;
+import com.example.myfirstjava.main.IronGolemPool;
+import com.example.myfirstjava.main.Llama;
+import com.example.myfirstjava.main.LlamaPool;
+import com.example.myfirstjava.main.LlamaSpit;
+import com.example.myfirstjava.main.LlamaSpitPool;
+import com.example.myfirstjava.main.Minecart;
+import com.example.myfirstjava.main.PlayerEntity;
+import com.example.myfirstjava.main.Sheep;
+import com.example.myfirstjava.main.SheepPool;
 import com.example.myfirstjava.main.Skeleton;
 import com.example.myfirstjava.main.SkeletonPool;
 import com.example.myfirstjava.main.Zombie;
@@ -87,6 +103,24 @@ public abstract class GameScene {
                 else if(_gameEntities.get(i) instanceof Arrow){
                     ArrowPool.release((Arrow) _gameEntities.get(i));
                 }
+                else if(_gameEntities.get(i) instanceof Egg){
+                    EggPool.release((Egg) _gameEntities.get(i));
+                }
+                else if(_gameEntities.get(i) instanceof Sheep){
+                    SheepPool.release((Sheep) _gameEntities.get(i));
+                }
+                else if(_gameEntities.get(i) instanceof Chicken){
+                    ChickenPool.release((Chicken) _gameEntities.get(i));
+                }
+                else if(_gameEntities.get(i) instanceof Llama){
+                    LlamaPool.release((Llama) _gameEntities.get(i));
+                }
+                else if(_gameEntities.get(i) instanceof IronGolem){
+                    IronGolemPool.release((IronGolem) _gameEntities.get(i));
+                }
+                else if(_gameEntities.get(i) instanceof LlamaSpit){
+                    LlamaSpitPool.release((LlamaSpit) _gameEntities.get(i));
+                }
                 _gameEntities.remove(i);
             }
         }
@@ -94,6 +128,7 @@ public abstract class GameScene {
         for (GameEntity i : _gameEntities){
             if (i == null ) continue;
             i.onUpdate(dt,this);
+            Log.d("ITEM", "" + i);
         }
 
         //Log.d("TAPPOS","END");

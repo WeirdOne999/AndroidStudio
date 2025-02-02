@@ -28,6 +28,20 @@ public class Chicken extends LivingEntity{
         SetItem(Item.AXE,Level.WOODEN);
     }
 
+    public void ON(Vector2 position, int layer) {
+        alive();
+        isEnemy = false;
+        setLayer(layer);
+        int size = 100;
+        SetHealth(5);
+        setPosition(position);
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.minibunny);
+        //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
+        setSize(new Vector2(size,size));
+        setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight() / 1,(int)getScreenHeight() / 1,true),4,4,12,0,3);
+        SetItem(Item.AXE,Level.WOODEN);
+    }
+
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
@@ -35,7 +49,8 @@ public class Chicken extends LivingEntity{
         timer -= dt;
         if (timer <= 0){
             //Log.d("ARRSIZ", "Array size: " + gamescene._gameEntities.size());
-            gamescene._gameEntityCache.add(new Egg(this.getLayer(),this.getPosition()));
+            //gamescene._gameEntityCache.add(new Egg(this.getLayer(),this.getPosition()));
+            gamescene._gameEntityCache.add(EggPool.acquire(this.getPosition(),this.getLayer()));
             AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.eggpop);
             UseItem(gamescene);
             timer = recharge;

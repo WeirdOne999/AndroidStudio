@@ -67,9 +67,9 @@ public class PlayerEntity extends GameEntity {
     public ButtonStructure[] cursordrawable = new ButtonStructure[4];
     public ItemStructure[] itemCursorDrawable = new ItemStructure[15];
     public GameEntity _entityCache;
-
+    Bitmap bmp;
     public int currentEntity = -1;
-
+    MotionEvent motionEvent;
     public PlayerEntity(){
         /*
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.pause);
@@ -118,8 +118,17 @@ public class PlayerEntity extends GameEntity {
 
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
-        Log.d("CCS", "" + MainGameScene.instance.ChangeCursorSpritei);
-        Bitmap bmp = null;
+
+
+
+        // Scale the bitmap and set as animated sprite
+        //Log.d("BitmapSize", bmp.getWidth() + " " + bmp.getHeight());
+
+        //sprite.update(dt);
+        motionEvent = GameActivity.instance.getMotionEvent();
+        if (motionEvent == null) return;
+
+        bmp = null;
         int amountOfCharacters = 4;
         //s
         if (MainGameScene.instance.ChangeCursorSpritei >= 0 && MainGameScene.instance.ChangeCursorSpritei < amountOfCharacters){
@@ -141,18 +150,23 @@ public class PlayerEntity extends GameEntity {
             return; // Handle the error appropriately
         }
 
-        // Scale the bitmap and set as animated sprite
-        //Log.d("BitmapSize", bmp.getWidth() + " " + bmp.getHeight());
+        long currentTime = System.currentTimeMillis();
+        long eventTime = motionEvent.getEventTime();
 
-
-
-
-        //sprite.update(dt);
-        MotionEvent motionEvent = GameActivity.instance.getMotionEvent();
-        if (motionEvent == null) return;
+        // Ignore old events (threshold: 100ms)
+        Log.d("CHECKFORCURSOR","hello " + currentTime + " " + eventTime + " " + motionEvent);
         int action = motionEvent.getActionMasked();
+
+        if (action != MotionEvent.ACTION_DOWN &&
+                action != MotionEvent.ACTION_POINTER_DOWN &&
+                action != MotionEvent.ACTION_UP &&
+                action != MotionEvent.ACTION_POINTER_UP &&
+                action != MotionEvent.ACTION_MOVE) {
+            return;
+        }
         int actionIndex = motionEvent.getActionIndex();
         int pointerId = motionEvent.getPointerId(actionIndex);
+
 
         if (currentID == -1 && (motionEvent.getAction() == MotionEvent.ACTION_POINTER_DOWN) ||
         motionEvent.getAction() == MotionEvent.ACTION_DOWN){
@@ -179,19 +193,23 @@ public class PlayerEntity extends GameEntity {
                                             LivingEntity tempGE = null;
                                             switch (cursordrawable[MainGameScene.instance.ChangeCursorSpritei].entity){
                                                 case CHICKEN:
-                                                    tempGE = new Chicken(temp.getPosition(),temp.getLayer());
+                                                    //tempGE = new Chicken(temp.getPosition(),temp.getLayer());
+                                                    tempGE = ChickenPool.acquire(temp.getPosition(),temp.getLayer());
                                                     AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.chicken);
                                                     break;
                                                 case LLAMA:
-                                                    tempGE = new Llama(temp.getPosition(),temp.getLayer());
+                                                    //tempGE = new Llama(temp.getPosition(),temp.getLayer());
+                                                    tempGE = LlamaPool.acquire(temp.getPosition(),temp.getLayer());
                                                     AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.llama);
                                                     break;
                                                 case SHEEP:
-                                                    tempGE = new Sheep(temp.getPosition(),temp.getLayer());
+                                                    //tempGE = new Sheep(temp.getPosition(),temp.getLayer());
+                                                    tempGE = SheepPool.acquire(temp.getPosition(),temp.getLayer());
                                                     AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.sheep);
                                                     break;
                                                 case IRONGOLEM:
-                                                    tempGE = new IronGolem(temp.getPosition(),temp.getLayer());
+                                                    //tempGE = new IronGolem(temp.getPosition(),temp.getLayer());
+                                                    tempGE = IronGolemPool.acquire(temp.getPosition(),temp.getLayer());
                                                     AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.irongloem);
                                                     break;
                                             }
@@ -211,11 +229,15 @@ public class PlayerEntity extends GameEntity {
 
             }
 
-            currentID = -1;
-            render = false;
-            MainGameScene.instance.ChangeCursorSpritei = -1;
-            MainGameScene.instance.Planting = false;
-        }
+
+        currentID = -1;
+        render = false;
+        MainGameScene.instance.ChangeCursorSpritei = -1;
+        MainGameScene.instance.Planting = false;
+        MainGameScene.instance.ChangeCursorSpriteIndex(-1);
+    }
+
+
         if (currentID != -1){
             for (int i = 0; i < motionEvent.getPointerCount(); i++){
                 if (motionEvent.getPointerId(i) == currentID){

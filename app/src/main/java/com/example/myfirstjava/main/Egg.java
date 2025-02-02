@@ -33,6 +33,20 @@ public class Egg extends PhysicsEntity {
         canTap = true;
         amountIn = new Random().nextInt(5)+1;
     }
+
+    public void ON(int layer, Vector2 position){
+        alive();
+        addImpulse(new Vector2(new Random().nextInt(301) -150,-300));
+        setPosition(position);
+        setLayer(layer);
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.egg);
+        setSize(new Vector2(10,10));
+        setSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight()/15,(int)getScreenHeight()/15,true));
+        canTap = true;
+        amountIn = new Random().nextInt(5)+1;
+    }
+
+
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         this.gamescene = gamescene;
