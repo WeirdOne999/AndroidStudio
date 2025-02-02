@@ -38,14 +38,15 @@ public class Minecart extends PhysicsEntity{
 
         for (int i = 0; i < gamescene._gameEntities.size();i++){
             if (gamescene._gameEntities.get(i) != this){
+                //dies when it touches border
                 if (gamescene._gameEntities.get(i) instanceof Border)  {
                     if (this.touching(gamescene._gameEntities.get(i))){
                         destroy();
                     }
                 }
-
+                //make touch enemey
                 if (gamescene._gameEntities.get(i) instanceof LivingEntity)  {
-                    if (this.isColliding(gamescene._gameEntities.get(i))){
+                    if (this.cheaperIsColliding(gamescene._gameEntities.get(i))){
 
                         LivingEntity temp = (LivingEntity)gamescene._gameEntities.get(i);
                         if (temp.isEnemy){

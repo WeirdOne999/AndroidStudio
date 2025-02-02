@@ -130,6 +130,7 @@ public class EnemyEntity extends LivingEntity{
             //Log.d("ENEMYSTATEAFTER", currentState.toString() + " " + prevState.toString());
 
         }
+
     }
 
     public boolean isAnim(animationHolder anim) {return anim.bmp.sameAs(_animatedSprite._bmp);}

@@ -105,6 +105,7 @@ public abstract class GameEntity {
 
 
     public boolean isColliding(GameEntity collider) {
+        if(getLayer() != collider.getLayer()) return false;
         float Left = getPosition().x - getSize().x / 2;
         float Right = getPosition().x + getSize().x / 2;
         float Top = getPosition().y - (getSize().y / 2);
@@ -116,6 +117,16 @@ public abstract class GameEntity {
         float cBtm = collider.getPosition().y + collider.getSize().y / 2;
 
         return Left < cRight && cLeft < Right && Top < cBtm && cTop < Btm && getLayer() == collider.getLayer();
+    }
+
+    public boolean cheaperIsColliding(GameEntity collider){
+        if(getLayer() != collider.getLayer()) return false;
+        float Left = getPosition().x - getSize().x / 2;
+        float Right = getPosition().x + getSize().x / 2;
+
+        float cLeft = collider.getPosition().x - collider.getSize().x / 2;
+        float cRight = collider.getPosition().x + collider.getSize().x / 2;
+        return Left < cRight && cLeft < Right;
     }
 
     public boolean touching(GameEntity collider) {

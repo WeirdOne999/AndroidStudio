@@ -53,7 +53,7 @@ public class ProjectileEntity extends PhysicsEntity{
                 }
 
                 if (gamescene._gameEntities.get(i) instanceof LivingEntity)  {
-                    if (this.isColliding(gamescene._gameEntities.get(i))){
+                    if (this.cheaperIsColliding(gamescene._gameEntities.get(i))){
 
                         LivingEntity temp = (LivingEntity)gamescene._gameEntities.get(i);
                         if (temp.isEnemy){

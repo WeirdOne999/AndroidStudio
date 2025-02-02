@@ -39,7 +39,7 @@ public class IronGolem extends LivingEntity{
             if (gamescene._gameEntities.get(i) != this){
 
                 if (gamescene._gameEntities.get(i) instanceof EnemyEntity)  {
-                    if (this.isColliding(gamescene._gameEntities.get(i))){
+                    if (this.cheaperIsColliding(gamescene._gameEntities.get(i))){
 
                         touched = (EnemyEntity)gamescene._gameEntities.get(i);
                         if(timer > cooldown){

@@ -55,7 +55,7 @@ public class UIEntity {
     private void updateHighScoreText(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         int highScore = prefs.getInt(HIGH_SCORE_KEY, 0);
-        highScoreText.setText("HIGH SCORE: " + highScore);
+        //highScoreText.setText("HIGH SCORE: " + highScore);
     }
 
 

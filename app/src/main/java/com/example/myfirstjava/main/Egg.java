@@ -19,15 +19,19 @@ public class Egg extends PhysicsEntity {
     float timer = 0;
     boolean isTouchingGround = false;
     private GameScene gamescene;
+
+    public int amountIn = 0;
+
     public Egg(int layer, Vector2 position){
 
         addImpulse(new Vector2(new Random().nextInt(301) -150,-300));
         setPosition(position);
         setLayer(layer);
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.egg);
-
+        setSize(new Vector2(10,10));
         setSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight()/15,(int)getScreenHeight()/15,true));
         canTap = true;
+        amountIn = new Random().nextInt(5)+1;
     }
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
@@ -51,7 +55,20 @@ public class Egg extends PhysicsEntity {
             setPosition(_position);
             if(timer >= 1 && !isTouchingGround)SetGravity(dt);
         }
+        else{
+            for (int i = 0; i < gamescene._gameEntities.size();i++){
+                if (gamescene._gameEntities.get(i) != this){
+                    if (gamescene._gameEntities.get(i) instanceof Egg)  {
+                        if (this.cheaperIsColliding(gamescene._gameEntities.get(i))){
+                            Egg temp = (Egg)gamescene._gameEntities.get(i);
+                            temp.amountIn += this.amountIn;
+                            destroy();
+                        }
 
+                    }
+                }
+            }
+        }
 
         //Log.d("EGGPOS", _position.x + " " + _position.y);
 
@@ -62,7 +79,7 @@ public class Egg extends PhysicsEntity {
     public void onTap() {
         super.onTap();
         //Log.d("TOUEVENT", "EGG touched!");
-        gamescene.addVariable("Egg",new Random().nextInt(5)+1);
+        gamescene.addVariable("Egg",amountIn);
         this.destroy();
     }
 
