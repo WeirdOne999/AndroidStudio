@@ -139,7 +139,6 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
 
 
-        // Create a row of buttons
 
 
 
@@ -150,10 +149,11 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
 
 
-        hatcheggwidth = 100; // Width in dp
-        hatcheggheight = 100; // Height in dp
-        hatchbuttonStartX = 500; // Starting X position
-        hatchbuttonStartY = screenHeight - 900; // Fixed Y position near the bottom of the screen
+
+        hatcheggwidth = 100;
+        hatcheggheight = 100;
+        hatchbuttonStartX = 500;
+        hatchbuttonStartY = screenHeight - 900;
 
         // Create a row of buttons
 
@@ -173,7 +173,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
             if (!surfaceHolder.getSurface().isValid()) {
                 try {
-                    Thread.sleep(10); // Avoid busy-waiting if the surface isn't ready
+                    Thread.sleep(10);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -202,8 +202,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             hatchingeggs[i].setShadowLayer(5, 2, 2, Color.BLACK);
             hatchingeggs[i].setGravity(Gravity.RIGHT | Gravity.BOTTOM);
 
-            // Calculate position for each button in the row
-            int buttonPosX = hatchbuttonStartX + (i * (hatcheggwidth + 300)); // 20 is spacing between buttons
+
+            int buttonPosX = hatchbuttonStartX + (i * (hatcheggwidth + 300));
 
             FrameLayout.LayoutParams hatchbuttonparams = new FrameLayout.LayoutParams(
                     (int) (hatcheggwidth * getResources().getDisplayMetrics().density),
@@ -214,7 +214,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
             hatchingeggs[i].setLayoutParams(hatchbuttonparams);
 
-            // Add the button to the FrameLayout
+
             frameLayout.addView(hatchingeggs[i]);
         }
         toFarmButton = new Button(this.getContext());
@@ -225,8 +225,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                 (int) (150 * getResources().getDisplayMetrics().density),
                 (int) (50 * getResources().getDisplayMetrics().density)
         );
-        tohouseparams.leftMargin = screenWidth - 500; // X position
-        tohouseparams.topMargin = screenHeight - 200; // Fixed Y position
+        tohouseparams.leftMargin = screenWidth - 500;
+        tohouseparams.topMargin = screenHeight - 200;
 
         toFarmButton.setLayoutParams(tohouseparams);
 
@@ -238,8 +238,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                 (int) (150 * getResources().getDisplayMetrics().density),
                 (int) (50 * getResources().getDisplayMetrics().density)
         );
-        tocraftparams.leftMargin = screenWidth - 500; // X position
-        tocraftparams.topMargin = screenHeight - 400; // Fixed Y position
+        tocraftparams.leftMargin = screenWidth - 500;
+        tocraftparams.topMargin = screenHeight - 400;
 
         toCraftButton.setLayoutParams(tocraftparams);
         frameLayout.addView(toCraftButton);
@@ -257,8 +257,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                     (int) (150 * getResources().getDisplayMetrics().density),
                     (int) (150 * getResources().getDisplayMetrics().density)
             );
-            imageParams.leftMargin = screenWidth / 2 + 400; // Center it
-            imageParams.topMargin = screenHeight / 2 - 350; // Adjust position
+            imageParams.leftMargin = screenWidth / 2 + 400;
+            imageParams.topMargin = screenHeight / 2 - 350;
             craftedItemImage.setLayoutParams(imageParams);
             craftedItemImage.setVisibility(View.VISIBLE);
             frameLayout.addView(craftedItemImage);
@@ -300,13 +300,13 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
         craftedItemText.bringToFront();
 
-        // Remove any existing ScrollView if it exists
+
         if (craftingScrollView != null) {
             frameLayout.removeView(craftingScrollView);
             craftingScrollView = null; // Clear reference
         }
 
-        // Create a new ScrollView
+
         craftingScrollView = new ScrollView(getContext());
         FrameLayout.LayoutParams scrollParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
@@ -314,15 +314,15 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         );
         craftingScrollView.setLayoutParams(scrollParams);
 
-        // Create a GridLayout inside the ScrollView
+
         GridLayout gridLayout = new GridLayout(getContext());
-        gridLayout.setColumnCount(4); // Set the number of columns in the grid
+        gridLayout.setColumnCount(4);
         gridLayout.setLayoutParams(new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
         ));
 
-        // Add buttons dynamically to the GridLayout
+
         for (int i = 0; i < myItems.size(); i++) {
             Button craftButton = new Button(getContext());
             //craftButton.setText(myItems.get(i).getName());
@@ -330,21 +330,21 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             craftButton.setBackgroundResource(myItems.get(i).getImageResource());
             craftButton.setTextColor(Color.WHITE);
 
-            // Set layout params for the button
+
             GridLayout.LayoutParams buttonParams = new GridLayout.LayoutParams();
-            buttonParams.width = (int) (100 * getResources().getDisplayMetrics().density); // Set width
-            buttonParams.height = (int) (100 * getResources().getDisplayMetrics().density); // Set height
-            buttonParams.setMargins(10, 10, 10, 10); // Add margin around the buttons
+            buttonParams.width = (int) (100 * getResources().getDisplayMetrics().density);
+            buttonParams.height = (int) (100 * getResources().getDisplayMetrics().density);
+            buttonParams.setMargins(10, 10, 10, 10);
 
             craftButton.setLayoutParams(buttonParams);
             gridLayout.addView(craftButton);
             UIitemButtons.add(craftButton);
         }
 
-        // Add GridLayout inside ScrollView
+
         craftingScrollView.addView(gridLayout);
 
-        // Add ScrollView to the main FrameLayout
+
         frameLayout.addView(craftingScrollView);
     }
 
@@ -503,7 +503,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
         }
 
-        // Create a new ScrollView
+
         itemsscrollview = new ScrollView(getContext());
         FrameLayout.LayoutParams scrollParams = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
@@ -513,7 +513,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         scrollParams.setMargins(0, 130, 0, 0);
         itemsscrollview.setLayoutParams(scrollParams);
         itemsscrollview.setVisibility(View.INVISIBLE);
-// Create a LinearLayout inside the ScrollView
+
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         linearLayout.setLayoutParams(new LinearLayout.LayoutParams(
@@ -521,7 +521,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                 LinearLayout.LayoutParams.WRAP_CONTENT
         ));
 
-// Add buttons dynamically
+
         for (int i = 0; i < myItems.size(); i++) {
             Button itembutton = new Button(getContext());
 
@@ -546,10 +546,9 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
         }
 
-// Add LinearLayout to the ScrollView
+
         itemsscrollview.addView(linearLayout);
 
-// Add ScrollView to the parent FrameLayout
         frameLayout.addView(itemsscrollview);
 
         toHouseButton = new Button(this.getContext());
@@ -594,7 +593,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                     FrameLayout.LayoutParams.WRAP_CONTENT,
                     FrameLayout.LayoutParams.WRAP_CONTENT
             );
-            scrollParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL; // Ensure it's at the bottom
+            scrollParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
             scrollParams.bottomMargin = 20; // Offset from the bottom
             MaterialScrollview.setLayoutParams(scrollParams);
 
@@ -611,7 +610,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             GridLayout gridLayout = new GridLayout(getContext());
             int totalMaterials = MainGameScene.instance.material.size();
             gridLayout.setRowCount(2); // Always 2 rows
-            gridLayout.setColumnCount((int) Math.ceil((double) totalMaterials / 2)); // Adjust columns dynamically
+            gridLayout.setColumnCount((int) Math.ceil((double) totalMaterials / 2));
 
             LinearLayout.LayoutParams gridParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -646,7 +645,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                 itemLayout.addView(materialImage);
                 itemLayout.addView(materialCount);
                 MaterialAmount.add(materialCount);
-                // GridLayout Params
+
                 GridLayout.LayoutParams gridItemParams = new GridLayout.LayoutParams(
                         GridLayout.spec(row), GridLayout.spec(col)
                 );
@@ -655,7 +654,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
                 gridLayout.addView(itemLayout);
 
-                // Update row/column positions
+
                 col++;
                 if (col >= gridLayout.getColumnCount()) {
                     col = 0;
@@ -674,34 +673,32 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
 
 
-    // Helper function to get image resource from material name
-
 
     public void createEggIcon() {
-        // Ensure MainGameScene.instance is initialized
+
         if (MainGameScene.instance != null) {
-            // Get the current egg count
+
             final int eggAmount = MainGameScene.instance.Egg;
 
-            // Get the parent layout
+
             final FrameLayout frameLayout = (FrameLayout) this.getParent();
 
-            // Update the UI on the main thread
+
             ((GameActivity) getContext()).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    // Create a LinearLayout to hold the ImageView and TextView
+
                     if (eggLayout == null){
                         eggLayout = new LinearLayout(getContext());
                     }
 
                     eggLayout.setOrientation(LinearLayout.HORIZONTAL);
-                    //eggLayout.setGravity(Gravity.CENTER_VERTICAL);  // Vertically center the image and text
-                    eggLayout.setPadding(20, 20, 0, 0);  // Add padding to the top-left corner
+                    //eggLayout.setGravity(Gravity.CENTER_VERTICAL);
+                    eggLayout.setPadding(20, 20, 0, 0);
 
                     // Create ImageView for egg
                     ImageView eggImage = new ImageView(getContext());
-                    eggImage.setImageResource(R.drawable.egg); // Set egg image (replace with your image resource)
+                    eggImage.setImageResource(R.drawable.egg);
                     LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(100, 100);
                     eggImage.setLayoutParams(imageParams);
 
@@ -713,13 +710,13 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                     eggCountText.setText(String.valueOf(eggAmount));
                     eggCountText.setTextColor(Color.WHITE);
                     eggCountText.setTextSize(20);
-                    eggCountText.setPadding(20, 0, 0, 0); // Padding to separate the image and text
+                    eggCountText.setPadding(20, 0, 0, 0);
 
-                    // Add ImageView and TextView to the LinearLayout
+
                     eggLayout.addView(eggImage);
                     eggLayout.addView(eggCountText);
 
-                    // Add LinearLayout to the parent FrameLayout
+
                     frameLayout.addView(eggLayout);
                 }
             });
@@ -747,13 +744,13 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             case "Wood":
                 return R.drawable.wood;
             default:
-                return 0; // Default image
+                return 0;
         }
     }
     private void update(float dt) {
 
         if (characterButtons != null && characterButtons.length > 0) {
-            // Modify text for each button dynamically in the update loop
+
             post(() -> {
                 for (int i = 0; i < characterButtons.length; i++) {
                     //characterButtons[i].setText("10");
@@ -763,7 +760,6 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         }
 
 
-        // Use post() to update the button's position on the UI thread
 
 
 
@@ -772,7 +768,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
 
     private void render(Canvas canvas) {
-        canvas.drawColor(Color.BLACK); // Optional: Clear with black color before drawing
+        canvas.drawColor(Color.BLACK);
 
         // Draw the background image
         if (backgroundBitmap != null) {
@@ -784,13 +780,13 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
     public void resume() {
         if (isRunning) {
-            // If already running, don't start another thread
+
             return;
         }
 
         isRunning = true;
 
-        // Start a new thread safely
+
         synchronized (this) {
             if (gameThread == null || !gameThread.isAlive()) {
                 gameThread = new Thread(this);
@@ -806,11 +802,11 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         synchronized (this) {
             if (gameThread != null) {
                 try {
-                    gameThread.join(); // Wait for the thread to terminate
+                    gameThread.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
-                    gameThread = null; // Ensure the thread reference is cleared
+                    gameThread = null;
                 }
             }
         }

@@ -21,18 +21,18 @@ public class UIEntity {
 
         instance = this;
         gameSurface = new GameSurface(context, container, backgroundId);
-        container.addView(gameSurface); // Add the GameSurface to the provided container
+        container.addView(gameSurface);
 
-        // Inflate mainmenu.xml and add it to the container
         LayoutInflater inflater = LayoutInflater.from(context);
         View layout = inflater.inflate(R.layout.mainmenu, container, false);
-        container.addView(layout); // Add the entire layout to the container
+        container.addView(layout);
 
-        // Find the High Score TextView from the inflated layout
+
         highScoreText = layout.findViewById(R.id.highscore);
 
-        // Load and display the stored high score
+
         updateHighScoreText(context);
+
     }
 
     public void setSize(int width, int height) {
@@ -51,14 +51,14 @@ public class UIEntity {
         }
     }
 
-    // Update the high score text
+
     private void updateHighScoreText(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        int highScore = prefs.getInt(HIGH_SCORE_KEY, 0); // Default to 0 if no score is saved
+        int highScore = prefs.getInt(HIGH_SCORE_KEY, 0);
         highScoreText.setText("HIGH SCORE: " + highScore);
     }
 
-    // Save a new high score
+
     public void saveHighScore(Context context, int newScore) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         int currentHighScore = prefs.getInt(HIGH_SCORE_KEY, 0);
@@ -73,9 +73,9 @@ public class UIEntity {
     public void resetHighScore(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.remove(HIGH_SCORE_KEY); // Remove the high score
-        editor.apply(); // Apply the changes
-        updateHighScoreText(context); // Update the text view to reflect the change
+        editor.remove(HIGH_SCORE_KEY);
+        editor.apply();
+        updateHighScoreText(context);
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class AudioClass {
     private MediaPlayer _backgroundMusic;
-    private final List<MediaPlayer> _sfxPlayers = new ArrayList<>();  // Store multiple SFX players
+    private final List<MediaPlayer> _sfxPlayers = new ArrayList<>();
     public static AudioClass instance;
 
     private AudioClass() {}
@@ -19,7 +19,7 @@ public class AudioClass {
         return instance;
     }
 
-    // Play background music (only one can play at a time)
+
     public void PlayBackgroundMusic(Context context, int audioResId, boolean looping) {
         if (_backgroundMusic != null) {
             _backgroundMusic.release();
@@ -30,19 +30,19 @@ public class AudioClass {
         _backgroundMusic.start();
     }
 
-    // Play sound effects (multiple can play at once)
+
     public void PlaySFX(Context context, int audioResId) {
         MediaPlayer sfx = MediaPlayer.create(context, audioResId);
         if (sfx == null) return;
         _sfxPlayers.add(sfx);
         sfx.setOnCompletionListener(mp -> {
             mp.release();
-            _sfxPlayers.remove(mp);  // Remove finished SFX from list
+            _sfxPlayers.remove(mp);
         });
         sfx.start();
     }
 
-    // Stop background music
+
     public void StopBackgroundMusic() {
         if (_backgroundMusic != null) {
             _backgroundMusic.stop();
@@ -51,7 +51,7 @@ public class AudioClass {
         }
     }
 
-    // Stop all sound effects
+
     public void StopAllSFX() {
         for (MediaPlayer sfx : _sfxPlayers) {
             if (sfx.isPlaying()) {

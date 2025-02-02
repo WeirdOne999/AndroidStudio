@@ -32,7 +32,7 @@ public class GameUIEntity {
     public boolean CursorActionExecute = false;
 
     private Vibrator _vibrator;
-    private boolean isResuming = true; // Flag to indicate if the update is ongoing
+    private boolean isResuming = true;
 
     public GameUIEntity(Context context, FrameLayout container) {
         gameSurface = new MainGameSurfaceView(context, container);
@@ -63,7 +63,7 @@ public class GameUIEntity {
         test++;
         if (gameSurface.characterButtons != null && gameSurface.characterButtons.length > 0 &&
                 gameSurface.characteramounts != null && gameSurface.characteramounts.length > 0) {
-            // Modify text for each button dynamically in the update loop
+
             gameSurface.post(() -> {
                 for (int i = 0; i < gameSurface.characterButtons.length; i++) {
                     gameSurface.characterButtons[i].setText(String.valueOf(gameSurface.characteramounts[i]));
@@ -72,21 +72,21 @@ public class GameUIEntity {
         }
 
         if (gameSurface.MaterialAmount != null && MainGameScene.instance != null && gameSurface.eggCountText != null) {
-            // Check if the size of MaterialAmount matches the size of the material map
-            if (gameSurface.MaterialAmount.size() == MainGameScene.instance.material.size()) {
-                int index = 0;  // To track the position in MaterialAmount
 
-                // Iterate over the material entries
+            if (gameSurface.MaterialAmount.size() == MainGameScene.instance.material.size()) {
+                int index = 0;
+
+
                 for (Map.Entry<String, Integer> entry : MainGameScene.instance.material.entrySet()) {
                     String materialName = entry.getKey();
                     int materialAmount = entry.getValue();
 
-                    // Ensure UI updates happen on the main thread
+
                     int finalIndex = index;
                     (GameActivity.instance).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            // Update the corresponding TextView with the material name and amount
+
                             TextView materialTextView = gameSurface.MaterialAmount.get(finalIndex);
                             if (materialAmount > 99) {
                                 materialTextView.setText("99+");
@@ -97,7 +97,7 @@ public class GameUIEntity {
                         }
                     });
 
-                    // Increment the index to move to the next TextView
+
                     index++;
                 }
             } else {
@@ -224,7 +224,7 @@ public class GameUIEntity {
 
             gameSurface.confirmcraftbutton.setOnClickListener(v -> {
 
-                // Get the resource ID from the tag
+
                 for (int i = 0; i < gameSurface.myItems.size(); i++) {
 
                     if (gameSurface.craftedItemText.getText() == gameSurface.myItems.get(i).getName()){
@@ -273,7 +273,7 @@ public class GameUIEntity {
                     }
                 }
 
-                // Compare with the resources from your items
+
 
 
             });
@@ -332,7 +332,7 @@ public class GameUIEntity {
                             synchronized (gameSurface.eggs) {
                                 gameSurface.eggs.add(egg);
                             }
-                            CreateNewEggs(); // Synchronize egg buttons and eggs
+                            CreateNewEggs();
                         });
                     }
                 }
@@ -345,9 +345,9 @@ public class GameUIEntity {
     private void CreateNewEggs() {
         FrameLayout frameLayout = (FrameLayout) gameSurface.getParent();
         if (frameLayout != null) {
-            int startX = 100; // Initial X position
-            int spacingX = 400; // Horizontal spacing between eggs
-            int yPosition = 700; // Vertical Y position
+            int startX = 100;
+            int spacingX = 400;
+            int yPosition = 700;
 
             // Remove any extra buttons safely
             synchronized (gameSurface.eggs) {
@@ -367,7 +367,7 @@ public class GameUIEntity {
                     frameLayout.addView(eggButton);
                 }
 
-                // Update positions and visuals for existing buttons
+
                 for (int i = 0; i < gameSurface.eggs.size(); i++) {
                     Button eggButton = gameSurface.eggButtons.get(i);
                     eggButton.setBackground(gameSurface.eggs.get(i).getBackgroundImage());
@@ -390,7 +390,7 @@ public class GameUIEntity {
             return;
         }
 
-        // Remove egg safely with synchronization
+
         synchronized (gameSurface.eggs) {
             EggClass eggToRemove = gameSurface.eggs.get(index);
             for (int i = 0; i < gameSurface.characterNames.length; i++) {
@@ -400,17 +400,17 @@ public class GameUIEntity {
             }
             gameSurface.eggs.remove(index);
 
-            // Remove associated button safely
+
             Button buttonToRemove = gameSurface.eggButtons.get(index);
             if (buttonToRemove != null) {
                 FrameLayout frameLayout = (FrameLayout) gameSurface.getParent();
                 if (frameLayout != null) {
-                    frameLayout.removeView(buttonToRemove); // Detach the button from the UI
+                    frameLayout.removeView(buttonToRemove);
                 }
             }
             gameSurface.eggButtons.remove(index);
 
-            // Recreate buttons to ensure synchronization
+
             CreateNewEggs();
         }
     }
@@ -424,20 +424,20 @@ public class GameUIEntity {
 
                 if (eggButton != null) {
                     eggButton.setText(egg.isHatched() ? "Hatched!" : egg.getRemainingTime());
-                    eggButton.setOnClickListener(null); // Clear any old listener
+                    eggButton.setOnClickListener(null);
 
                     if (egg.isHatched()) {
                         MainGameSurfaceView.instance.toHouseButton.setTextColor(Color.GREEN);
-                        int finalIndex = i; // Capture current index safely
+                        int finalIndex = i;
                         eggButton.setOnClickListener(v -> {
                             removeEgg(finalIndex);
                             MainGameSurfaceView.instance.toHouseButton.setTextColor(Color.WHITE);
                         });
 
-                        // Play SFX only if it hasn't been played before
+
                         if (!egg.hasPlayedSFX()) {
                             AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.completed);
-                            egg.setPlayedSFX(true); // Mark SFX as played
+                            egg.setPlayedSFX(true);
                             _vibrator.vibrate(VibrationEffect.createOneShot(500,100));
                         }
 
