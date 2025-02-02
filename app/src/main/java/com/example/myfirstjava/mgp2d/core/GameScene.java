@@ -5,7 +5,14 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.example.myfirstjava.main.Arrow;
+import com.example.myfirstjava.main.ArrowFactory;
+import com.example.myfirstjava.main.ArrowPool;
 import com.example.myfirstjava.main.Holder;
+import com.example.myfirstjava.main.Skeleton;
+import com.example.myfirstjava.main.SkeletonPool;
+import com.example.myfirstjava.main.Zombie;
+import com.example.myfirstjava.main.ZombiePool;
 
 import java.util.HashMap;
 import java.util.Vector;
@@ -71,6 +78,15 @@ public abstract class GameScene {
         //Log.d("TAPPOS","START");
         for (int i = _gameEntities.size() - 1;i >= 0; i--){
             if (_gameEntities.get(i).canDestroy()){
+                if(_gameEntities.get(i) instanceof Zombie){
+                    ZombiePool.release((Zombie)_gameEntities.get(i));
+                }
+                else if(_gameEntities.get(i) instanceof Skeleton){
+                    SkeletonPool.release((Skeleton)_gameEntities.get(i));
+                }
+                else if(_gameEntities.get(i) instanceof Arrow){
+                    ArrowPool.release((Arrow) _gameEntities.get(i));
+                }
                 _gameEntities.remove(i);
             }
         }

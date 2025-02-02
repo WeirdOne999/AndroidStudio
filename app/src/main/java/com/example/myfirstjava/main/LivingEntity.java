@@ -40,7 +40,7 @@ public class LivingEntity extends PhysicsEntity {
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
-        Log.d("CHIKCENTEST","LIVINGENTITY");
+        //Log.d("CHIKCENTEST","LIVINGENTITY");
         if (Health <= 0){
             if (!isEnemy){
                 onHolder._mob = null;

@@ -31,7 +31,7 @@ public class Chicken extends LivingEntity{
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
-        Log.d("CHIKCENTEST","CHICKEN");
+        //Log.d("CHIKCENTEST","CHICKEN");
         timer -= dt;
         if (timer <= 0){
             //Log.d("ARRSIZ", "Array size: " + gamescene._gameEntities.size());

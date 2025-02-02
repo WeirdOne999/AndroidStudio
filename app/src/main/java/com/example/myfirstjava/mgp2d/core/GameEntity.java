@@ -22,6 +22,7 @@ public abstract class GameEntity {
     public int getOrdinal() { return _ordinal; }
 
     private boolean _isDone = false;
+    public void alive() { _isDone = false;}
     public void destroy() { _isDone = true; }
     public boolean canDestroy() { return _isDone; }
 
@@ -37,7 +38,7 @@ public abstract class GameEntity {
     public boolean canTap = false;
 
     public void onUpdate(float dt, GameScene gamescene) {
-        Log.d("CHIKCENTEST","GAMEENTITY");
+        //Log.d("CHIKCENTEST","GAMEENTITY");
         if (_animatedSprite != null) _animatedSprite.update(dt);
 
         if (_sprite != null && canTap) {
@@ -94,7 +95,7 @@ public abstract class GameEntity {
 
 
     //Collision Stuff
-    private int _layer;
+    private int _layer = -1;
     public void setLayer(int layer) {_layer = layer;}
 
     public int getLayer(){return _layer;}

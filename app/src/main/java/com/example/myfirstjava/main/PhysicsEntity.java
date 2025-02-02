@@ -45,8 +45,8 @@ public class PhysicsEntity extends GameEntity {
     public void SetGravity(float dt){
         velocityY -= Gravity * dt;
         posY -= velocityY * dt;
-        Vector2 finalpos = new Vector2(getPosition().x, getPosition().y + posY);
-        setPosition(finalpos);
+        //Vector2 finalpos = new Vector2(getPosition().x, getPosition().y + posY);
+        _position.y += + posY;
 
     }
 
@@ -80,7 +80,7 @@ public class PhysicsEntity extends GameEntity {
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt,gamescene);
-        Log.d("CHIKCENTEST","PHYSISCS");
+        //Log.d("CHIKCENTEST","PHYSISCS");
     }
 
 

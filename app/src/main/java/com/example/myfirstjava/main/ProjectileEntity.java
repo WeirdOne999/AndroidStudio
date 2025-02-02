@@ -24,6 +24,15 @@ public class ProjectileEntity extends PhysicsEntity{
         this.direction = direction;
     }
 
+    public void ON(GameEntity parent, Vector2 direction, float speed, boolean gravity){
+        setLayer(parent.getLayer());
+        setPosition(parent.getPosition());
+        hasGravity = gravity;
+        alive();
+        this.speed = speed;
+        this.direction = direction;
+    }
+
     public void SpriteSet(int id, int size){
         Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), id);
         setSprite(Bitmap.createScaledBitmap(bmp,(int)getScreenHeight()/size,(int)getScreenHeight()/size,true));

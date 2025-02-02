@@ -13,6 +13,10 @@ public class Arrow extends ProjectileEntity{
         SpriteSet(R.drawable.arrow,15);
     }
 
+    public void ON(GameEntity parent) {
+        super.ON(parent, new Vector2(-1,0),20,false);
+    }
+
     @Override
     public void touchPlant(LivingEntity plant) {
         super.touchEnemy(plant);

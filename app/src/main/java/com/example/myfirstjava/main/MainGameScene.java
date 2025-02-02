@@ -38,7 +38,7 @@ public class MainGameScene extends GameScene {
     private Vector2 gridOffset = new Vector2(750,350);
 
 
-    private float _enemySpawnTimer = 5;
+    private float _enemySpawnTimer = 4;
     private float _totalEnemyTimer = 0;
 
     public int Egg;
@@ -67,6 +67,7 @@ public class MainGameScene extends GameScene {
     public int Score = 0;
     public int HighScore = 0;
 
+
     @Override
     public void onCreate() {    
         super.onCreate();
@@ -81,6 +82,10 @@ public class MainGameScene extends GameScene {
         material.put("Gold",100);
         material.put("Diamond",100);
 
+        //INITIALISE ALL OBJECT POOLS HERE
+        ZombiePool.initializePool(10);
+        SkeletonPool.initializePool(10);
+        ArrowPool.initializePool(20,_gameEntities.get(0));
     }
 
     @Override
@@ -171,14 +176,16 @@ public class MainGameScene extends GameScene {
         if (_totalEnemyTimer > _enemySpawnTimer + new Random().nextInt(5) - 2){
             _totalEnemyTimer = 0;
 
-            int random  = new Random().nextInt(2);
+            int random  = new Random().nextInt(3);
             int layer = new Random().nextInt(5);
             if (random == 0){
-                _gameEntityCache.add(new Skeleton(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                _gameEntityCache.add(SkeletonPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                //_gameEntityCache.add(new Skeleton(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 AudioClass.getInstance().PlaySFX(context, R.raw.skeletonsound);
             }
-            else if (random == 1){
-                _gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+            else if (random >= 1){
+                _gameEntityCache.add(ZombiePool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                //_gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 AudioClass.getInstance().PlaySFX(context, R.raw.zombiesound);
             }
 
