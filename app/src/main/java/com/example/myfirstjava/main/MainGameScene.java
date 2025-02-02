@@ -76,13 +76,14 @@ public class MainGameScene extends GameScene {
         material.put("Iron",100);
         material.put("Gold",100);
         material.put("Diamond",100);
-        MainGameSurfaceView.instance.createMaterialGrid();
 
     }
 
     @Override
     public void onEnter() {
         super.onEnter();
+        MainGameSurfaceView.instance.createMaterialGrid();
+        MainGameSurfaceView.instance.createEggIcon();
         context = GameActivity.instance;
         for (int i = _gameEntities.size() - 1;i >= 0; i--){
             //_gameEntities.get(i).destroy();

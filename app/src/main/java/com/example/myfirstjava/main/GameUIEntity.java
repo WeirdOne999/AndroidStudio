@@ -71,7 +71,7 @@ public class GameUIEntity {
             });
         }
 
-        if (gameSurface.MaterialAmount != null && MainGameScene.instance != null) {
+        if (gameSurface.MaterialAmount != null && MainGameScene.instance != null && gameSurface.eggCountText != null) {
             // Check if the size of MaterialAmount matches the size of the material map
             if (gameSurface.MaterialAmount.size() == MainGameScene.instance.material.size()) {
                 int index = 0;  // To track the position in MaterialAmount
@@ -88,7 +88,12 @@ public class GameUIEntity {
                         public void run() {
                             // Update the corresponding TextView with the material name and amount
                             TextView materialTextView = gameSurface.MaterialAmount.get(finalIndex);
-                            materialTextView.setText(String.valueOf(materialAmount));
+                            if (materialAmount > 99) {
+                                materialTextView.setText("99+");
+                            } else {
+                                materialTextView.setText(String.valueOf(materialAmount));
+                            }
+
                         }
                     });
 
@@ -98,7 +103,16 @@ public class GameUIEntity {
             } else {
                 Log.e("Game", "Mismatch between number of materials and TextViews!");
             }
+            (GameActivity.instance).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Ensure we have a valid egg count text reference and update it
+                    gameSurface.eggCountText.setText(String.valueOf(MainGameScene.instance.Egg));
+                }
+            });
         }
+
+        Log.d("MainGameSurfaceView", "MaterialGrid: " + gameSurface.MaterialScrollview);
 
 
         EggUpdate();

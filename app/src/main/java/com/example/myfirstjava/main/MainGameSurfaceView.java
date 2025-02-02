@@ -85,6 +85,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
     public ScrollView MaterialScrollview;
     public List<TextView> MaterialAmount;
+    public TextView eggCountText;
     public List<ItemsUI> myItems = ItemInventory.getItems();
     public void setSize(int width,int height){
         screenWidth = width;
@@ -155,6 +156,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         // Create a row of buttons
 
         mobinvenactive = true;
+
 
     }
 
@@ -654,11 +656,62 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
             MaterialScrollview.addView(containerLayout);
             frameLayout.addView(MaterialScrollview);
         });
+
+
+
     }
 
 
 
     // Helper function to get image resource from material name
+
+
+    public void createEggIcon() {
+        // Ensure MainGameScene.instance is initialized
+        if (MainGameScene.instance != null) {
+            // Get the current egg count
+            final int eggAmount = MainGameScene.instance.Egg;
+
+            // Get the parent layout
+            final FrameLayout frameLayout = (FrameLayout) this.getParent();
+
+            // Update the UI on the main thread
+            ((GameActivity) getContext()).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Create a LinearLayout to hold the ImageView and TextView
+                    LinearLayout eggLayout = new LinearLayout(getContext());
+                    eggLayout.setOrientation(LinearLayout.HORIZONTAL);
+                    //eggLayout.setGravity(Gravity.CENTER_VERTICAL);  // Vertically center the image and text
+                    eggLayout.setPadding(20, 20, 0, 0);  // Add padding to the top-left corner
+
+                    // Create ImageView for egg
+                    ImageView eggImage = new ImageView(getContext());
+                    eggImage.setImageResource(R.drawable.egg); // Set egg image (replace with your image resource)
+                    LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(100, 100);
+                    eggImage.setLayoutParams(imageParams);
+
+                    // Create TextView for egg count
+                    if (eggCountText == null){
+                        eggCountText = new TextView(getContext());
+                    }
+
+                    eggCountText.setText(String.valueOf(eggAmount));
+                    eggCountText.setTextColor(Color.WHITE);
+                    eggCountText.setTextSize(20);
+                    eggCountText.setPadding(20, 0, 0, 0); // Padding to separate the image and text
+
+                    // Add ImageView and TextView to the LinearLayout
+                    eggLayout.addView(eggImage);
+                    eggLayout.addView(eggCountText);
+
+                    // Add LinearLayout to the parent FrameLayout
+                    frameLayout.addView(eggLayout);
+                }
+            });
+        }
+    }
+
     private int getMaterialImage(String materialName) {
         switch (materialName) {
             case "Diamond":
@@ -683,8 +736,6 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                 return 0; // Default image
         }
     }
-
-
     private void update(float dt) {
 
         if (characterButtons != null && characterButtons.length > 0) {
