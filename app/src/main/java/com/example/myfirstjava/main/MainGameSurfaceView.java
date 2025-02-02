@@ -86,6 +86,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
     public ScrollView MaterialScrollview;
     public List<TextView> MaterialAmount;
     public TextView eggCountText;
+    LinearLayout eggLayout;
     public List<ItemsUI> myItems = ItemInventory.getItems();
     public void setSize(int width,int height){
         screenWidth = width;
@@ -98,6 +99,7 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         itembuttons = new ArrayList<>();
         UIitemButtons = new ArrayList<>();
         MaterialAmount = new ArrayList<>();
+
         AudioClass.getInstance().PlayBackgroundMusic(context, R.raw.ariamath, true);
         instance = this;
         setZOrderOnTop(true);
@@ -385,6 +387,10 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         if (MaterialScrollview != null){
             MaterialScrollview.setVisibility(View.INVISIBLE);
         }
+        if (eggLayout != null){
+            eggLayout.setVisibility(View.INVISIBLE);
+        }
+
         itemsscrollview.setVisibility(View.INVISIBLE);
         toggleinvenbutton.setVisibility(View.INVISIBLE);
         toCraftButton.setVisibility(View.VISIBLE);
@@ -417,6 +423,9 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         if (MaterialScrollview != null){
             MaterialScrollview.setVisibility(View.INVISIBLE);
         }
+        if (eggLayout != null){
+            eggLayout.setVisibility(View.INVISIBLE);
+        }
         itemsscrollview.setVisibility(View.INVISIBLE);
         toggleinvenbutton.setVisibility(View.INVISIBLE);
         toCraftButton.setVisibility(View.INVISIBLE);
@@ -433,7 +442,9 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         if (MaterialScrollview != null){
             MaterialScrollview.setVisibility(View.VISIBLE);
         }
-
+        if (eggLayout != null){
+            eggLayout.setVisibility(View.VISIBLE);
+        }
         toggleinvenbutton.setVisibility(View.VISIBLE);
         toFarmButton.setVisibility(View.INVISIBLE);
         toHouseButton.setVisibility(View.VISIBLE);
@@ -680,7 +691,10 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
                 @Override
                 public void run() {
                     // Create a LinearLayout to hold the ImageView and TextView
-                    LinearLayout eggLayout = new LinearLayout(getContext());
+                    if (eggLayout == null){
+                        eggLayout = new LinearLayout(getContext());
+                    }
+
                     eggLayout.setOrientation(LinearLayout.HORIZONTAL);
                     //eggLayout.setGravity(Gravity.CENTER_VERTICAL);  // Vertically center the image and text
                     eggLayout.setPadding(20, 20, 0, 0);  // Add padding to the top-left corner

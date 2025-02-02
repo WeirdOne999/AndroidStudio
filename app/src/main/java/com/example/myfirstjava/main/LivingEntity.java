@@ -45,6 +45,9 @@ public class LivingEntity extends PhysicsEntity {
             if (!isEnemy){
                 onHolder._mob = null;
             }
+            else {
+                MainGameScene.instance.Score++;
+            }
             destroy();
         }
     }

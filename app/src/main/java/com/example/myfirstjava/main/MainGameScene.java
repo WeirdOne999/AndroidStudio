@@ -63,6 +63,10 @@ public class MainGameScene extends GameScene {
     public boolean Planting = false;
 
     Context context;
+
+    public int Score = 0;
+    public int HighScore = 0;
+
     @Override
     public void onCreate() {    
         super.onCreate();
@@ -82,6 +86,7 @@ public class MainGameScene extends GameScene {
     @Override
     public void onEnter() {
         super.onEnter();
+        Score = 0;
         MainGameSurfaceView.instance.createMaterialGrid();
         MainGameSurfaceView.instance.createEggIcon();
         context = GameActivity.instance;
@@ -158,7 +163,7 @@ public class MainGameScene extends GameScene {
         if (won || lost) return;
 
         text_FPS.setText("FPS: " + (int)_fps,new Vector2(screenWidth - 100,0 + 100));
-        text_eggCount.setText("EGG: "  + Egg ,new Vector2(100,100));
+        text_eggCount.setText("SCORE: "  + Score ,new Vector2(100,100));
 
         _totalEnemyTimer += dt;
 
@@ -169,11 +174,11 @@ public class MainGameScene extends GameScene {
             int random  = new Random().nextInt(2);
             int layer = new Random().nextInt(5);
             if (random == 0){
-                //_gameEntityCache.add(new Skeleton(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                _gameEntityCache.add(new Skeleton(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 AudioClass.getInstance().PlaySFX(context, R.raw.skeletonsound);
             }
             else if (random == 1){
-                //_gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                _gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 AudioClass.getInstance().PlaySFX(context, R.raw.zombiesound);
             }
 
@@ -213,7 +218,7 @@ public class MainGameScene extends GameScene {
             won = true;
         }else{
             lost = true;
-
+            UIEntity.instance.saveHighScore(GameActivity.instance, Score);
         }
     }
 }
