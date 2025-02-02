@@ -10,7 +10,7 @@ import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
-public class Zombie extends EnemyEntity{
+public class Zombie extends EnemyEntity {
 
     Context context;
     public Zombie(Vector2 pos,int layer){
@@ -27,6 +27,20 @@ public class Zombie extends EnemyEntity{
         int size = 100;
         setSize(new Vector2(size,size));
 
+    }
+
+    public void ON(Vector2 pos, int layer){
+        super.ON(100,5,0.375f);
+        context = GameActivity.instance;
+        isEnemy=true;
+        setLayer(layer);
+        setPosition(pos);
+        walk.setAnimationHolder(R.drawable.zombiewalk,4,4,4,7,12);
+        attack.setAnimationHolder(R.drawable.zombieattack,4,5,5,9,12);
+        idle.setAnimationHolder(R.drawable.zombieidlenew,1,19,0,18,12);
+        SetSprite(walk);
+        int size = 100;
+        setSize(new Vector2(size,size));
     }
 
     @Override

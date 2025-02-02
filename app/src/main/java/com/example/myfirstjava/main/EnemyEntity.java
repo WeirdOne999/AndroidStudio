@@ -81,6 +81,16 @@ public class EnemyEntity extends LivingEntity{
         currentState = State.WALK;
     }
 
+    public void ON(float health,float speed, float size){
+        isEnemy = true;
+        SetHealth(health);
+        direction = new Vector2(-1,0);
+        this.speed = speed;
+        currentspeed = speed;
+        this.size = size;
+        currentState = State.WALK;
+    }
+
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
