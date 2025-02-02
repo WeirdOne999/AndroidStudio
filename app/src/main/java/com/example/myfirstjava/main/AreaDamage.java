@@ -24,6 +24,19 @@ public class AreaDamage extends GameEntity {
         this.damage = damage;
     }
 
+    public void ON(float size,Vector2 position,float damage){
+        alive();
+        float scale = ((int)getScreenHeight() / 12) * size;
+        setSize(new Vector2(scale,scale));
+        setPosition(position);
+
+        Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), R.drawable.holder);
+
+        setSprite(Bitmap.createScaledBitmap(bmp,(int)scale,(int)scale,true));
+
+        this.damage = damage;
+    }
+
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);

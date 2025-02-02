@@ -92,6 +92,7 @@ public class MainGameScene extends GameScene {
         IronGolemPool.initializePool(10);
         SheepPool.initializePool(10);
         LlamaSpitPool.initializePool(10,_gameEntities.get(0));
+        AreaDamagePool.initializePool(10);
     }
 
     @Override
@@ -185,12 +186,12 @@ public class MainGameScene extends GameScene {
             int random  = new Random().nextInt(3);
             int layer = new Random().nextInt(5);
             if (random == 0){
-                //_gameEntityCache.add(SkeletonPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                _gameEntityCache.add(SkeletonPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 //_gameEntityCache.add(new Skeleton(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 AudioClass.getInstance().PlaySFX(context, R.raw.skeletonsound);
             }
             else if (random >= 1){
-                //_gameEntityCache.add(ZombiePool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                _gameEntityCache.add(ZombiePool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 //_gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 AudioClass.getInstance().PlaySFX(context, R.raw.zombiesound);
             }

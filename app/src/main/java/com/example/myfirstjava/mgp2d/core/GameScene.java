@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.example.myfirstjava.main.AreaDamage;
+import com.example.myfirstjava.main.AreaDamagePool;
 import com.example.myfirstjava.main.Arrow;
 import com.example.myfirstjava.main.ArrowFactory;
 import com.example.myfirstjava.main.ArrowPool;
@@ -120,6 +122,9 @@ public abstract class GameScene {
                 }
                 else if(_gameEntities.get(i) instanceof LlamaSpit){
                     LlamaSpitPool.release((LlamaSpit) _gameEntities.get(i));
+                }
+                else if(_gameEntities.get(i) instanceof AreaDamage){
+                    AreaDamagePool.release((AreaDamage) _gameEntities.get(i));
                 }
                 _gameEntities.remove(i);
             }
