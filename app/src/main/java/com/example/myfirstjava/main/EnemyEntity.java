@@ -92,14 +92,14 @@ public class EnemyEntity extends LivingEntity{
             if (gamescene._gameEntities.get(i) != this){
 
                 if (gamescene._gameEntities.get(i) instanceof LivingEntity)  {
-                    if (this.isColliding(gamescene._gameEntities.get(i))){
-
-                        LivingEntity temp = (LivingEntity)gamescene._gameEntities.get(i);
-                        if (!temp.isEnemy){
+                    LivingEntity temp = (LivingEntity)gamescene._gameEntities.get(i);
+                    if (!temp.isEnemy){
+                        if (this.isColliding(gamescene._gameEntities.get(i))){
                             isTouchingPlant = true;
                             touchedPlant = temp;
                         }
                     }
+
                 }
             }
         }

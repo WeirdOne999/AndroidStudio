@@ -74,11 +74,12 @@ public abstract class GameScene {
                 _gameEntities.remove(i);
             }
         }
-
+        // TODO UNCOMMENT THIS.UNCOMMENTEDALR
         for (GameEntity i : _gameEntities){
             if (i == null ) continue;
             i.onUpdate(dt,this);
         }
+
         //Log.d("TAPPOS","END");
         for (int i = _gameEntityCache.size() - 1;i >= 0; i--){
             _gameEntities.add(_gameEntityCache.get(i));

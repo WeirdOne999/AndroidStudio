@@ -124,6 +124,7 @@ public class GameUIEntity {
                 // Modify text for each button dynamically in the update loop
                 gameSurface.post(() -> {
                     for (int i = 0; i < gameSurface.myItems.size(); i++) {
+                        //gameSurface.itembuttons.get(i).setText(String.valueOf(gameSurface.myItems.get(i).getAmount()));
                         gameSurface.itembuttons.get(i).setText(String.valueOf(gameSurface.myItems.get(i).getAmount()));
 
                     }
@@ -153,7 +154,7 @@ public class GameUIEntity {
             for (int i = 0; i < gameSurface.characterButtons.length; i++) {
                 final int index = i;  // Use final to access inside the listener
                 gameSurface.characterButtons[i].setOnTouchListener((v, event) -> {
-
+                    //character dragging
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         MainGameScene.instance.Planting = true;
                         ButtonPressed = index;
@@ -222,10 +223,8 @@ public class GameUIEntity {
                             String temp = keysList.get(k);
 
                             if (MainGameScene.instance.material.containsKey(temp)){
-                                if (MainGameScene.instance.material.get(temp) >= gameSurface.myItems.get(i).materials.get(temp)){
-                                    MainGameScene.instance.material.put(temp,MainGameScene.instance.material.get(temp) - gameSurface.myItems.get(i).materials.get(temp));
-                                    AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.completed);
-                                }else{
+                                if (MainGameScene.instance.material.get(temp) <= gameSurface.myItems.get(i).materials.get(temp)){
+
                                     canProduceItem = false;
                                     AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
                                     break;
@@ -239,8 +238,22 @@ public class GameUIEntity {
                         }
 
                         if(canProduceItem){
-                            gameSurface.myItems.get(i).setAmount(gameSurface.myItems.get(i).getAmount() + 1);
+                            //MainGameScene.instance.material.put(temp,MainGameScene.instance.material.get(temp) - gameSurface.myItems.get(i).materials.get(temp));
                             //AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.completed);
+
+                            for (int k = 0; k < gameSurface.myItems.get(i).materials.size(); k++ ){
+                                //TO REMOVE FROM INVENTORY
+                                String temp = keysList.get(k);
+                                if (MainGameScene.instance.material.containsKey(temp)){
+                                    if (MainGameScene.instance.material.get(temp) >= gameSurface.myItems.get(i).materials.get(temp)){
+                                        MainGameScene.instance.material.put(temp,MainGameScene.instance.material.get(temp) - gameSurface.myItems.get(i).materials.get(temp));
+                                    }
+
+                                }
+                            }
+
+                            gameSurface.myItems.get(i).setAmount(gameSurface.myItems.get(i).getAmount() + 1);
+                            AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.completed);
                         }
 
                     }
@@ -254,7 +267,19 @@ public class GameUIEntity {
             for (int i =0; i < gameSurface.itembuttons.size(); i++){
                 int finalI = i;
                 gameSurface.itembuttons.get(i).setOnClickListener(v -> {
+                    //set dragging here for items
                     gameSurface.myItems.get(finalI).setAmount(gameSurface.myItems.get(finalI).getAmount() - 1);
+                });
+
+                gameSurface.itembuttons.get(i).setOnTouchListener((v, event) -> {
+                    //character dragging
+                    //TODO CHANGE TO SET
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        MainGameScene.instance.Planting = true;
+                        ButtonPressed = finalI + gameSurface.characterButtons.length;
+                        CursorActionExecute = true;
+                    }
+                    return false;
                 });
 
             }
