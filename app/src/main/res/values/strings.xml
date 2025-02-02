@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyFirstJava</string>
+    <string name="app_name">MineVSCraft</string>
     <string name="gameName">Mine vs Craft</string>
     <string name="StartButtonText">PLAY</string>
     <string name="HelpButtonText">HELP</string>

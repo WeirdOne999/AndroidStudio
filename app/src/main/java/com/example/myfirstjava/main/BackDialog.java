@@ -4,11 +4,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.myfirstjava.R;
 import com.example.myfirstjava.mgp2d.core.GameActivity;
 
 public class BackDialog extends DialogFragment {
@@ -20,11 +24,34 @@ public class BackDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         _isShowing = true;
         GameActivity.instance.setTimeScale(0);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Return?");
-        builder.setPositiveButton("Yes", (dialog, which) -> GameActivity.instance.finish());
-        builder.setNegativeButton("No", null);
-        return builder.create();
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View view = inflater.inflate(R.layout.pauseui, null);
+
+        Button buttonNo = view.findViewById(R.id.mainmenu_button);
+        Button buttonNo1 = view.findViewById(R.id.resume_button);
+
+        buttonNo.setOnClickListener(v -> {
+            GameActivity.instance.finish();
+            dismiss();
+        });
+
+        buttonNo1.setOnClickListener(v -> {
+            dismiss();
+            GameActivity.instance.setTimeScale(1);
+        });
+
+
+        // Build dialog
+        Dialog dialog = new Dialog(requireActivity());
+        dialog.setContentView(view);
+        dialog.setCancelable(false); // Disable canceling by tapping outside
+        dialog.setCanceledOnTouchOutside(false); // Disable canceling by touching outside
+        return dialog;
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        builder.setMessage("Return?");
+//        builder.setPositiveButton("Yes", (dialog, which) -> GameActivity.instance.finish());
+//        builder.setNegativeButton("No", null);
+//        return builder.create();
     }
 
     @Override
