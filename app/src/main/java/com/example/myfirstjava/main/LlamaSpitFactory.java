@@ -4,7 +4,7 @@ import com.example.myfirstjava.mgp2d.core.GameEntity;
 
 public class LlamaSpitFactory implements ObjectPool.ObjectFactory<LlamaSpit>{
     public GameEntity defaultGE;
-    public int defaultMultiplier;
+    public int defaultMultiplier = 5;
 
     public LlamaSpitFactory(GameEntity defaultParent){
         this.defaultGE = defaultParent;

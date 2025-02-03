@@ -34,6 +34,7 @@ public class LivingEntity extends PhysicsEntity {
     public Holder onHolder;
     public void SetHealth(float health){
         Health = health;
+        Log.d("HEALTHENEM", "" + health);
     }
     public float getHealth(){return Health;}
     public boolean isEnemy;

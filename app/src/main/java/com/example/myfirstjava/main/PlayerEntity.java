@@ -170,7 +170,7 @@ public class PlayerEntity extends GameEntity {
 
         currentID = pointerId;
         if (MainGameScene.instance.ChangeCursorSpritei >= 0) render = true;
-        
+
         if (currentID != -1 && (motionEvent.getAction() == MotionEvent.ACTION_POINTER_UP) ||
                 motionEvent.getAction() == MotionEvent.ACTION_UP){
 

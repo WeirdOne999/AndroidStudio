@@ -39,7 +39,7 @@ public class Llama extends LivingEntity{
         //_sprite = Bitmap.createScaledBitmap(bmp,size,size,true);
         setSize(new Vector2(size,size));
         setAnimatedSprite(Bitmap.createScaledBitmap(bmp,(int)(getScreenHeight() *1.5),(int)(getScreenHeight() * 1.5),true),8,7,12,0,3);
-
+        SetItem(Item.SWORD,Level.DIAMOND);
     }
 
     @Override
