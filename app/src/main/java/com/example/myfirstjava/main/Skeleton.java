@@ -55,7 +55,7 @@ public class Skeleton extends EnemyEntity{
 
         timer += dt;
 
-        if (timer > attackCooldown){
+        if (timer > attackCooldown && MainGameScene.instance.plantmob[getLayer()] > 0){
             currentState = State.ATTACK;
             _animatedSprite.setLopping(false);
             if (_animatedSprite.hasFinished()){

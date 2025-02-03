@@ -50,6 +50,7 @@ public class LivingEntity extends PhysicsEntity {
     String[] PickaxeResource = {"Stone","Iron","Gold","Diamond"};
     Item heldItem = Item.NONE;
     Level heldItemLevel = Level.WOODEN;
+    Bitmap _itemsprite;
 
     private float Health = 0;
     public Holder onHolder;
@@ -66,8 +67,10 @@ public class LivingEntity extends PhysicsEntity {
         if (Health <= 0){
             if (!isEnemy){
                 onHolder._mob = null;
+                MainGameScene.instance.plantmob[getLayer()]--;
             }
             else {
+                MainGameScene.instance.enemymobs[getLayer()]--;
                 MainGameScene.instance.Score++;
             }
             destroy();
@@ -77,6 +80,41 @@ public class LivingEntity extends PhysicsEntity {
     public void SetItem(Item newItem, Level newLevel){
         heldItem = newItem;
         heldItemLevel = newLevel;
+
+        int index = 0;
+        if(heldItem != Item.NONE){
+            if (heldItem == Item.AXE){
+                index = 0;
+            }
+            else if (heldItem == Item.PICKAXE){
+                index = 5;
+            }
+            else if (heldItem == Item.SWORD){
+                index = 10;
+            }
+
+            if (heldItemLevel == Level.WOODEN){
+                index += 0;
+            }
+            else if (heldItemLevel == Level.STONE){
+                index += 1;
+            }
+            else if (heldItemLevel == Level.IRON){
+                index += 2;
+            }
+            else if (heldItemLevel == Level.GOLD){
+                index += 3;
+            }
+            else if (heldItemLevel == Level.DIAMOND){
+                index += 4;
+            }
+
+            Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), itemDrawable[index]);
+            int itemScale = (int)getScreenHeight() / 15;
+            _itemsprite = Bitmap.createScaledBitmap(bmp,itemScale,itemScale,true);
+
+        }
+
     }
 
     public int UseItem(GameScene gamescene){
@@ -141,45 +179,17 @@ public class LivingEntity extends PhysicsEntity {
 
     }
 
+
+
     @Override
     public void onRender(Canvas canvas) {
         super.onRender(canvas);
-        /*
-        int index = 0;
+
         if(heldItem != Item.NONE){
-            if (heldItem == Item.AXE){
-                index = 0;
-            }
-            else if (heldItem == Item.PICKAXE){
-                index = 5;
-            }
-            else if (heldItem == Item.SWORD){
-                index = 10;
-            }
-
-            if (heldItemLevel == Level.WOODEN){
-                index += 0;
-            }
-            else if (heldItemLevel == Level.STONE){
-                index += 1;
-            }
-            else if (heldItemLevel == Level.IRON){
-                index += 2;
-            }
-            else if (heldItemLevel == Level.GOLD){
-                index += 3;
-            }
-            else if (heldItemLevel == Level.DIAMOND){
-                index += 4;
-            }
-
-            Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), itemDrawable[index]);
-            int itemScale = (int)getScreenHeight() / 15;
-            Bitmap _itemsprite = Bitmap.createScaledBitmap(bmp,itemScale,itemScale,true);
             canvas.drawBitmap(_itemsprite, _position.x - (float) _itemsprite.getWidth() / 2, _position.y - (float)
                     _itemsprite.getHeight() / 2 , null);
         }
 
-         */
+
     }
 }

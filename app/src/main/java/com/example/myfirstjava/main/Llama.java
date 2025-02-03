@@ -46,7 +46,7 @@ public class Llama extends LivingEntity{
     public void onUpdate(float dt, GameScene gamescene) {
         super.onUpdate(dt, gamescene);
         timer -= dt;
-        if (timer <= 0){
+        if (timer <= 0 && MainGameScene.instance.enemymobs[getLayer()] > 0){
             if (!hasShot){
                 //gamescene._gameEntityCache.add(new LlamaSpit(this,UseItem(gamescene)));
                 gamescene._gameEntityCache.add(LlamaSpitPool.acquire(this,UseItem(gamescene)));

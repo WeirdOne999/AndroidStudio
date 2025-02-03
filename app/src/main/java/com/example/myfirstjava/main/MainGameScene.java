@@ -35,6 +35,8 @@ public class MainGameScene extends GameScene {
     public int screenWidth;
     public int screenHeight;
 
+    public int[] plantmob = {0,0,0,0,0};
+    public int[] enemymobs = {0,0,0,0,0};
     private Vector2 gridOffset = new Vector2(750,350);
 
 
@@ -187,6 +189,7 @@ public class MainGameScene extends GameScene {
 
             int random  = new Random().nextInt(3);
             int layer = new Random().nextInt(5);
+            enemymobs[layer]++;
             if (random == 0){
                 _gameEntityCache.add(SkeletonPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 //_gameEntityCache.add(new Skeleton(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));

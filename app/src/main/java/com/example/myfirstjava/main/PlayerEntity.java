@@ -214,6 +214,7 @@ public class PlayerEntity extends GameEntity {
                                             }
                                             temp._mob = tempGE;
                                             tempGE.onHolder = temp;
+                                            MainGameScene.instance.plantmob[temp.getLayer()]++;
                                             gamescene._gameEntityCache.add(tempGE);
                                             break;
                                         }
