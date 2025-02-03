@@ -228,6 +228,51 @@ public class PlayerEntity extends GameEntity {
 
             }
             else if(MainGameScene.instance.ChangeCursorSpritei >= amountOfCharacters){
+                for (int i = 0; i < gamescene._gameEntities.size();i++) {
+                    if (gamescene._gameEntities.get(i) != this) {
+                        if (gamescene._gameEntities.get(i) instanceof Holder) {
+                            if (this.touching(gamescene._gameEntities.get(i))) {
+                                Log.d("TOUCHHOLDER","" + i);
+                                Holder temp = (Holder)gamescene._gameEntities.get(i);
+                                if (temp._mob != null && temp._mob instanceof LivingEntity){
+                                    int setNumber = ((MainGameScene.instance.ChangeCursorSpritei -4) / 3);
+                                    int index = ((MainGameScene.instance.ChangeCursorSpritei-4) % 3);
+                                    /*
+                                    SWORD, // more damage
+                                        AXE, // mine wood
+                                        PICKAXE, // mine stone
+
+                                        WOODEN,
+                                        STONE,
+                                        IRON,
+                                        GOLD,
+                                        DIAMOND,
+                                     */
+
+
+                                    /*
+                                    pick 2
+                                    axe 1
+                                    sword 0
+
+                                    diamond 4
+                                    gold 3
+                                    iron 2
+                                    stone 1
+                                    wood 0
+
+                                     */
+                                    MainGameSurfaceView.instance.myItems.get(MainGameScene.instance.ChangeCursorSpritei - amountOfCharacters).setAmount(MainGameSurfaceView.instance.myItems.get(MainGameScene.instance.ChangeCursorSpritei - amountOfCharacters).getAmount() - 1);
+                                    LivingEntity livingtemp = ((LivingEntity) temp._mob);
+                                    livingtemp.SetItem(LivingEntity.Item.values()[Math.abs(index - 2)],LivingEntity.Level.values()[Math.abs(setNumber - 4)]);
+                                    break;
+                                }
+
+
+                            }
+                        }
+                    }
+                }
 
             }
 

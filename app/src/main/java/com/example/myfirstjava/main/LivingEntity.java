@@ -21,6 +21,18 @@ public class LivingEntity extends PhysicsEntity {
         NONE
     }
 
+    /*
+    SWORD, // more damage
+        AXE, // mine wood
+        PICKAXE, // mine stone
+
+        WOODEN,
+        STONE,
+        IRON,
+        GOLD,
+        DIAMOND,
+     */
+
     public enum Level{
         WOODEN,
         STONE,

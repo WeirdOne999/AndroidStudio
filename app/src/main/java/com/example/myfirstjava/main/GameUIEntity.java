@@ -283,7 +283,7 @@ public class GameUIEntity {
                 int finalI = i;
                 gameSurface.itembuttons.get(i).setOnClickListener(v -> {
                     //set dragging here for items
-                    gameSurface.myItems.get(finalI).setAmount(gameSurface.myItems.get(finalI).getAmount() - 1);
+                    //gameSurface.myItems.get(finalI).setAmount(gameSurface.myItems.get(finalI).getAmount() - 1);
                 });
 
                 gameSurface.itembuttons.get(i).setOnTouchListener((v, event) -> {
