@@ -93,11 +93,13 @@ public class MainGameScene extends GameScene {
         SheepPool.initializePool(10);
         LlamaSpitPool.initializePool(10,_gameEntities.get(0));
         AreaDamagePool.initializePool(10);
+        GameActivity.instance.setTimeScale(1);
     }
 
     @Override
     public void onEnter() {
         super.onEnter();
+        GameActivity.instance.setTimeScale(1);
         Score = 0;
         MainGameSurfaceView.instance.createMaterialGrid();
         MainGameSurfaceView.instance.createEggIcon();

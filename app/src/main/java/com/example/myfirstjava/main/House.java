@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 
 import com.example.myfirstjava.R;
 import com.example.myfirstjava.mgp2d.core.GameActivity;
@@ -25,12 +26,14 @@ public class House extends GameEntity {
         setSprite(Bitmap.createScaledBitmap(bmp,(int)spritesize.x,(int)spritesize.y,true));
         setLayer(layer);
         setSize(new Vector2((int)spritesize.x,(int)spritesize.y));
+        EndDialog.create();
         _vibrator = (Vibrator) GameActivity.instance.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @SuppressLint("NewApi")
     @Override
     public void onUpdate(float dt, GameScene gamescene) {
+        Log.d("HOUSE", "IN UPDATE");
         for(GameEntity i : gamescene._gameEntities){
             if (i instanceof EnemyEntity){
                 if (this.touching(i)){

@@ -18,6 +18,9 @@ import com.example.myfirstjava.mgp2d.core.GameActivity;
 public class EndDialog extends DialogFragment {
     private static boolean _isShowing = false;
     public static boolean isShowing(){return _isShowing; }
+    public static void create(){
+        _isShowing = false;
+    }
 
     @NonNull
     @Override
