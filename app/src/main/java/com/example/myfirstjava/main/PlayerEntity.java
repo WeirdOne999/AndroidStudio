@@ -168,11 +168,10 @@ public class PlayerEntity extends GameEntity {
         int pointerId = motionEvent.getPointerId(actionIndex);
 
 
-        if (currentID == -1 && (motionEvent.getAction() == MotionEvent.ACTION_POINTER_DOWN) ||
-        motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-            currentID = pointerId;
-            if (MainGameScene.instance.ChangeCursorSpritei >= 0) render = true;
-        } else if (currentID != -1 && (motionEvent.getAction() == MotionEvent.ACTION_POINTER_UP) ||
+        currentID = pointerId;
+        if (MainGameScene.instance.ChangeCursorSpritei >= 0) render = true;
+        
+        if (currentID != -1 && (motionEvent.getAction() == MotionEvent.ACTION_POINTER_UP) ||
                 motionEvent.getAction() == MotionEvent.ACTION_UP){
 
 
@@ -237,7 +236,6 @@ public class PlayerEntity extends GameEntity {
         MainGameScene.instance.ChangeCursorSpriteIndex(-1);
     }
 
-
         if (currentID != -1){
             for (int i = 0; i < motionEvent.getPointerCount(); i++){
                 if (motionEvent.getPointerId(i) == currentID){
@@ -247,6 +245,8 @@ public class PlayerEntity extends GameEntity {
             }
 
         }
+        Log.d("CHECKFORCURSOR"," " + currentID);
+        //Log.d("MOUSETHING", _position.x + " " + _position.y + " " + motionEvent.getX(currentID) + " " + motionEvent.getY(currentID));
     }
 
     @Override
