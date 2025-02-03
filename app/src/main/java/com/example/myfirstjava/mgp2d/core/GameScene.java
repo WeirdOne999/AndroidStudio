@@ -15,6 +15,8 @@ import com.example.myfirstjava.main.Chicken;
 import com.example.myfirstjava.main.ChickenPool;
 import com.example.myfirstjava.main.Egg;
 import com.example.myfirstjava.main.EggPool;
+import com.example.myfirstjava.main.Enderman;
+import com.example.myfirstjava.main.EndermanPool;
 import com.example.myfirstjava.main.Holder;
 import com.example.myfirstjava.main.House;
 import com.example.myfirstjava.main.IronGolem;
@@ -129,6 +131,9 @@ public abstract class GameScene {
                 else if(_gameEntities.get(i) instanceof AreaDamage){
                     AreaDamagePool.release((AreaDamage) _gameEntities.get(i));
                 }
+                else if(_gameEntities.get(i) instanceof Enderman){
+                    EndermanPool.release((Enderman) _gameEntities.get(i));
+                }
                 _gameEntities.remove(i);
             }
         }
@@ -136,7 +141,7 @@ public abstract class GameScene {
         for (GameEntity i : _gameEntities){
             if (i == null ) continue;
             i.onUpdate(dt,this);
-            Log.d("ITEM", "" + i);
+            //Log.d("ITEM", "" + i);
         }
 
         //Log.d("TAPPOS","END");
@@ -144,7 +149,7 @@ public abstract class GameScene {
             _gameEntities.add(_gameEntityCache.get(i));
             _gameEntityCache.remove(i);
         }
-        Log.d("TEST","FPS: " + _fps + " GE: " + _gameEntities.size() + " GEC: " + _gameEntityCache.size());
+        //Log.d("TEST","FPS: " + _fps + " GE: " + _gameEntities.size() + " GEC: " + _gameEntityCache.size());
 
         if( GameActivity.instance.areSensorsWorking()){
             currentAccel = (GameActivity.instance.getSensorEvent().values[1]) - lastAccel;

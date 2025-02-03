@@ -61,7 +61,7 @@ public class Skeleton extends EnemyEntity{
             if (_animatedSprite.hasFinished()){
                 //shoot arrow
                 timer = 0;
-                Log.d("POOLARROW", "" + this);
+                //Log.d("POOLARROW", "" + this);
                 gamescene._gameEntityCache.add(ArrowPool.acquire(this));
                 _animatedSprite.setLopping(true);
                 currentState = State.WALK;

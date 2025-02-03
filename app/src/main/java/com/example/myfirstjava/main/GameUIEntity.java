@@ -127,10 +127,10 @@ public class GameUIEntity {
         }
 
         for (int i = 0; i < gameSurface.characterButtons.length; i++) {
-            Log.e("GameUIEntity" + i, "CharacterAmount:" + i + " " + gameSurface.characteramounts[i]);
+            ///Log.e("GameUIEntity" + i, "CharacterAmount:" + i + " " + gameSurface.characteramounts[i]);
         }
 
-        Log.e("GameUIEntity", String.valueOf(GameActivity.instance.deltaTime));
+        //Log.e("GameUIEntity", String.valueOf(GameActivity.instance.deltaTime));
 
 
         //ITEMS
@@ -154,12 +154,12 @@ public class GameUIEntity {
             }
 
             for (int i = 0; i < gameSurface.myItems.size(); i++) {
-                Log.e("GameUIEntity" + i, "ItemsAmount:" + i + " " + gameSurface.myItems.get(i).getAmount());
+                //Log.e("GameUIEntity" + i, "ItemsAmount:" + i + " " + gameSurface.myItems.get(i).getAmount());
             }
 
 
         for (Button btn : gameSurface.eggButtons) {
-            Log.e("GameUIEntity", "Egg Button Visibility: " + btn.getVisibility());
+            //Log.e("GameUIEntity", "Egg Button Visibility: " + btn.getVisibility());
         }
 
     }
@@ -331,6 +331,7 @@ public class GameUIEntity {
                     final int index = i;  // Use final to access inside the listener
                     if (MainGameScene.instance.Egg >= gameSurface.cost[i]) {
                         gameSurface.hatchingeggs[i].setOnClickListener(v -> {
+                            // TO ADD EGGS ONTO LIST
                             AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
                             if (gameSurface.eggs.size() <= 4) {
                                 EggClass egg = new EggClass(gameSurface.hatchingeggsdrawables[index],
@@ -433,8 +434,9 @@ public class GameUIEntity {
             gameSurface.eggButtons.remove(index);
 
 
-            CreateNewEggs();
         }
+
+        CreateNewEggs();
     }
 
     @SuppressLint("NewApi")

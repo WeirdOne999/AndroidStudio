@@ -38,6 +38,7 @@ public class House extends GameEntity {
             if (i instanceof EnemyEntity){
                 if (this.touching(i)){
                         MainGameScene.instance.wonLost(false);
+                        Log.d("LOST","LOST");
                     if(!EndDialog.isShowing()){
                         EndDialog endDialog = new EndDialog();
                         endDialog.show(GameActivity.instance.getSupportFragmentManager(),"End Dialog");
