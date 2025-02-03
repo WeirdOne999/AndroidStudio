@@ -200,12 +200,12 @@ public class MainGameScene extends GameScene {
             else if (random == 1){
                 _gameEntityCache.add(CreeperPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 //_gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
-                AudioClass.getInstance().PlaySFX(context, R.raw.zombiesound);
+                AudioClass.getInstance().PlaySFX(context, R.raw.creeper);
             }
             else if (random == 2){
                 _gameEntityCache.add(EndermanPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 //_gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
-                AudioClass.getInstance().PlaySFX(context, R.raw.zombiesound);
+                AudioClass.getInstance().PlaySFX(context, R.raw.enderman);
             }
             else if (random >= 3){
                 _gameEntityCache.add(ZombiePool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
