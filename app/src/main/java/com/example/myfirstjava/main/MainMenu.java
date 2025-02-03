@@ -26,6 +26,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
 
     private Button _helpButton;
     private Button _startButton;
+    private Button _leaderboardbtn;
     private UIEntity uiEntity;
 
     @Override
@@ -44,6 +45,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
         _helpButton.setOnClickListener(this);
         _startButton = findViewById(R.id.start_btn);
         _startButton.setOnClickListener(this);
+        _leaderboardbtn = findViewById(R.id.leaderboard_btn);
+        _leaderboardbtn.setOnClickListener(this);
 
 
 
@@ -68,6 +71,9 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener{
             GameScene.enter(MainGameScene.class);
 
             AudioClass.getInstance().StopBackgroundMusic();
+        }else if (v == _leaderboardbtn){
+            startActivity(new Intent().setClass(this,LeaderboardPage.class));
+
         }
     }
 
