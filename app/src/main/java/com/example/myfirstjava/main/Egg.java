@@ -35,6 +35,7 @@ public class Egg extends PhysicsEntity {
     }
 
     public void ON(int layer, Vector2 position){
+        isTouchingGround = false;
         alive();
         addImpulse(new Vector2(new Random().nextInt(301) -150,-300));
         setPosition(position);
@@ -73,8 +74,10 @@ public class Egg extends PhysicsEntity {
             for (int i = 0; i < gamescene._gameEntities.size();i++){
                 if (gamescene._gameEntities.get(i) != this){
                     if (gamescene._gameEntities.get(i) instanceof Egg)  {
+                        Egg temp = (Egg)gamescene._gameEntities.get(i);
+                        if(!temp.isTouchingGround) continue;
                         if (this.cheaperIsColliding(gamescene._gameEntities.get(i))){
-                            Egg temp = (Egg)gamescene._gameEntities.get(i);
+
                             temp.amountIn += this.amountIn;
                             destroy();
                         }

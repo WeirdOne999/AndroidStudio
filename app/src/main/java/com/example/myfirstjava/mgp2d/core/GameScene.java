@@ -53,6 +53,9 @@ public abstract class GameScene {
     private long _lastTime;
     public float _fps;
 
+    public float lastAccel = 0;
+    public float currentAccel = 0;
+
     public static void enter(Class<?> gameSceneClass) {
         if (!map.containsKey(gameSceneClass)) {
             try {
@@ -144,7 +147,9 @@ public abstract class GameScene {
         Log.d("TEST","FPS: " + _fps + " GE: " + _gameEntities.size() + " GEC: " + _gameEntityCache.size());
 
         if( GameActivity.instance.areSensorsWorking()){
-            Log.d("ACCEL", String.valueOf(GameActivity.instance.getSensorEvent().values[1] * 10));
+            currentAccel = (GameActivity.instance.getSensorEvent().values[1] * 10) - lastAccel;
+            Log.d("ACCEL", String.valueOf(currentAccel));
+            lastAccel = GameActivity.instance.getSensorEvent().values[1] * 10;
         }
     }
     public void onRender(Canvas canvas){
