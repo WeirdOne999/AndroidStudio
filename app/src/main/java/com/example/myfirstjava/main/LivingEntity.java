@@ -144,6 +144,7 @@ public class LivingEntity extends PhysicsEntity {
     @Override
     public void onRender(Canvas canvas) {
         super.onRender(canvas);
+        /*
         int index = 0;
         if(heldItem != Item.NONE){
             if (heldItem == Item.AXE){
@@ -178,5 +179,7 @@ public class LivingEntity extends PhysicsEntity {
             canvas.drawBitmap(_itemsprite, _position.x - (float) _itemsprite.getWidth() / 2, _position.y - (float)
                     _itemsprite.getHeight() / 2 , null);
         }
+
+         */
     }
 }
