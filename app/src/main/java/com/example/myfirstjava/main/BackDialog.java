@@ -31,7 +31,9 @@ public class BackDialog extends DialogFragment {
         Button buttonNo1 = view.findViewById(R.id.resume_button);
 
         buttonNo.setOnClickListener(v -> {
+            UIEntity.instance.saveHighScore(GameActivity.instance, MainGameScene.instance.Score);
             GameActivity.instance.finish();
+
             dismiss();
         });
 
