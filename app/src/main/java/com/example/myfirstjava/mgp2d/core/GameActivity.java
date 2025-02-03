@@ -210,6 +210,8 @@ public class GameActivity extends FragmentActivity implements SensorEventListene
                     GameActivity.instance.toggleCraftingUI(false);
                 }
 
+
+
 //        View Craftingoverlay = getLayoutInflater().inflate(R.layout.craftingui, frameLayout, false);
 //        frameLayout.addView(Craftingoverlay);
             }

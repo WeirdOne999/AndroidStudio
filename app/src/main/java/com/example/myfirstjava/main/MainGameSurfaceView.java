@@ -189,6 +189,8 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
 
 
         }
+
+        Log.d ("HATCHINGBUTTONS", String.valueOf(hatchingeggs.length));
     }
 
     public void createhatchingbuttons(){
@@ -417,21 +419,27 @@ public class MainGameSurfaceView extends SurfaceView implements Runnable {
         craftedItemText.bringToFront();
         confirmcraftbutton.bringToFront();
         craftingScrollView.bringToFront();
-//        for (int i = 0; i < eggButtons.size(); i++){
-//            eggButtons.get(i).setVisibility(View.INVISIBLE);
-//        }
+
         if (MaterialScrollview != null){
             MaterialScrollview.setVisibility(View.INVISIBLE);
         }
         if (eggLayout != null){
             eggLayout.setVisibility(View.INVISIBLE);
         }
+        for (Button buttons : hatchingeggs){
+            buttons.setVisibility(View.INVISIBLE);
+
+        }
+
         itemsscrollview.setVisibility(View.INVISIBLE);
         toggleinvenbutton.setVisibility(View.INVISIBLE);
         toCraftButton.setVisibility(View.INVISIBLE);
         toHouseButton.setVisibility(View.INVISIBLE);
         toFarmButton.setVisibility(View.VISIBLE);
+        for (Button buttons : eggButtons){
+            buttons.setVisibility(View.INVISIBLE);
 
+        }
     }
 
     public void GameLayout(){

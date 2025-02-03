@@ -3,6 +3,7 @@ package com.example.myfirstjava.main;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
@@ -157,6 +158,9 @@ public class GameUIEntity {
             }
 
 
+        for (Button btn : gameSurface.eggButtons) {
+            Log.e("GameUIEntity", "Egg Button Visibility: " + btn.getVisibility());
+        }
 
     }
 
@@ -328,13 +332,21 @@ public class GameUIEntity {
                     if (MainGameScene.instance.Egg >= gameSurface.cost[i]) {
                         gameSurface.hatchingeggs[i].setOnClickListener(v -> {
                             AudioClass.getInstance().PlaySFX(GameActivity.instance, R.raw.ui);
-                            EggClass egg = new EggClass(gameSurface.hatchingeggsdrawables[index], gameSurface.hatchingduration[index], gameSurface.characterNames[index]);
-                            egg.reset();
-                            MainGameScene.instance.addVariable("Egg", -gameSurface.cost[index]);
-                            synchronized (gameSurface.eggs) {
-                                gameSurface.eggs.add(egg);
+                            if (gameSurface.eggs.size() <= 4) {
+                                EggClass egg = new EggClass(gameSurface.hatchingeggsdrawables[index],
+                                        gameSurface.hatchingduration[index],
+                                        gameSurface.characterNames[index]);
+                                egg.reset();
+                                MainGameScene.instance.addVariable("Egg", -gameSurface.cost[index]);
+                                synchronized (gameSurface.eggs) {
+                                    gameSurface.eggs.add(egg);
+                                }
+                                CreateNewEggs();
+                            } else {
+                                Log.e("Egg Creation", "Cannot create more than 6 eggs!");
                             }
-                            CreateNewEggs();
+
+
                         });
                     }
                 }
@@ -352,10 +364,10 @@ public class GameUIEntity {
 
             // Remove any extra buttons safely
             synchronized (gameSurface.eggs) {
-                while (gameSurface.eggButtons.size() > gameSurface.eggs.size()) {
-                    Button extraButton = gameSurface.eggButtons.remove(gameSurface.eggButtons.size() - 1);
-                    frameLayout.removeView(extraButton);
-                }
+//                while (gameSurface.eggButtons.size() > gameSurface.eggs.size()) {
+//                    Button extraButton = gameSurface.eggButtons.remove(gameSurface.eggButtons.size() - 1);
+//                    frameLayout.removeView(extraButton);
+//                }
 
                 // Add missing buttons
                 while (gameSurface.eggButtons.size() < gameSurface.eggs.size()) {
@@ -371,7 +383,13 @@ public class GameUIEntity {
 
                 for (int i = 0; i < gameSurface.eggs.size(); i++) {
                     Button eggButton = gameSurface.eggButtons.get(i);
-                    eggButton.setBackground(gameSurface.eggs.get(i).getBackgroundImage());
+                    Drawable background = gameSurface.eggs.get(i).getBackgroundImage();
+                    if (background == null) {
+                        Log.e("CreateNewEggs", "Background drawable is null for egg at index " + i);
+                    }
+                    eggButton.setBackground(background);
+
+                    //eggButton.setBackgroundResource(R.drawable.egg);
                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                             300, // Width
                             300  // Height
@@ -379,7 +397,7 @@ public class GameUIEntity {
                     params.leftMargin = startX + i * spacingX;
                     params.topMargin = yPosition;
                     eggButton.setLayoutParams(params);
-                    eggButton.setVisibility(View.VISIBLE);
+                    //eggButton.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -406,13 +424,16 @@ public class GameUIEntity {
             if (buttonToRemove != null) {
                 FrameLayout frameLayout = (FrameLayout) gameSurface.getParent();
                 if (frameLayout != null) {
+                    frameLayout.requestLayout();
+                }
+                if (frameLayout != null) {
                     frameLayout.removeView(buttonToRemove);
                 }
             }
             gameSurface.eggButtons.remove(index);
 
 
-            CreateNewEggs();
+            //CreateNewEggs();
         }
     }
 
