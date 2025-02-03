@@ -227,7 +227,9 @@ public class PlayerEntity extends GameEntity {
                 }
 
             }
+            else if(MainGameScene.instance.ChangeCursorSpritei >= amountOfCharacters){
 
+            }
 
         currentID = -1;
         render = false;

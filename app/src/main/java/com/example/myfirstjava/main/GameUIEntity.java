@@ -287,7 +287,7 @@ public class GameUIEntity {
                 });
 
                 gameSurface.itembuttons.get(i).setOnTouchListener((v, event) -> {
-                    //character dragging
+                    //item dragging
                     //TODO CHANGE TO SET
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         MainGameScene.instance.Planting = true;

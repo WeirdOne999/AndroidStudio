@@ -1,7 +1,12 @@
 package com.example.myfirstjava.main;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.util.Log;
 
+import com.example.myfirstjava.R;
+import com.example.myfirstjava.mgp2d.core.GameActivity;
 import com.example.myfirstjava.mgp2d.core.GameEntity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 
@@ -24,6 +29,10 @@ public class LivingEntity extends PhysicsEntity {
         DIAMOND,
         NONE
     }
+
+    public int[] itemDrawable = {R.drawable.woodenaxe,R.drawable.stoneaxe,R.drawable.ironaxe,R.drawable.goldaxe,R.drawable.diamondaxe,
+                                 R.drawable.woodenpickaxe,R.drawable.stonepickaxe,R.drawable.ironpickaxe,R.drawable.goldpickaxe,R.drawable.diamondpickaxe,
+                                 R.drawable.woodensword,R.drawable.stonesword,R.drawable.ironsword,R.drawable.goldsword,R.drawable.diamondsword};
 
     String[] AxeResource = {"Wood","BirchWood","OakWood","PaleWood","CrimsonWood"};
     String[] PickaxeResource = {"Stone","Iron","Gold","Diamond"};
@@ -118,5 +127,44 @@ public class LivingEntity extends PhysicsEntity {
         return 1;
 
 
+    }
+
+    @Override
+    public void onRender(Canvas canvas) {
+        super.onRender(canvas);
+        int index = 0;
+        if(heldItem != Item.NONE){
+            if (heldItem == Item.AXE){
+                index = 0;
+            }
+            else if (heldItem == Item.PICKAXE){
+                index = 5;
+            }
+            else if (heldItem == Item.SWORD){
+                index = 10;
+            }
+
+            if (heldItemLevel == Level.WOODEN){
+                index += 0;
+            }
+            else if (heldItemLevel == Level.STONE){
+                index += 1;
+            }
+            else if (heldItemLevel == Level.IRON){
+                index += 2;
+            }
+            else if (heldItemLevel == Level.GOLD){
+                index += 3;
+            }
+            else if (heldItemLevel == Level.DIAMOND){
+                index += 4;
+            }
+
+            Bitmap bmp = BitmapFactory.decodeResource(GameActivity.instance.getResources(), itemDrawable[index]);
+            int itemScale = (int)getScreenHeight() / 15;
+            Bitmap _itemsprite = Bitmap.createScaledBitmap(bmp,itemScale,itemScale,true);
+            canvas.drawBitmap(_itemsprite, _position.x - (float) _itemsprite.getWidth() / 2, _position.y - (float)
+                    _itemsprite.getHeight() / 2 , null);
+        }
     }
 }
