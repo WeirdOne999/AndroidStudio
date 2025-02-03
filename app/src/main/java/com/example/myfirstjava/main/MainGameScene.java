@@ -87,6 +87,7 @@ public class MainGameScene extends GameScene {
         //INITIALISE ALL OBJECT POOLS HERE
         ZombiePool.initializePool(10);
         EndermanPool.initializePool(10);
+        CreeperPool.initializePool(10);
         SkeletonPool.initializePool(10);
         EggPool.initializePool(10);
         ArrowPool.initializePool(20,_gameEntities.get(0));
@@ -188,24 +189,30 @@ public class MainGameScene extends GameScene {
         if (_totalEnemyTimer > _enemySpawnTimer + new Random().nextInt(5) - 2){
             _totalEnemyTimer = 0;
 
-            int random  = new Random().nextInt(1)+2;
+            int random  = new Random().nextInt(6);
             int layer = new Random().nextInt(5);
             enemymobs[layer]++;
             if (random == 0){
-                //_gameEntityCache.add(SkeletonPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                _gameEntityCache.add(SkeletonPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 //_gameEntityCache.add(new Skeleton(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 AudioClass.getInstance().PlaySFX(context, R.raw.skeletonsound);
             }
             else if (random == 1){
-                //_gameEntityCache.add(ZombiePool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                _gameEntityCache.add(CreeperPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 //_gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 AudioClass.getInstance().PlaySFX(context, R.raw.zombiesound);
             }
             else if (random == 2){
+                _gameEntityCache.add(EndermanPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 //_gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
                 AudioClass.getInstance().PlaySFX(context, R.raw.zombiesound);
             }
-            _gameEntityCache.add(EndermanPool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+            else if (random >= 3){
+                _gameEntityCache.add(ZombiePool.acquire(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                //_gameEntityCache.add(new Zombie(new Vector2(screenWidth,HolderArr[8][layer].getPosition().y) ,layer));
+                AudioClass.getInstance().PlaySFX(context, R.raw.zombiesound);
+            }
+
             //
 
         }

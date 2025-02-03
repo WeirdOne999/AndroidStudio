@@ -56,14 +56,24 @@ public class LivingEntity extends PhysicsEntity {
     public Holder onHolder;
     public void SetHealth(float health){
         if (health < Health){
-            lostHealth();
+            if(lostHealth()){
+
+                Health = health;
+
+                Log.d("ENDERMAN", "hit " + Health);
+            }else{
+                Log.d("ENDERMAN", "escape    " + Health);
+            }
+        }else{
+
+            Health = health;
         }
-        Health = health;
-        Log.d("HEALTHENEM", "" + health);
+
+
     }
 
-    public void lostHealth(){
-
+    public boolean lostHealth(){
+        return true;
     }
 
     public float getHealth(){return Health;}

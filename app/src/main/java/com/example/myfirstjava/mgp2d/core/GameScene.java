@@ -13,6 +13,8 @@ import com.example.myfirstjava.main.ArrowPool;
 import com.example.myfirstjava.main.BackgroundEntity;
 import com.example.myfirstjava.main.Chicken;
 import com.example.myfirstjava.main.ChickenPool;
+import com.example.myfirstjava.main.Creeper;
+import com.example.myfirstjava.main.CreeperPool;
 import com.example.myfirstjava.main.Egg;
 import com.example.myfirstjava.main.EggPool;
 import com.example.myfirstjava.main.Enderman;
@@ -133,6 +135,9 @@ public abstract class GameScene {
                 }
                 else if(_gameEntities.get(i) instanceof Enderman){
                     EndermanPool.release((Enderman) _gameEntities.get(i));
+                }
+                else if(_gameEntities.get(i) instanceof Creeper){
+                    CreeperPool.release((Creeper) _gameEntities.get(i));
                 }
                 _gameEntities.remove(i);
             }

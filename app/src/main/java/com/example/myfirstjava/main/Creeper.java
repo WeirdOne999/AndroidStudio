@@ -8,22 +8,18 @@ import com.example.myfirstjava.mgp2d.core.GameActivity;
 import com.example.myfirstjava.mgp2d.core.GameScene;
 import com.example.myfirstjava.mgp2d.core.Vector2;
 
-import java.util.Random;
-
-public class Enderman extends EnemyEntity {
+public class Creeper extends EnemyEntity {
 
     Context context;
-    public int invul;
-    public Enderman(Vector2 pos, int layer){
+    public Creeper(Vector2 pos, int layer){
 
-        super(250,3,0.375f);
+        super(100,1,0.375f);
         context = GameActivity.instance;
-        invul = 5;
         isEnemy=true;
         setLayer(layer);
         setPosition(pos);
-        walk.setAnimationHolder(R.drawable.endermanwalk,4,4,4,7,12);
-        attack.setAnimationHolder(R.drawable.endermanattack ,4,5,5,9,12);
+        walk.setAnimationHolder(R.drawable.slimewalk,4,8,5,8*4,12);
+        attack.setAnimationHolder(R.drawable.slimeattack,4,4,4,7,12);
         idle.setAnimationHolder(R.drawable.zombieidlenew,1,19,0,18,12);
         SetSprite(walk);
         alive();
@@ -33,14 +29,13 @@ public class Enderman extends EnemyEntity {
     }
 
     public void ON(Vector2 pos, int layer){
-        super.ON(250,3,0.375f);
-        invul = 5;
+        super.ON(150,1,0.375f/2);
         context = GameActivity.instance;
         isEnemy=true;
         setLayer(layer);
         setPosition(pos);
-        walk.setAnimationHolder(R.drawable.endermanwalk,4,4,4,7,12);
-        attack.setAnimationHolder(R.drawable.endermanattack ,4,5,5,9,12);
+        walk.setAnimationHolder(R.drawable.slimewalk,4,4,2,5,12);
+        attack.setAnimationHolder(R.drawable.slimeattack,4,4,4,7,12);
         idle.setAnimationHolder(R.drawable.zombieidlenew,1,19,0,18,12);
         SetSprite(walk);
         alive();
@@ -57,8 +52,9 @@ public class Enderman extends EnemyEntity {
         currentspeed = 0;
         if (currentState == State.ATTACK && prevState == State.ATTACK){
             if (_animatedSprite.hasFinished()){
-                ge.SetHealth(ge.getHealth() - 10);
-                currentState = State.WALK;
+                ge.SetHealth(ge.getHealth() - 100);
+                gameScene._gameEntityCache.add(AreaDamagePool.acquire(3,this._position,75 * UseItem(gameScene),false));
+                destroy();
             }
         }
 
@@ -78,20 +74,6 @@ public class Enderman extends EnemyEntity {
                 currentState = State.WALK;
             }
         }
-    }
-
-    @Override
-    public boolean lostHealth(){
-        if (invul > 0){
-            invul--;
-            MainGameScene.instance.enemymobs[getLayer()]--;
-            int layer = new Random().nextInt(5);
-            setLayer(layer);
-            MainGameScene.instance.enemymobs[getLayer()]++;
-            _position = new Vector2(_position.x, MainGameScene.instance.HolderArr[8][layer].getPosition().y);
-            return false;
-        }
-        return true;
     }
 
     @Override

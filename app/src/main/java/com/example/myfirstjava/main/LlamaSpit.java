@@ -8,7 +8,7 @@ import com.example.myfirstjava.mgp2d.core.Vector2;
 
 public class LlamaSpit extends ProjectileEntity{
 
-    private float damage = 35;
+    private float damage = 5;
 
     public LlamaSpit(GameEntity parent,int damageMultiplier) {
         super(parent, new Vector2(1,0),15,false);

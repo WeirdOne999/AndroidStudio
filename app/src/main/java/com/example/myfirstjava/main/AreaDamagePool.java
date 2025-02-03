@@ -11,9 +11,9 @@ public class AreaDamagePool {
         pool = new ObjectPool<>(maxSize, new AreaDamageFactory());
     }
 
-    public static AreaDamage acquire(float size, Vector2 position, float damage) {
+    public static AreaDamage acquire(float size, Vector2 position, float damage,boolean targetEnemy) {
         AreaDamage areaDamage = pool.acquire();
-        areaDamage.ON(size,position,damage); // Reset zombie state
+        areaDamage.ON(size,position,damage,targetEnemy); // Reset zombie state
         return areaDamage;
     }
 
