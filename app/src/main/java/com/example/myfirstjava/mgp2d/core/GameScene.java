@@ -147,9 +147,9 @@ public abstract class GameScene {
         Log.d("TEST","FPS: " + _fps + " GE: " + _gameEntities.size() + " GEC: " + _gameEntityCache.size());
 
         if( GameActivity.instance.areSensorsWorking()){
-            currentAccel = (GameActivity.instance.getSensorEvent().values[1] * 10) - lastAccel;
+            currentAccel = (GameActivity.instance.getSensorEvent().values[1]) - lastAccel;
             Log.d("ACCEL", String.valueOf(currentAccel));
-            lastAccel = GameActivity.instance.getSensorEvent().values[1] * 10;
+            lastAccel = GameActivity.instance.getSensorEvent().values[1];
         }
     }
     public void onRender(Canvas canvas){

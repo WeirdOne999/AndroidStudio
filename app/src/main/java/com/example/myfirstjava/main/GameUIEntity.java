@@ -433,7 +433,7 @@ public class GameUIEntity {
             gameSurface.eggButtons.remove(index);
 
 
-            //CreateNewEggs();
+            CreateNewEggs();
         }
     }
 
